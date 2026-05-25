@@ -65,10 +65,15 @@ const MAX_CUSTOMER_MSG_LEN = envInt("MAX_CUSTOMER_MSG_LEN", 400, 50, 4000);
 const MAX_BATCH_CONTEXT    = envInt("MAX_BATCH_CONTEXT", 5, 0, 30);
 const MAX_BATCH_CTX_LEN    = envInt("MAX_BATCH_CTX_LEN", 200, 50, 2000);
 const MAX_BATCH_ITEM_LEN   = envInt("MAX_BATCH_ITEM_LEN", 800, 50, 4000);
+const LEGACY_TRANSLATE_CACHE_TTL_MS = envInt("LEGACY_TRANSLATE_CACHE_TTL_MS", 6 * 60 * 60 * 1000, 1000, 7 * 24 * 60 * 60 * 1000);
+const LEGACY_TRANSLATE_CACHE_MAX = envInt("LEGACY_TRANSLATE_CACHE_MAX", 1000, 1, 10000);
 
 console.log(
   `[gwell-backend] token caps: customerMsgs=${MAX_CUSTOMER_MSGS}x${MAX_CUSTOMER_MSG_LEN}ch, ` +
   `batchCtx=${MAX_BATCH_CONTEXT}x${MAX_BATCH_CTX_LEN}ch, batchItem=${MAX_BATCH_ITEM_LEN}ch`
+);
+console.log(
+  `[gwell-backend] /translate cache: ttlMs=${LEGACY_TRANSLATE_CACHE_TTL_MS}, maxEntries=${LEGACY_TRANSLATE_CACHE_MAX}`
 );
 
 // 把"过长字符串"安全截断，并在末尾留一个标记，让模型知道是被截断的
@@ -76,6 +81,83 @@ function truncStr(s, maxLen) {
   const str = String(s == null ? "" : s);
   if (str.length <= maxLen) return str;
   return str.slice(0, Math.max(0, maxLen - 3)) + "...";
+}
+
+function hasCjk(str) {
+  return /[\u3400-\u9FFF]/u.test(String(str || ""));
+}
+
+function isPureUrl(str) {
+  const s = String(str || "").trim();
+  if (!s) return false;
+  return /^(?:(?:https?:\/\/|www\.)\S+\s*)+$/i.test(s);
+}
+
+function isEmojiOnly(str) {
+  const s = String(str || "").trim();
+  if (!s) return false;
+  return /^[\p{Extended_Pictographic}\uFE0F\u200D\s]+$/u.test(s);
+}
+
+function isLikelyAmbiguousBatchText(str) {
+  const s = String(str || "").trim();
+  if (!s) return false;
+
+  const normalized = s.toLowerCase().replace(/[\s\p{P}\p{S}]+/gu, "");
+  if (!normalized) return false;
+
+  if (normalized.length <= 12) return true;
+  if (/^\d+(w|v|ah|mah|k)?$/i.test(normalized)) return true;
+  if (/^(e27|b22|e14|a60|a70|a100|t5|t8|\d+w)$/i.test(normalized)) return true;
+  if (/^(vp|vipi|ngp|ngapi|bei|hii|nahii|iyo|hiyo)$/i.test(normalized)) return true;
+
+  return false;
+}
+
+function buildLocalBatchResult(id, translation_cn, confidence = "high") {
+  return {
+    id: String(id || ""),
+    translation_cn,
+    intent: "other",
+    secondary_intents: [],
+    confidence
+  };
+}
+
+const legacyTranslateCache = new Map();
+
+function makeLegacyTranslateCacheKey(text, targetLanguage) {
+  return JSON.stringify({
+    targetLanguage: String(targetLanguage || "中文").trim().toLowerCase(),
+    text: String(text || "").trim()
+  });
+}
+
+function getLegacyTranslateCached(key) {
+  const hit = legacyTranslateCache.get(key);
+  if (!hit) return null;
+  if (hit.expiresAt <= Date.now()) {
+    legacyTranslateCache.delete(key);
+    return null;
+  }
+
+  // Refresh recency so repeated hot keys stay in cache.
+  legacyTranslateCache.delete(key);
+  legacyTranslateCache.set(key, hit);
+  return hit.translation;
+}
+
+function setLegacyTranslateCached(key, translation) {
+  legacyTranslateCache.set(key, {
+    translation,
+    expiresAt: Date.now() + LEGACY_TRANSLATE_CACHE_TTL_MS
+  });
+
+  while (legacyTranslateCache.size > LEGACY_TRANSLATE_CACHE_MAX) {
+    const oldestKey = legacyTranslateCache.keys().next().value;
+    if (oldestKey == null) break;
+    legacyTranslateCache.delete(oldestKey);
+  }
 }
 
 function getReqUser(req) {
@@ -383,8 +465,12 @@ Respond strictly with the JSON schema provided.`;
 
 function buildOutboundInput({ customerMessages, sourceText, overrideLanguage, contextHint }) {
   const lines = [];
+  const hasOverride = !!overrideLanguage;
+  const trimmedMessages = Array.isArray(customerMessages)
+    ? customerMessages.filter((m) => m && String(m.text || "").trim())
+    : [];
 
-  if (overrideLanguage) {
+  if (hasOverride) {
     lines.push("## Target language override");
     lines.push(String(overrideLanguage));
     lines.push("");
@@ -392,10 +478,9 @@ function buildOutboundInput({ customerMessages, sourceText, overrideLanguage, co
 
   const cust = contextHint || {};
   const custLines = [];
-  if (cust.name) custLines.push(`- Saved name / chat title: ${cust.name}`);
-  if (cust.phone) custLines.push(`- Phone: ${cust.phone}`);
-  if (cust.phoneLangHint) custLines.push(`- Phone country hint: likely ${cust.phoneLangHint}`);
-  if (cust.subtitle) custLines.push(`- Status line: ${cust.subtitle}`);
+  if (!hasOverride && trimmedMessages.length === 0 && cust.phoneLangHint) {
+    custLines.push(`- Phone country hint: likely ${cust.phoneLangHint}`);
+  }
   if (custLines.length) {
     lines.push("## Customer profile (tone hint only — do NOT mention in translation)");
     lines.push(...custLines);
@@ -412,6 +497,45 @@ function buildOutboundInput({ customerMessages, sourceText, overrideLanguage, co
     });
   }
   lines.push("");
+  lines.push("## Salesperson Chinese reply (translate this)");
+  lines.push(sourceText);
+  return lines.join("\n");
+}
+
+function buildLeanOutboundInput({ customerMessages, sourceText, overrideLanguage, contextHint }) {
+  const lines = [];
+  const hasOverride = !!overrideLanguage;
+  const trimmedMessages = Array.isArray(customerMessages)
+    ? customerMessages.filter((m) => m && String(m.text || "").trim())
+    : [];
+
+  if (hasOverride) {
+    lines.push("## Target language override");
+    lines.push(String(overrideLanguage));
+    lines.push("");
+  }
+
+  const phoneLangHint = contextHint && contextHint.phoneLangHint
+    ? String(contextHint.phoneLangHint).trim()
+    : "";
+  if (!hasOverride && trimmedMessages.length === 0 && phoneLangHint) {
+    lines.push("## Customer profile (tone hint only 鈥?do NOT mention in translation)");
+    lines.push(`- Phone country hint: likely ${phoneLangHint}`);
+    lines.push("");
+  }
+
+  if (!hasOverride) {
+    lines.push("## Customer recent messages (oldest 鈫?newest)");
+    if (trimmedMessages.length === 0) {
+      lines.push("(none 鈥?no incoming messages were readable from the current chat)");
+    } else {
+      trimmedMessages.forEach((m, i) => {
+        lines.push(`${i + 1}. ${m.text}`);
+      });
+    }
+    lines.push("");
+  }
+
   lines.push("## Salesperson Chinese reply (translate this)");
   lines.push(sourceText);
   return lines.join("\n");
@@ -476,7 +600,7 @@ app.post("/api/translate", requireUser, async (req, res) => {
 
     // 注意：instructions 必须用静态常量；overrideLanguage / contextHint 全部进 input。
     // 这样 OpenAI 的 prompt cache 才能命中（≥1024 token 稳定 prefix → cached input 半价）。
-    const input = buildOutboundInput({
+    const input = buildLeanOutboundInput({
       customerMessages: trimmedMsgs,
       sourceText: src,
       overrideLanguage,
@@ -553,8 +677,21 @@ app.post("/api/batch-translate-incoming", requireUser, async (req, res) => {
       );
     }
 
+    const localResults = [];
+    const modelItems = [];
+    for (const item of items) {
+      const text = String((item && item.text) || "").trim();
+      if (!text || isPureUrl(text) || isEmojiOnly(text) || hasCjk(text)) {
+        localResults.push(buildLocalBatchResult(item?.id, ""));
+      } else {
+        modelItems.push(item);
+      }
+    }
+
     let contextBlock = "";
-    if (recentContext.length) {
+    const shouldIncludeContext =
+      recentContext.length > 0 && modelItems.some((it) => isLikelyAmbiguousBatchText(it.text));
+    if (shouldIncludeContext) {
       const ctxLines = recentContext.map((t, i) => `${i + 1}. ${t}`).join("\n");
       contextBlock =
 `== CONVERSATION CONTEXT (recent customer messages, oldest → newest) ==
@@ -597,7 +734,20 @@ ${subLines.join("\n\n---\n\n")}`;
       return { items: Array.isArray(parsed?.items) ? parsed.items : [], usage };
     }
 
-    const { items: translations, usage } = await callBatchOnce({ model, items });
+    let translations = [];
+    let usage = null;
+
+    if (modelItems.length > 0) {
+      const modelResult = await callBatchOnce({ model, items: modelItems });
+      translations = modelResult.items;
+      usage = modelResult.usage;
+    }
+
+    if (localResults.length > 0) {
+      const localMap = new Map(localResults.map((t) => [t.id, t]));
+      const modelMap = new Map(translations.map((t) => [t.id, t]));
+      translations = items.map((it) => modelMap.get(it.id) || localMap.get(it.id)).filter(Boolean);
+    }
 
     // 自动升级：把 confidence=low 的条目用更强模型重译
     const canUpgrade = upgradeModel && upgradeModel !== model && translations.length > 0;
@@ -652,6 +802,12 @@ app.post("/translate", requireUser, async (req, res) => {
 
     if (!OPENAI_API_KEY) return res.status(500).json({ error: "Server missing OPENAI_API_KEY" });
 
+    const cacheKey = makeLegacyTranslateCacheKey(text, targetLanguage);
+    const cachedTranslation = getLegacyTranslateCached(cacheKey);
+    if (cachedTranslation != null) {
+      return res.json({ translation: cachedTranslation, cached: true });
+    }
+
     const r = await fetch(`${OPENAI_BASE_URL}/chat/completions`, {
       method: "POST",
       headers: {
@@ -687,7 +843,9 @@ app.post("/translate", requireUser, async (req, res) => {
       return res.status(r.status).json({ error: `OpenAI ${r.status}: ${bodyText.slice(0, 300)}` });
     }
     const data = await r.json();
-    res.json({ translation: data?.choices?.[0]?.message?.content || "" });
+    const translation = data?.choices?.[0]?.message?.content || "";
+    setLegacyTranslateCached(cacheKey, translation);
+    res.json({ translation, cached: false });
   } catch (error) {
     console.error("[/translate]", error);
     res.status(500).json({ error: "Translation failed" });
