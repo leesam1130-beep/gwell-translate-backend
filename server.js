@@ -26,15 +26,110 @@ if (!OPENAI_API_KEY) {
 }
 
 // ============================================================
+// 用户名白名单(可选)
+// ============================================================
+// GWELL_ALLOWED_USERS:
+//   - 未设置 / 空字符串 → 完全放行（phase-1：无需登录，任何请求都允许）
+//   - 设置为 "alice,bob,charlie" → 只允许 X-GWELL-User 头里这些用户名（phase-2：开始按用户名校验）
+// 切换 phase 完全是后端单边操作：在 Railway 控制台改环境变量 → Redeploy。
+// 插件端不需要任何改动，已经在每次请求都带上 X-GWELL-User 头。
+const RAW_ALLOWED_USERS = String(process.env.GWELL_ALLOWED_USERS || "").trim();
+const ALLOWED_USERS = RAW_ALLOWED_USERS
+  ? new Set(RAW_ALLOWED_USERS.split(",").map((s) => s.trim()).filter(Boolean))
+  : null;
+const AUTH_ENABLED = !!ALLOWED_USERS && ALLOWED_USERS.size > 0;
+
+if (AUTH_ENABLED) {
+  console.log(`[gwell-backend] auth ENABLED, ${ALLOWED_USERS.size} allowed user(s): ${Array.from(ALLOWED_USERS).join(", ")}`);
+} else {
+  console.log("[gwell-backend] auth DISABLED (GWELL_ALLOWED_USERS unset/empty) — all requests allowed.");
+}
+
+// ============================================================
+// Token 节流参数（服务端硬限制，与插件端无关）
+// ============================================================
+// 即使插件发来 50 条客户消息 / 每条 5000 字，后端也只取最近 N 条 + 截断每条到 M 字符。
+// 这是"防御性裁剪"：保证 input token 上限可控，不依赖插件版本。
+//   MAX_CUSTOMER_MSGS    /api/translate 客户消息保留最近多少条（默认 5）
+//   MAX_CUSTOMER_MSG_LEN 单条客户消息最大字符数（默认 400）
+//   MAX_BATCH_CONTEXT    /api/batch-translate-incoming recentContext 保留多少条（默认 5）
+//   MAX_BATCH_CTX_LEN    单条 recentContext 最大字符数（默认 200）
+//   MAX_BATCH_ITEM_LEN   batch item.text 最大字符数（默认 800）
+function envInt(name, defVal, min, max) {
+  const v = parseInt(process.env[name] || "", 10);
+  if (!Number.isFinite(v)) return defVal;
+  return Math.max(min, Math.min(max, v));
+}
+const MAX_CUSTOMER_MSGS    = envInt("MAX_CUSTOMER_MSGS", 5, 0, 50);
+const MAX_CUSTOMER_MSG_LEN = envInt("MAX_CUSTOMER_MSG_LEN", 400, 50, 4000);
+const MAX_BATCH_CONTEXT    = envInt("MAX_BATCH_CONTEXT", 5, 0, 30);
+const MAX_BATCH_CTX_LEN    = envInt("MAX_BATCH_CTX_LEN", 200, 50, 2000);
+const MAX_BATCH_ITEM_LEN   = envInt("MAX_BATCH_ITEM_LEN", 800, 50, 4000);
+
+console.log(
+  `[gwell-backend] token caps: customerMsgs=${MAX_CUSTOMER_MSGS}x${MAX_CUSTOMER_MSG_LEN}ch, ` +
+  `batchCtx=${MAX_BATCH_CONTEXT}x${MAX_BATCH_CTX_LEN}ch, batchItem=${MAX_BATCH_ITEM_LEN}ch`
+);
+
+// 把"过长字符串"安全截断，并在末尾留一个标记，让模型知道是被截断的
+function truncStr(s, maxLen) {
+  const str = String(s == null ? "" : s);
+  if (str.length <= maxLen) return str;
+  return str.slice(0, Math.max(0, maxLen - 3)) + "...";
+}
+
+function getReqUser(req) {
+  return String(req.get("x-gwell-user") || "").trim();
+}
+
+function requireUser(req, res, next) {
+  const user = getReqUser(req);
+  req._user = user || null;
+
+  if (!AUTH_ENABLED) {
+    // phase-1：白名单未启用，全部放行；只是把用户名记进 log 方便后续追踪
+    if (user) console.log(`[gwell-backend] [${req.method} ${req.path}] user=${user} (auth disabled)`);
+    return next();
+  }
+
+  if (!user) {
+    return res.status(401).json({
+      ok: false,
+      error: "USERNAME_REQUIRED",
+      hint: "请在 GWELL CRM 设置中填写已开通的用户名后重试"
+    });
+  }
+  if (!ALLOWED_USERS.has(user)) {
+    return res.status(401).json({
+      ok: false,
+      error: "USERNAME_NOT_ALLOWED",
+      hint: `用户名「${user}」未授权，请联系管理员开通`
+    });
+  }
+
+  console.log(`[gwell-backend] [${req.method} ${req.path}] user=${user} (ok)`);
+  next();
+}
+
+// ============================================================
 // OpenAI Responses API caller (1:1 与旧 background.js 行为一致)
 // ============================================================
+// Token 优化关键点：
+// 1. instructions 必须是【静态常量】才能命中 OpenAI automatic prompt caching
+//    （≥1024 tokens 的稳定前缀，缓存命中时 input token 半价）
+// 2. 所有 per-request 的动态内容（客户名、override 语言等）必须放进 input，
+//    不能拼进 instructions，否则 prefix 每次都变 → 永远 cache miss。
+// 3. prompt_cache_key：跨 Railway 多实例 / OpenAI 多副本时，把同一个用例的
+//    请求稳定路由到同一份缓存，进一步提高命中率。
 async function callOpenAIResponses({
   model,
   instructions,
   input,
   jsonSchema,
   temperature = 0.3,
-  timeoutMs = 60000
+  timeoutMs = 60000,
+  promptCacheKey = null,
+  logTag = ""
 }) {
   if (!OPENAI_API_KEY) throw new Error("Server missing OPENAI_API_KEY");
   if (!model) throw new Error("Missing model");
@@ -49,6 +144,9 @@ async function callOpenAIResponses({
         strict: jsonSchema.strict !== false
       }
     };
+  }
+  if (promptCacheKey) {
+    body.prompt_cache_key = promptCacheKey;
   }
 
   const ctrl = new AbortController();
@@ -95,7 +193,22 @@ async function callOpenAIResponses({
     }
   }
 
-  return { text: String(text || "").trim(), usage: data.usage || null, raw: data };
+  // 把 token 用量打到 Railway 日志，方便你随时观察缓存命中率
+  // cached_tokens 越接近 input_tokens，说明缓存越生效；
+  // 第一次调用通常 cached=0，后续相同 prefix 请求会快速涨到接近 100%。
+  const usage = data.usage || null;
+  if (usage) {
+    const inTok = usage.input_tokens ?? usage.prompt_tokens ?? 0;
+    const outTok = usage.output_tokens ?? usage.completion_tokens ?? 0;
+    const cached = usage.input_tokens_details?.cached_tokens ?? usage.prompt_tokens_details?.cached_tokens ?? 0;
+    const cachePct = inTok > 0 ? Math.round((cached / inTok) * 100) : 0;
+    const ratio = outTok > 0 ? (inTok / outTok).toFixed(1) : "n/a";
+    console.log(
+      `[openai${logTag ? " " + logTag : ""}] model=${model} in=${inTok} cached=${cached}(${cachePct}%) out=${outTok} ratio=${ratio}x${promptCacheKey ? " key=" + promptCacheKey : ""}`
+    );
+  }
+
+  return { text: String(text || "").trim(), usage, raw: data };
 }
 
 // ============================================================
@@ -217,139 +330,78 @@ const TRANSLATE_SCHEMA = {
   }
 };
 
-function buildOutboundInstructions({ overrideLanguage, contextHint }) {
-  const cust = contextHint || {};
-  const custLines = [];
-  if (cust.name) custLines.push(`- Saved name / chat title: ${cust.name}`);
-  if (cust.phone) custLines.push(`- Phone: ${cust.phone}`);
-  if (cust.phoneLangHint) custLines.push(`- Phone country hint: likely ${cust.phoneLangHint}`);
-  if (cust.subtitle) custLines.push(`- Status line: ${cust.subtitle}`);
+// ⚠️ 必须保持完全静态(不允许任何模板插值)，否则会破坏 OpenAI prompt cache。
+// 客户名/手机/override 语言等动态内容请放到 buildOutboundInput 里。
+const OUTBOUND_INSTRUCTIONS = `You are an expert translator working for GWELL, a Chinese lighting factory exporting to Tanzania and East Africa via WhatsApp Business.
 
-  return `You are an expert translator working for GWELL, a Chinese lighting factory exporting to Tanzania and East Africa via WhatsApp Business.
-
-You will receive:
-  - The customer's most recent messages (so you can identify their language).
-  - The salesperson's Chinese reply that needs to be translated.
+You will receive a structured user message that contains some of these blocks (in this order):
+  - "## Target language override" (optional) — if present, FORCE the target language to it; set detectedLanguage to that value with confidence "high" and detectionReason "manual override".
+  - "## Customer profile" (optional) — saved name / phone / phone country hint / status line. Use ONLY for tone calibration; never mention these in the translation output.
+  - "## Customer recent messages (oldest → newest)" — used to detect the customer's language.
+  - "## Salesperson Chinese reply (translate this)" — the actual text to translate.
 
 Tasks:
-1. ${
-    overrideLanguage
-      ? `The target language is FORCED to be "${overrideLanguage}". Use this as detectedLanguage with confidence "high" and detectionReason "manual override".`
-      : `Detect the customer's primary language from their recent messages. If they only sent emojis / very short text / no messages, use the phone country hint (if provided), otherwise fall back to English. Pick the dominant language if mixed.`
-  }
+1. If "## Target language override" is present, use it as detectedLanguage. Otherwise detect the customer's primary language from their recent messages. If they only sent emojis / very short text / no messages, use the phone country hint (if provided), otherwise fall back to English. Pick the dominant language if mixed.
 2. Translate the Chinese reply into that language.
 
 == BUSINESS PROFILE ==
 GWELL = Chinese-owned lighting company with REAL LOCAL PRESENCE in Tanzania.
-- 公司总部 / China HQ: Chinese lighting manufacturer
-- Tanzania 办公室 / Office: Kariakoo, Dar es Salaam
-- Tanzania 工厂 / Factory: Kigamboni, Dar es Salaam
+- China HQ: Chinese lighting manufacturer
+- Tanzania Office: Kariakoo, Dar es Salaam
+- Tanzania Factory: Kigamboni, Dar es Salaam
 When translating Chinese replies that mention our location, always use the above addresses confidently (do NOT say "我们只在中国" / "we only ship from China" — we are physically in DAR).
 
-Product lines:
-- LED bulbs (A60/A70/A100, E27/B22 base)
-- LED tube lights (T5/T8, 0.6m/0.9m/1.2m)
-- Torches / flashlights (rechargeable, aluminum/plastic)
-- Emergency lights (rechargeable, wall-mount)
-- Solar products (solar home systems 1-to-3 / 1-to-5, solar street lights, solar flood lights, solar lanterns)
-- Rechargeable fans (with built-in LED)
-- Mosquito killer lamps (UV electric)
-- Outdoor: flood lights, street lights, garden lights, security lights with motion sensor
-- LED panel lights, downlights, ceiling lights, work lights, headlamps
+Product lines: LED bulbs (A60/A70/A100, E27/B22 base), LED tube lights (T5/T8, 0.6m/0.9m/1.2m), torches/flashlights, emergency lights, solar products (home systems 1-to-3 / 1-to-5, street lights, flood lights, lanterns), rechargeable fans, mosquito killer lamps (UV), flood/street/garden/security lights, panel/downlights, ceiling/work lights, headlamps.
 
-Typical customer profile: Tanzania-based distributor / wholesaler / retail shop / project contractor. They visit Kariakoo office for samples, place container orders, ask about prices, MOQ, lead time, payment terms, samples, packaging, certificates.
+Typical customer: Tanzania-based distributor / wholesaler / retail shop / project contractor. They ask about prices, MOQ, lead time, payment terms, samples, packaging, certificates, container loading.
 
-== LOCATION TERMINOLOGY (Chinese → Swahili) ==
+== LOCATION TERMINOLOGY (Chinese → Swahili, use these EXACT mappings) ==
 - 我们在达累斯萨拉姆 / 我们在 DAR → Tupo Dar es Salaam
 - 办公室在 Kariakoo → Tuna ofisi Kariakoo / Ofisi yetu ipo Kariakoo
 - 工厂在 Kigamboni → Tuna factory Kigamboni / Kiwanda chetu kipo Kigamboni
 - 我发位置给你 → Nitakutumia location sasa hivi
 - 欢迎过来 → Karibu sana
 - 今天可以来吗 → Unataka kuja leo?
-- 明天 → kesho
-- 地址 / 位置 → location / anwani / mahali
-- 哪条街 → mtaa gani
-- 哪栋楼 → jengo gani
-- 靠近 X → karibu na X
-- 附近 → karibu / jirani
+- 哪条街 → mtaa gani; 哪栋楼 → jengo gani; 靠近 X → karibu na X
 
-== CHINESE → SWAHILI/ENGLISH TERMINOLOGY (use these mappings) ==
-Products:
-- 灯 / 灯具 → taa
-- 灯泡 / LED 灯泡 → balbu / balbu ya LED
-- 球泡 → balbu (round bulb)
-- 灯管 → taa ya tube / tube light
-- 手电筒 → tochi
-- 应急灯 → taa ya dharura / emergency light
-- 太阳能灯 → taa ya sola
-- 太阳能板 → paneli ya sola / solar panel
-- 太阳能一拖三 / 一拖五 → solar system 1-to-3 / 1-to-5 (English preferred, customers know it)
-- 充电灯 → taa ya kuchaji / rechargeable light
-- 充电小风扇 → feni ya kuchaji / rechargeable fan
-- 灭蚊灯 → taa ya kuua mbu / mosquito killer
-- 投光灯 / 泛光灯 → flood light
-- 路灯 → taa ya barabarani / street light
-- 工矿灯 → high-bay light
-- 头灯 → headlamp
-- 筒灯 / 射灯 → downlight / spotlight
-- 吸顶灯 → ceiling light
+== CHINESE → SWAHILI/ENGLISH TERMINOLOGY (use these mappings; rest you already know) ==
+Products: 灯/灯具→taa; 灯泡→balbu; 球泡→balbu; 灯管→tube light; 手电筒→tochi; 应急灯→emergency light; 太阳能灯→taa ya sola; 太阳能板→solar panel; 太阳能一拖三/一拖五→solar system 1-to-3 / 1-to-5 (keep English, customers know it); 充电灯→rechargeable light; 充电小风扇→rechargeable fan; 灭蚊灯→mosquito killer; 投光灯/泛光灯→flood light; 路灯→street light; 工矿灯→high-bay light; 头灯→headlamp; 筒灯/射灯→downlight/spotlight; 吸顶灯→ceiling light.
 
-Technical specs (KEEP IN ENGLISH/NUMBERS — customers expect):
-- 瓦数 / 功率 → W (e.g. 9W, 30W)
-- 电压 → V (e.g. 220V, 12V)
-- 流明 → lumens / lm
-- 色温 → 3000K (warm white) / 6500K (cool white / daylight)
-- 显色指数 → CRI
-- 防水 → IP65 / IP67
-- 灯头 → E27 / B22 / E14
-- 充电时间 → charging time
-- 续航 → backup time / working hours
-- 电池容量 → mAh / battery capacity
-- 太阳能板瓦数 → Wp
+Technical specs — KEEP IN ENGLISH/NUMBERS: 瓦数→W (9W/30W); 电压→V; 流明→lm; 色温→3000K (warm) / 6500K (cool); 显色指数→CRI; 防水→IP65/IP67; 灯头→E27/B22/E14; 充电时间→charging time; 续航→backup time; 电池容量→mAh; 太阳能板瓦数→Wp.
 
-Commercial / logistics:
-- 价格 → bei / price
-- 批发价 → wholesale price / bei ya jumla
-- 零售价 → retail price / bei ya rejareja
-- 起订量 / MOQ → MOQ (English, universal)
-- 整箱 / 一箱 → katoni / 1 carton
-- 内盒 → inner box
-- 外箱 → master carton
-- 包装 → packing
-- 彩盒 → color box
-- 中性包装 → neutral packing
-- OEM / 贴牌 → OEM
-- 货期 / 交期 → lead time / delivery time
-- 整柜 / 集装箱 → container / kontena (20'GP, 40'GP, 40'HQ)
-- 海运 → by sea / sea freight
-- 空运 → by air
-- 港口 → bandari (Dar es Salaam port)
-- 出货 → ship / delivery
-- 样品 → sample / sampuli
-- 样品费 → sample charge
-- 保修 / 质保 → warranty (typically 1 year / 2 years)
-- 认证 → certificates (CE / RoHS / TUV / EAC for East African Community)
-- 付款方式 → payment terms
-- 30%订金 70%尾款 → 30% deposit + 70% balance before shipment
-- TT / 电汇 → T/T
-- 信用证 → L/C
-- 美金 → USD
-- 坦桑先令 → TZS
+Commercial: 价格→bei/price; 批发价→bei ya jumla; 零售价→bei ya rejareja; 起订量→MOQ; 整箱→katoni/carton; 内盒→inner box; 外箱→master carton; 包装→packing; 彩盒→color box; 中性包装→neutral packing; OEM→OEM; 货期→lead time; 整柜→container/kontena (20'GP/40'GP/40'HQ); 海运→by sea; 空运→by air; 港口→bandari; 样品→sample/sampuli; 样品费→sample charge; 保修→warranty; 认证→CE/RoHS/TUV/EAC; 付款方式→payment terms; 30%订金70%尾款→30% deposit + 70% balance before shipment; TT→T/T; 信用证→L/C; 美金→USD; 坦桑先令→TZS.
 
 Style rules:
 - Friendly, natural, business-appropriate for WhatsApp — like a real export salesperson, not stiff.
 - For Swahili customers, mixing common English business words (price, order, MOQ, container, USD, sample, warranty) is normal and PREFERRED over forced literal translation.
-- Add appropriate greeting/closing if Chinese source has it (e.g. "您好" → "Habari" or "Hello dear"; "祝好" → "Thanks & regards").
-- Preserve line breaks, numbers, units (W, V, lm, K, kg, mm, USD, TZS, %), product codes/SKUs, emojis, URLs, @mentions, phone numbers exactly.
+- Add appropriate greeting/closing if Chinese source has it (您好→Habari/Hello dear; 祝好→Thanks & regards).
+- Preserve line breaks, numbers, units (W/V/lm/K/kg/mm/USD/TZS/%), product codes/SKUs, emojis, URLs, @mentions, phone numbers exactly.
 - Translate the *meaning* of Chinese idioms, never word-for-word.
 - Output the translation only — no quotes, no "Translation:" prefix, no markdown fences.
 
-${custLines.length ? `Additional context about the customer (for tone calibration; do NOT mention them in the translation):\n${custLines.join("\n")}\n` : ""}
 Respond strictly with the JSON schema provided.`;
-}
 
-function buildOutboundInput({ customerMessages, sourceText }) {
+function buildOutboundInput({ customerMessages, sourceText, overrideLanguage, contextHint }) {
   const lines = [];
+
+  if (overrideLanguage) {
+    lines.push("## Target language override");
+    lines.push(String(overrideLanguage));
+    lines.push("");
+  }
+
+  const cust = contextHint || {};
+  const custLines = [];
+  if (cust.name) custLines.push(`- Saved name / chat title: ${cust.name}`);
+  if (cust.phone) custLines.push(`- Phone: ${cust.phone}`);
+  if (cust.phoneLangHint) custLines.push(`- Phone country hint: likely ${cust.phoneLangHint}`);
+  if (cust.subtitle) custLines.push(`- Status line: ${cust.subtitle}`);
+  if (custLines.length) {
+    lines.push("## Customer profile (tone hint only — do NOT mention in translation)");
+    lines.push(...custLines);
+    lines.push("");
+  }
+
   lines.push("## Customer recent messages (oldest → newest)");
   if (!customerMessages || customerMessages.length === 0) {
     lines.push("(none — no incoming messages were readable from the current chat)");
@@ -373,12 +425,28 @@ app.get("/", (req, res) => {
   res.send("Translation backend is running.");
 });
 
+// /api/health 是"探活"接口，本身永远不会 401。
+// 把当前请求带的用户名 & 白名单状态如实返回给前端，
+// 前端可以据此显示"未授权 / 已授权 / 白名单未启用"等精确状态。
 app.get("/api/health", (req, res) => {
-  res.json({ ok: true, hasKey: !!OPENAI_API_KEY });
+  const user = getReqUser(req);
+  let authorized;
+  if (!AUTH_ENABLED) authorized = true;             // 白名单关 → 所有人都"已授权"
+  else if (!user) authorized = false;                // 白名单开但没传用户名
+  else authorized = ALLOWED_USERS.has(user);         // 白名单开 → 看是否命中
+
+  res.json({
+    ok: true,
+    hasKey: !!OPENAI_API_KEY,
+    authEnabled: AUTH_ENABLED,
+    allowedCount: AUTH_ENABLED ? ALLOWED_USERS.size : 0,
+    yourUser: user || null,
+    authorized
+  });
 });
 
 // === 主路由 1：outbound 中→客户语言 ===
-app.post("/api/translate", async (req, res) => {
+app.post("/api/translate", requireUser, async (req, res) => {
   try {
     const {
       sourceText,
@@ -391,15 +459,38 @@ app.post("/api/translate", async (req, res) => {
     const src = String(sourceText || "").trim();
     if (!src) return res.status(400).json({ ok: false, error: "EMPTY_SOURCE" });
 
-    const instructions = buildOutboundInstructions({ overrideLanguage, contextHint });
-    const input = buildOutboundInput({ customerMessages, sourceText: src });
+    // 防御性裁剪：只取最近 N 条客户消息 + 每条截断，不管插件发了多少。
+    const rawMsgs = Array.isArray(customerMessages) ? customerMessages : [];
+    const trimmedMsgs = rawMsgs
+      .slice(-MAX_CUSTOMER_MSGS)
+      .map((m) => ({
+        time: m && m.time ? String(m.time) : "",
+        text: truncStr(m && m.text, MAX_CUSTOMER_MSG_LEN)
+      }))
+      .filter((m) => m.text);
+    if (rawMsgs.length > trimmedMsgs.length) {
+      console.log(
+        `[/api/translate] trimmed customerMessages: ${rawMsgs.length} → ${trimmedMsgs.length} (cap=${MAX_CUSTOMER_MSGS})`
+      );
+    }
+
+    // 注意：instructions 必须用静态常量；overrideLanguage / contextHint 全部进 input。
+    // 这样 OpenAI 的 prompt cache 才能命中（≥1024 token 稳定 prefix → cached input 半价）。
+    const input = buildOutboundInput({
+      customerMessages: trimmedMsgs,
+      sourceText: src,
+      overrideLanguage,
+      contextHint
+    });
 
     const { text, usage } = await callOpenAIResponses({
       model,
-      instructions,
+      instructions: OUTBOUND_INSTRUCTIONS,
       input,
       jsonSchema: TRANSLATE_SCHEMA,
-      temperature: 0.3
+      temperature: 0.3,
+      promptCacheKey: `gwell-outbound-${model}`,
+      logTag: "/api/translate"
     });
 
     let parsed;
@@ -422,7 +513,7 @@ app.post("/api/translate", async (req, res) => {
 });
 
 // === 主路由 2：批量来信 → 中文 + 意图 + auto-upgrade ===
-app.post("/api/batch-translate-incoming", async (req, res) => {
+app.post("/api/batch-translate-incoming", requireUser, async (req, res) => {
   try {
     const {
       items: rawItems,
@@ -431,13 +522,36 @@ app.post("/api/batch-translate-incoming", async (req, res) => {
       upgradeModel = null
     } = req.body || {};
 
-    const items = Array.isArray(rawItems) ? rawItems.filter(Boolean) : [];
-    if (items.length === 0) return res.json({ ok: true, translations: [] });
+    const rawItemsArr = Array.isArray(rawItems) ? rawItems.filter(Boolean) : [];
+    if (rawItemsArr.length === 0) return res.json({ ok: true, translations: [] });
 
-    const recentContext = (Array.isArray(rawCtx) ? rawCtx : [])
+    // 防御性裁剪：单条 batch item.text 最长 MAX_BATCH_ITEM_LEN 字符。
+    // 不限制 item 数量(由插件端决定批次大小)，只截断单条文本，避免一条超长消息拉爆 token。
+    const items = rawItemsArr.map((it) => ({
+      ...it,
+      text: truncStr(it && it.text, MAX_BATCH_ITEM_LEN)
+    }));
+    const longCount = rawItemsArr.filter(
+      (it) => String((it && it.text) || "").length > MAX_BATCH_ITEM_LEN
+    ).length;
+    if (longCount > 0) {
+      console.log(
+        `[/api/batch-translate-incoming] truncated ${longCount} oversize item(s) to ${MAX_BATCH_ITEM_LEN}ch`
+      );
+    }
+
+    // 防御性裁剪：recentContext 只保留最近 MAX_BATCH_CONTEXT 条 + 每条截断。
+    const rawCtxArr = (Array.isArray(rawCtx) ? rawCtx : [])
       .map((s) => String(s || "").replace(/\r?\n/g, " ").trim())
-      .filter(Boolean)
-      .slice(-8);
+      .filter(Boolean);
+    const recentContext = rawCtxArr
+      .slice(-MAX_BATCH_CONTEXT)
+      .map((s) => truncStr(s, MAX_BATCH_CTX_LEN));
+    if (rawCtxArr.length > recentContext.length) {
+      console.log(
+        `[/api/batch-translate-incoming] trimmed recentContext: ${rawCtxArr.length} → ${recentContext.length} (cap=${MAX_BATCH_CONTEXT})`
+      );
+    }
 
     let contextBlock = "";
     if (recentContext.length) {
@@ -455,7 +569,7 @@ ${ctxLines}
 `;
     }
 
-    async function callBatchOnce({ model: m, items: subItems }) {
+    async function callBatchOnce({ model: m, items: subItems, isUpgrade = false }) {
       const subLines = subItems.map((it, idx) => {
         const safeText = String(it.text || "").replace(/\r?\n/g, "\n");
         return `[item ${idx + 1}] id=${it.id}\n${safeText}`;
@@ -470,7 +584,9 @@ ${subLines.join("\n\n---\n\n")}`;
         input: subInput,
         jsonSchema: BATCH_TRANSLATE_SCHEMA,
         temperature: 0.2,
-        timeoutMs: 60000
+        timeoutMs: 60000,
+        promptCacheKey: `gwell-batch-incoming-${m}`,
+        logTag: isUpgrade ? "/api/batch upgrade" : "/api/batch"
       });
       let parsed;
       try {
@@ -496,7 +612,7 @@ ${subLines.join("\n\n---\n\n")}`;
         const retryItems = items.filter((it) => lowIds.has(it.id));
         try {
           console.log(`[batch] auto-upgrade: ${retryItems.length} low-conf items: ${model} → ${upgradeModel}`);
-          const retry = await callBatchOnce({ model: upgradeModel, items: retryItems });
+          const retry = await callBatchOnce({ model: upgradeModel, items: retryItems, isUpgrade: true });
           const retryMap = new Map(retry.items.map((t) => [t.id, t]));
           for (let i = 0; i < translations.length; i++) {
             const t = translations[i];
@@ -529,7 +645,7 @@ ${subLines.join("\n\n---\n\n")}`;
 });
 
 // === Legacy 简单翻译，保留向后兼容 ===
-app.post("/translate", async (req, res) => {
+app.post("/translate", requireUser, async (req, res) => {
   try {
     const { text, targetLanguage } = req.body || {};
     if (!text) return res.status(400).json({ error: "Missing text" });
