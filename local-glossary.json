@@ -1,157 +1,8785 @@
 [
   {
-    "patterns": ["unguja", "zanzibar", "桑给巴尔"],
-    "zh": "桑给巴尔",
-    "en": "Zanzibar (Unguja is the main island)",
-    "note": "Unguja 是斯瓦希里语对桑给巴尔主岛的称呼"
+    "patterns": [
+      "account number",
+      "账号"
+    ],
+    "zh": "账号",
+    "en": "account number"
   },
   {
-    "patterns": ["pemba", "奔巴岛", "奔巴"],
-    "zh": "奔巴岛",
-    "en": "Pemba island (Zanzibar archipelago)"
+    "patterns": [
+      "acha",
+      "算了",
+      "停止"
+    ],
+    "zh": "算了/停止",
+    "en": "acha"
   },
   {
-    "patterns": ["dar es salaam", "dar", "达累斯萨拉姆", "达市"],
-    "zh": "达累斯萨拉姆",
-    "en": "Dar es Salaam (DAR — Tanzania commercial capital)"
+    "patterns": [
+      "acha basi",
+      "算了吧"
+    ],
+    "zh": "算了吧",
+    "en": "acha basi"
   },
   {
-    "patterns": ["kariakoo"],
-    "zh": "Kariakoo",
-    "en": "Kariakoo (Dar es Salaam wholesale market district, GWELL office is here)",
-    "note": "保留原写法 Kariakoo，不要中文音译"
+    "patterns": [
+      "adapter",
+      "转接头"
+    ],
+    "zh": "转接头",
+    "en": "adapter"
   },
   {
-    "patterns": ["kigamboni"],
-    "zh": "Kigamboni",
-    "en": "Kigamboni (Dar es Salaam area across the harbor, GWELL factory is here)",
-    "note": "保留原写法 Kigamboni，不要中文音译"
+    "patterns": [
+      "address",
+      "anwani",
+      "地址"
+    ],
+    "zh": "地址",
+    "en": "address / anwani"
   },
   {
-    "patterns": ["kibamba", "基班巴"],
-    "zh": "Kibamba",
-    "en": "Kibamba (Dar es Salaam western suburb)",
-    "note": "通常保留原写法"
+    "patterns": [
+      "advance",
+      "预付款"
+    ],
+    "zh": "预付款",
+    "en": "advance"
   },
   {
-    "patterns": ["bagamoyo", "巴加莫约"],
-    "zh": "巴加莫约",
-    "en": "Bagamoyo (historic coastal town north of Dar)"
+    "patterns": [
+      "agent",
+      "代理"
+    ],
+    "zh": "代理",
+    "en": "agent"
   },
   {
-    "patterns": ["mwanza", "姆万扎"],
-    "zh": "姆万扎",
-    "en": "Mwanza (Lake Victoria, NW Tanzania)"
+    "patterns": [
+      "agiza",
+      "订购",
+      "订货"
+    ],
+    "zh": "订货/订购",
+    "en": "agiza"
   },
   {
-    "patterns": ["arusha", "阿鲁沙"],
+    "patterns": [
+      "agiza sasa",
+      "现在下单"
+    ],
+    "zh": "现在下单",
+    "en": "agiza sasa"
+  },
+  {
+    "patterns": [
+      "aina",
+      "型号",
+      "种类"
+    ],
+    "zh": "种类/型号",
+    "en": "aina"
+  },
+  {
+    "patterns": [
+      "aina gani",
+      "什么型号"
+    ],
+    "zh": "什么型号",
+    "en": "aina gani"
+  },
+  {
+    "patterns": [
+      "airport",
+      "kiwanja cha ndege",
+      "机场"
+    ],
+    "zh": "机场",
+    "en": "airport / kiwanja cha ndege"
+  },
+  {
+    "patterns": [
+      "airtel money"
+    ],
+    "zh": "Airtel Money 手机钱包",
+    "en": "airtel money"
+  },
+  {
+    "patterns": [
+      "aise",
+      "哎",
+      "兄弟"
+    ],
+    "zh": "哎/兄弟",
+    "en": "aise",
+    "note": "口语"
+  },
+  {
+    "patterns": [
+      "alhamisi",
+      "星期四"
+    ],
+    "zh": "星期四",
+    "en": "alhamisi"
+  },
+  {
+    "patterns": [
+      "amp",
+      "ampere",
+      "安培"
+    ],
+    "zh": "安培",
+    "en": "amp / ampere"
+  },
+  {
+    "patterns": [
+      "andika",
+      "写"
+    ],
+    "zh": "写",
+    "en": "andika"
+  },
+  {
+    "patterns": [
+      "andika tu",
+      "只写文字"
+    ],
+    "zh": "只写文字",
+    "en": "andika tu"
+  },
+  {
+    "patterns": [
+      "andika vizuri",
+      "写清楚"
+    ],
+    "zh": "写清楚",
+    "en": "andika vizuri"
+  },
+  {
+    "patterns": [
+      "andika whatsapp"
+    ],
+    "zh": "WhatsApp上写",
+    "en": "andika whatsapp"
+  },
+  {
+    "patterns": [
+      "angalia",
+      "看一下"
+    ],
+    "zh": "看一下",
+    "en": "angalia"
+  },
+  {
+    "patterns": [
+      "angalia kabla ya kulipa",
+      "付款前检查"
+    ],
+    "zh": "付款前检查",
+    "en": "angalia kabla ya kulipa"
+  },
+  {
+    "patterns": [
+      "angalia kabla ya kuondoka",
+      "离开前检查"
+    ],
+    "zh": "离开前检查",
+    "en": "angalia kabla ya kuondoka"
+  },
+  {
+    "patterns": [
+      "ankara",
+      "invoice",
+      "发票"
+    ],
+    "zh": "发票",
+    "en": "ankara / invoice"
+  },
+  {
+    "patterns": [
+      "approved",
+      "已批准"
+    ],
+    "zh": "已批准",
+    "en": "approved"
+  },
+  {
+    "patterns": [
+      "arobaini",
+      "四十"
+    ],
+    "zh": "四十",
+    "en": "arobaini"
+  },
+  {
+    "patterns": [
+      "around",
+      "near",
+      "附近"
+    ],
+    "zh": "附近",
+    "en": "around / near"
+  },
+  {
+    "patterns": [
+      "arusha",
+      "阿鲁沙"
+    ],
     "zh": "阿鲁沙",
-    "en": "Arusha (N Tanzania, near Kilimanjaro)"
+    "en": "arusha"
   },
   {
-    "patterns": ["dodoma", "多多马"],
+    "patterns": [
+      "asante",
+      "谢谢"
+    ],
+    "zh": "谢谢",
+    "en": "asante"
+  },
+  {
+    "patterns": [
+      "asante sana",
+      "非常感谢"
+    ],
+    "zh": "非常感谢",
+    "en": "asante sana"
+  },
+  {
+    "patterns": [
+      "asubuhi",
+      "早上"
+    ],
+    "zh": "早上",
+    "en": "asubuhi"
+  },
+  {
+    "patterns": [
+      "automatic",
+      "自动"
+    ],
+    "zh": "自动",
+    "en": "automatic"
+  },
+  {
+    "patterns": [
+      "available",
+      "stock ipo",
+      "有货"
+    ],
+    "zh": "有货",
+    "en": "available / stock ipo"
+  },
+  {
+    "patterns": [
+      "b22"
+    ],
+    "zh": "B22卡口",
+    "en": "b22"
+  },
+  {
+    "patterns": [
+      "baada ya kuondoka",
+      "离开后"
+    ],
+    "zh": "离开后",
+    "en": "baada ya kuondoka"
+  },
+  {
+    "patterns": [
+      "baadae",
+      "晚点",
+      "之后"
+    ],
+    "zh": "晚点/之后",
+    "en": "baadae"
+  },
+  {
+    "patterns": [
+      "baba",
+      "男士",
+      "叔叔"
+    ],
+    "zh": "男士/叔叔",
+    "en": "baba"
+  },
+  {
+    "patterns": [
+      "babati",
+      "巴巴蒂"
+    ],
+    "zh": "巴巴蒂",
+    "en": "babati"
+  },
+  {
+    "patterns": [
+      "badilisha",
+      "kubadilisha",
+      "更换"
+    ],
+    "zh": "更换",
+    "en": "badilisha / kubadilisha"
+  },
+  {
+    "patterns": [
+      "badilisha bidhaa",
+      "换产品"
+    ],
+    "zh": "换产品",
+    "en": "badilisha bidhaa"
+  },
+  {
+    "patterns": [
+      "badilisha dola",
+      "换美元"
+    ],
+    "zh": "换美元",
+    "en": "badilisha dola"
+  },
+  {
+    "patterns": [
+      "badilisha model",
+      "换型号"
+    ],
+    "zh": "换型号",
+    "en": "badilisha model"
+  },
+  {
+    "patterns": [
+      "badilisha rangi",
+      "换颜色"
+    ],
+    "zh": "换颜色",
+    "en": "badilisha rangi"
+  },
+  {
+    "patterns": [
+      "bado ipo",
+      "还有"
+    ],
+    "zh": "还有",
+    "en": "bado ipo"
+  },
+  {
+    "patterns": [
+      "bado zipo",
+      "还有货"
+    ],
+    "zh": "还有货",
+    "en": "bado zipo"
+  },
+  {
+    "patterns": [
+      "bagamoyo",
+      "巴加莫约"
+    ],
+    "zh": "巴加莫约",
+    "en": "bagamoyo"
+  },
+  {
+    "patterns": [
+      "bajaji",
+      "三轮车"
+    ],
+    "zh": "三轮车",
+    "en": "bajaji"
+  },
+  {
+    "patterns": [
+      "baki yako",
+      "你的余额",
+      "找零"
+    ],
+    "zh": "你的余额/找零",
+    "en": "baki yako"
+  },
+  {
+    "patterns": [
+      "bakia",
+      "剩余"
+    ],
+    "zh": "剩余",
+    "en": "bakia"
+  },
+  {
+    "patterns": [
+      "balance",
+      "尾款",
+      "余额"
+    ],
+    "zh": "余额/尾款",
+    "en": "balance"
+  },
+  {
+    "patterns": [
+      "balbu",
+      "bulb",
+      "灯泡"
+    ],
+    "zh": "灯泡",
+    "en": "balbu / bulb"
+  },
+  {
+    "patterns": [
+      "bandari",
+      "港口"
+    ],
+    "zh": "港口",
+    "en": "bandari"
+  },
+  {
+    "patterns": [
+      "bandari ya dar",
+      "达累斯萨拉姆港"
+    ],
+    "zh": "达累斯萨拉姆港",
+    "en": "bandari ya dar"
+  },
+  {
+    "patterns": [
+      "bandarini",
+      "在港口"
+    ],
+    "zh": "在港口",
+    "en": "bandarini"
+  },
+  {
+    "patterns": [
+      "bank",
+      "benki",
+      "银行"
+    ],
+    "zh": "银行",
+    "en": "bank / benki"
+  },
+  {
+    "patterns": [
+      "bank name",
+      "银行名称"
+    ],
+    "zh": "银行名称",
+    "en": "bank name"
+  },
+  {
+    "patterns": [
+      "barabara",
+      "njia",
+      "路"
+    ],
+    "zh": "路",
+    "en": "barabara / njia"
+  },
+  {
+    "patterns": [
+      "basi",
+      "巴士"
+    ],
+    "zh": "巴士",
+    "en": "basi"
+  },
+  {
+    "patterns": [
+      "basi",
+      "巴士",
+      "那好吧"
+    ],
+    "zh": "那好吧/巴士",
+    "en": "basi"
+  },
+  {
+    "patterns": [
+      "battery",
+      "betri",
+      "电池"
+    ],
+    "zh": "电池",
+    "en": "battery / betri"
+  },
+  {
+    "patterns": [
+      "battery capacity",
+      "电池容量"
+    ],
+    "zh": "电池容量",
+    "en": "battery capacity"
+  },
+  {
+    "patterns": [
+      "battery included",
+      "包含电池"
+    ],
+    "zh": "包含电池",
+    "en": "battery included"
+  },
+  {
+    "patterns": [
+      "battery ni ya ngapi",
+      "电池多大"
+    ],
+    "zh": "电池多大",
+    "en": "battery ni ya ngapi"
+  },
+  {
+    "patterns": [
+      "battery not included",
+      "bila battery",
+      "不含电池"
+    ],
+    "zh": "不含电池",
+    "en": "battery not included / bila battery"
+  },
+  {
+    "patterns": [
+      "bei",
+      "价格"
+    ],
+    "zh": "价格",
+    "en": "bei"
+  },
+  {
+    "patterns": [
+      "bei bado ile ile",
+      "价格还是一样"
+    ],
+    "zh": "价格还是一样",
+    "en": "bei bado ile ile"
+  },
+  {
+    "patterns": [
+      "bei bila efd"
+    ],
+    "zh": "不含EFD票价格",
+    "en": "bei bila efd"
+  },
+  {
+    "patterns": [
+      "bei gani",
+      "多少钱"
+    ],
+    "zh": "多少钱",
+    "en": "bei gani"
+  },
+  {
+    "patterns": [
+      "bei haijumuishi usafiri",
+      "价格不含运费"
+    ],
+    "zh": "价格不含运费",
+    "en": "bei haijumuishi usafiri"
+  },
+  {
+    "patterns": [
+      "bei iko chini",
+      "价格低"
+    ],
+    "zh": "价格低",
+    "en": "bei iko chini"
+  },
+  {
+    "patterns": [
+      "bei iko juu",
+      "价格高了"
+    ],
+    "zh": "价格高了",
+    "en": "bei iko juu"
+  },
+  {
+    "patterns": [
+      "bei ilikuwa tofauti",
+      "价格不一样"
+    ],
+    "zh": "价格不一样",
+    "en": "bei ilikuwa tofauti"
+  },
+  {
+    "patterns": [
+      "bei imebadilika",
+      "价格变了"
+    ],
+    "zh": "价格变了",
+    "en": "bei imebadilika"
+  },
+  {
+    "patterns": [
+      "bei inaweza kubadilika",
+      "价格可能会变"
+    ],
+    "zh": "价格可能会变",
+    "en": "bei inaweza kubadilika"
+  },
+  {
+    "patterns": [
+      "bei maalum",
+      "special price",
+      "特价"
+    ],
+    "zh": "特价",
+    "en": "bei maalum / special price"
+  },
+  {
+    "patterns": [
+      "bei mpya",
+      "新价格"
+    ],
+    "zh": "新价格",
+    "en": "bei mpya"
+  },
+  {
+    "patterns": [
+      "bei na efd"
+    ],
+    "zh": "含EFD票价格",
+    "en": "bei na efd"
+  },
+  {
+    "patterns": [
+      "bei ni bila usafiri",
+      "价格不含运输"
+    ],
+    "zh": "价格不含运输",
+    "en": "bei ni bila usafiri"
+  },
+  {
+    "patterns": [
+      "bei ni fixed",
+      "价格固定"
+    ],
+    "zh": "价格固定",
+    "en": "bei ni fixed"
+  },
+  {
+    "patterns": [
+      "bei ni pamoja na usafiri",
+      "价格含运输"
+    ],
+    "zh": "价格含运输",
+    "en": "bei ni pamoja na usafiri"
+  },
+  {
+    "patterns": [
+      "bei nzuri",
+      "好价格"
+    ],
+    "zh": "好价格",
+    "en": "bei nzuri"
+  },
+  {
+    "patterns": [
+      "bei ya box",
+      "bei ya carton",
+      "一箱价格"
+    ],
+    "zh": "一箱价格",
+    "en": "bei ya box / bei ya carton"
+  },
+  {
+    "patterns": [
+      "bei ya carton ni ngapi",
+      "一箱多少钱"
+    ],
+    "zh": "一箱多少钱",
+    "en": "bei ya carton ni ngapi"
+  },
+  {
+    "patterns": [
+      "bei ya chini sana",
+      "很低的价格"
+    ],
+    "zh": "很低的价格",
+    "en": "bei ya chini sana"
+  },
+  {
+    "patterns": [
+      "bei ya duka",
+      "店铺价"
+    ],
+    "zh": "店铺价",
+    "en": "bei ya duka"
+  },
+  {
+    "patterns": [
+      "bei ya efd tofauti",
+      "开票价格不同"
+    ],
+    "zh": "开票价格不同",
+    "en": "bei ya efd tofauti"
+  },
+  {
+    "patterns": [
+      "bei ya gl"
+    ],
+    "zh": "GL型号价格",
+    "en": "bei ya gl"
+  },
+  {
+    "patterns": [
+      "bei ya jumla",
+      "批发价"
+    ],
+    "zh": "批发价",
+    "en": "bei ya jumla"
+  },
+  {
+    "patterns": [
+      "bei ya jumla ni ngapi",
+      "批发价多少"
+    ],
+    "zh": "批发价多少",
+    "en": "bei ya jumla ni ngapi"
+  },
+  {
+    "patterns": [
+      "bei ya kesho",
+      "明日价格"
+    ],
+    "zh": "明日价格",
+    "en": "bei ya kesho"
+  },
+  {
+    "patterns": [
+      "bei ya kiwandani",
+      "factory price",
+      "工厂价"
+    ],
+    "zh": "工厂价",
+    "en": "bei ya kiwandani / factory price"
+  },
+  {
+    "patterns": [
+      "bei ya leo",
+      "今日价格"
+    ],
+    "zh": "今日价格",
+    "en": "bei ya leo"
+  },
+  {
+    "patterns": [
+      "bei ya mwisho",
+      "最低价"
+    ],
+    "zh": "最低价",
+    "en": "bei ya mwisho"
+  },
+  {
+    "patterns": [
+      "bei ya mwisho kabisa",
+      "最终最低价"
+    ],
+    "zh": "最终最低价",
+    "en": "bei ya mwisho kabisa"
+  },
+  {
+    "patterns": [
+      "bei ya mwisho tafadhali",
+      "请给最低价"
+    ],
+    "zh": "请给最低价",
+    "en": "bei ya mwisho tafadhali"
+  },
+  {
+    "patterns": [
+      "bei ya rafiki",
+      "朋友价"
+    ],
+    "zh": "朋友价",
+    "en": "bei ya rafiki"
+  },
+  {
+    "patterns": [
+      "bei ya rejareja",
+      "零售价"
+    ],
+    "zh": "零售价",
+    "en": "bei ya rejareja"
+  },
+  {
+    "patterns": [
+      "bei ya zamani",
+      "旧价格"
+    ],
+    "zh": "旧价格",
+    "en": "bei ya zamani"
+  },
+  {
+    "patterns": [
+      "bei yako",
+      "你的价格"
+    ],
+    "zh": "你的价格",
+    "en": "bei yako"
+  },
+  {
+    "patterns": [
+      "best seller",
+      "畅销款"
+    ],
+    "zh": "畅销款",
+    "en": "best seller"
+  },
+  {
+    "patterns": [
+      "betri imeisha",
+      "电池没电了"
+    ],
+    "zh": "电池没电了",
+    "en": "betri imeisha"
+  },
+  {
+    "patterns": [
+      "betri mbovu",
+      "电池坏了"
+    ],
+    "zh": "电池坏了",
+    "en": "betri mbovu"
+  },
+  {
+    "patterns": [
+      "bidhaa",
+      "产品",
+      "商品"
+    ],
+    "zh": "商品/产品",
+    "en": "bidhaa"
+  },
+  {
+    "patterns": [
+      "bila panel",
+      "不带太阳能板"
+    ],
+    "zh": "不带太阳能板",
+    "en": "bila panel"
+  },
+  {
+    "patterns": [
+      "bila waya",
+      "不带线",
+      "无线"
+    ],
+    "zh": "无线/不带线",
+    "en": "bila waya"
+  },
+  {
+    "patterns": [
+      "birika",
+      "水壶"
+    ],
+    "zh": "水壶",
+    "en": "birika"
+  },
+  {
+    "patterns": [
+      "bize",
+      "忙"
+    ],
+    "zh": "忙",
+    "en": "bize",
+    "note": "busy口语"
+  },
+  {
+    "patterns": [
+      "bluu",
+      "蓝色"
+    ],
+    "zh": "蓝色",
+    "en": "bluu"
+  },
+  {
+    "patterns": [
+      "boa"
+    ],
+    "zh": "BOA银行",
+    "en": "boa"
+  },
+  {
+    "patterns": [
+      "boda",
+      "bodaboda",
+      "pikipiki",
+      "摩托车"
+    ],
+    "zh": "摩托车",
+    "en": "boda / bodaboda / pikipiki"
+  },
+  {
+    "patterns": [
+      "bosi",
+      "boss",
+      "老板"
+    ],
+    "zh": "老板",
+    "en": "bosi / boss"
+  },
+  {
+    "patterns": [
+      "boss wangu",
+      "我的老板"
+    ],
+    "zh": "我的老板",
+    "en": "boss wangu"
+  },
+  {
+    "patterns": [
+      "box",
+      "carton",
+      "ctn",
+      "katoni",
+      "箱"
+    ],
+    "zh": "箱",
+    "en": "box / carton / ctn / katoni"
+  },
+  {
+    "patterns": [
+      "box ina pcs ngapi",
+      "carton ina pcs ngapi",
+      "一箱多少个"
+    ],
+    "zh": "一箱多少个",
+    "en": "box ina pcs ngapi / carton ina pcs ngapi"
+  },
+  {
+    "patterns": [
+      "branch",
+      "分部",
+      "分店"
+    ],
+    "zh": "分店/分部",
+    "en": "branch"
+  },
+  {
+    "patterns": [
+      "brand",
+      "chapa",
+      "品牌"
+    ],
+    "zh": "品牌",
+    "en": "brand / chapa"
+  },
+  {
+    "patterns": [
+      "bright",
+      "亮"
+    ],
+    "zh": "亮",
+    "en": "bright"
+  },
+  {
+    "patterns": [
+      "brightness",
+      "亮度"
+    ],
+    "zh": "亮度",
+    "en": "brightness"
+  },
+  {
+    "patterns": [
+      "bro",
+      "兄弟"
+    ],
+    "zh": "兄弟",
+    "en": "bro"
+  },
+  {
+    "patterns": [
+      "buguruni",
+      "布古鲁尼"
+    ],
+    "zh": "布古鲁尼",
+    "en": "buguruni"
+  },
+  {
+    "patterns": [
+      "bujumbura",
+      "布琼布拉"
+    ],
+    "zh": "布琼布拉",
+    "en": "bujumbura"
+  },
+  {
+    "patterns": [
+      "bukavu",
+      "布卡武"
+    ],
+    "zh": "布卡武",
+    "en": "bukavu"
+  },
+  {
+    "patterns": [
+      "bukoba",
+      "布科巴"
+    ],
+    "zh": "布科巴",
+    "en": "bukoba"
+  },
+  {
+    "patterns": [
+      "bundle",
+      "捆",
+      "套"
+    ],
+    "zh": "捆/套",
+    "en": "bundle"
+  },
+  {
+    "patterns": [
+      "burundi",
+      "布隆迪"
+    ],
+    "zh": "布隆迪",
+    "en": "burundi"
+  },
+  {
+    "patterns": [
+      "bus stand",
+      "kituo cha basi",
+      "大巴站"
+    ],
+    "zh": "大巴站",
+    "en": "bus stand / kituo cha basi"
+  },
+  {
+    "patterns": [
+      "business license",
+      "营业执照"
+    ],
+    "zh": "营业执照",
+    "en": "business license"
+  },
+  {
+    "patterns": [
+      "cable",
+      "线"
+    ],
+    "zh": "线",
+    "en": "cable"
+  },
+  {
+    "patterns": [
+      "cancel",
+      "取消"
+    ],
+    "zh": "取消",
+    "en": "cancel"
+  },
+  {
+    "patterns": [
+      "cancel order",
+      "ghairi order",
+      "取消订单"
+    ],
+    "zh": "取消订单",
+    "en": "cancel order / ghairi order"
+  },
+  {
+    "patterns": [
+      "cargo",
+      "goods",
+      "mizigo",
+      "mzigo",
+      "货物"
+    ],
+    "zh": "货物",
+    "en": "cargo / goods / mizigo / mzigo"
+  },
+  {
+    "patterns": [
+      "carton tu",
+      "只按箱"
+    ],
+    "zh": "只按箱",
+    "en": "carton tu"
+  },
+  {
+    "patterns": [
+      "cash",
+      "fedha taslimu",
+      "现金"
+    ],
+    "zh": "现金",
+    "en": "cash / fedha taslimu"
+  },
+  {
+    "patterns": [
+      "cash only",
+      "现款",
+      "只收现金"
+    ],
+    "zh": "只收现金/现款",
+    "en": "cash only"
+  },
+  {
+    "patterns": [
+      "catalog",
+      "catalogue",
+      "产品目录"
+    ],
+    "zh": "产品目录",
+    "en": "catalog / catalogue"
+  },
+  {
+    "patterns": [
+      "ceiling fan",
+      "吊扇"
+    ],
+    "zh": "吊扇",
+    "en": "ceiling fan"
+  },
+  {
+    "patterns": [
+      "chagua",
+      "选择"
+    ],
+    "zh": "选择",
+    "en": "chagua"
+  },
+  {
+    "patterns": [
+      "chaja",
+      "charger",
+      "充电器"
+    ],
+    "zh": "充电器",
+    "en": "chaja / charger"
+  },
+  {
+    "patterns": [
+      "chalinze",
+      "查林泽"
+    ],
+    "zh": "查林泽",
+    "en": "chalinze"
+  },
+  {
+    "patterns": [
+      "chang'ombe",
+      "昌戈姆贝"
+    ],
+    "zh": "昌戈姆贝",
+    "en": "chang'ombe"
+  },
+  {
+    "patterns": [
+      "change",
+      "chenji",
+      "找零"
+    ],
+    "zh": "找零",
+    "en": "change / chenji"
+  },
+  {
+    "patterns": [
+      "charge",
+      "charging",
+      "充电"
+    ],
+    "zh": "充电",
+    "en": "charge / charging"
+  },
+  {
+    "patterns": [
+      "chat",
+      "聊天"
+    ],
+    "zh": "聊天",
+    "en": "chat"
+  },
+  {
+    "patterns": [
+      "cheap",
+      "便宜"
+    ],
+    "zh": "便宜",
+    "en": "cheap"
+  },
+  {
+    "patterns": [
+      "cheap quality",
+      "低价质量"
+    ],
+    "zh": "低价质量",
+    "en": "cheap quality"
+  },
+  {
+    "patterns": [
+      "check",
+      "检查"
+    ],
+    "zh": "检查",
+    "en": "check"
+  },
+  {
+    "patterns": [
+      "check account",
+      "查账户"
+    ],
+    "zh": "查账户",
+    "en": "check account"
+  },
+  {
+    "patterns": [
+      "cheki",
+      "检查",
+      "看一下"
+    ],
+    "zh": "看一下/检查",
+    "en": "cheki"
+  },
+  {
+    "patterns": [
+      "chelewa",
+      "迟到",
+      "延误"
+    ],
+    "zh": "迟到/延误",
+    "en": "chelewa"
+  },
+  {
+    "patterns": [
+      "china",
+      "中国"
+    ],
+    "zh": "中国",
+    "en": "china"
+  },
+  {
+    "patterns": [
+      "chukua",
+      "拿",
+      "取"
+    ],
+    "zh": "拿/取",
+    "en": "chukua"
+  },
+  {
+    "patterns": [
+      "chukua mapema",
+      "早点拿货"
+    ],
+    "zh": "早点拿货",
+    "en": "chukua mapema"
+  },
+  {
+    "patterns": [
+      "chukua mzigo",
+      "取货"
+    ],
+    "zh": "取货",
+    "en": "chukua mzigo"
+  },
+  {
+    "patterns": [
+      "chukua sasa",
+      "现在拿货"
+    ],
+    "zh": "现在拿货",
+    "en": "chukua sasa"
+  },
+  {
+    "patterns": [
+      "city centre",
+      "市中心"
+    ],
+    "zh": "市中心",
+    "en": "city centre"
+  },
+  {
+    "patterns": [
+      "clearance",
+      "清仓"
+    ],
+    "zh": "清仓",
+    "en": "clearance"
+  },
+  {
+    "patterns": [
+      "client",
+      "customer",
+      "mteja",
+      "客户"
+    ],
+    "zh": "客户",
+    "en": "client / customer / mteja"
+  },
+  {
+    "patterns": [
+      "company name",
+      "jina la kampuni",
+      "公司名"
+    ],
+    "zh": "公司名",
+    "en": "company name / jina la kampuni"
+  },
+  {
+    "patterns": [
+      "complain",
+      "malalamiko",
+      "投诉"
+    ],
+    "zh": "投诉",
+    "en": "complain / malalamiko"
+  },
+  {
+    "patterns": [
+      "condition",
+      "条件"
+    ],
+    "zh": "条件",
+    "en": "condition"
+  },
+  {
+    "patterns": [
+      "confirm",
+      "thibitisha",
+      "确认"
+    ],
+    "zh": "确认",
+    "en": "confirm / thibitisha"
+  },
+  {
+    "patterns": [
+      "confirmed",
+      "已确认"
+    ],
+    "zh": "已确认",
+    "en": "confirmed"
+  },
+  {
+    "patterns": [
+      "congo",
+      "kongo",
+      "刚果"
+    ],
+    "zh": "刚果",
+    "en": "congo / kongo"
+  },
+  {
+    "patterns": [
+      "container",
+      "kontena",
+      "集装箱"
+    ],
+    "zh": "集装箱",
+    "en": "container / kontena"
+  },
+  {
+    "patterns": [
+      "contract",
+      "mkataba",
+      "合同"
+    ],
+    "zh": "合同",
+    "en": "contract / mkataba"
+  },
+  {
+    "patterns": [
+      "control number",
+      "缴费号",
+      "控制号码"
+    ],
+    "zh": "控制号码/缴费号",
+    "en": "control number"
+  },
+  {
+    "patterns": [
+      "cool white",
+      "冷白光"
+    ],
+    "zh": "冷白光",
+    "en": "cool white"
+  },
+  {
+    "patterns": [
+      "copy",
+      "仿货"
+    ],
+    "zh": "仿货",
+    "en": "copy"
+  },
+  {
+    "patterns": [
+      "cord",
+      "电源线"
+    ],
+    "zh": "电源线",
+    "en": "cord"
+  },
+  {
+    "patterns": [
+      "cost",
+      "成本"
+    ],
+    "zh": "成本",
+    "en": "cost"
+  },
+  {
+    "patterns": [
+      "courier",
+      "快递"
+    ],
+    "zh": "快递",
+    "en": "courier"
+  },
+  {
+    "patterns": [
+      "crdb"
+    ],
+    "zh": "CRDB银行",
+    "en": "crdb"
+  },
+  {
+    "patterns": [
+      "credit",
+      "赊账"
+    ],
+    "zh": "赊账",
+    "en": "credit"
+  },
+  {
+    "patterns": [
+      "customs",
+      "forodha",
+      "海关"
+    ],
+    "zh": "海关",
+    "en": "customs / forodha"
+  },
+  {
+    "patterns": [
+      "dada",
+      "姐姐",
+      "女士"
+    ],
+    "zh": "姐姐/女士",
+    "en": "dada"
+  },
+  {
+    "patterns": [
+      "dah",
+      "哎呀",
+      "天啊"
+    ],
+    "zh": "哎呀/天啊",
+    "en": "dah"
+  },
+  {
+    "patterns": [
+      "dakika",
+      "分钟"
+    ],
+    "zh": "分钟",
+    "en": "dakika"
+  },
+  {
+    "patterns": [
+      "dakika kumi",
+      "十分钟"
+    ],
+    "zh": "十分钟",
+    "en": "dakika kumi"
+  },
+  {
+    "patterns": [
+      "daladala",
+      "小巴"
+    ],
+    "zh": "小巴",
+    "en": "daladala"
+  },
+  {
+    "patterns": [
+      "dar",
+      "dar es salaam",
+      "dsm",
+      "达累斯萨拉姆"
+    ],
+    "zh": "达累斯萨拉姆",
+    "en": "dar / dar es salaam / dsm"
+  },
+  {
+    "patterns": [
+      "daylight",
+      "日光色"
+    ],
+    "zh": "日光色",
+    "en": "daylight"
+  },
+  {
+    "patterns": [
+      "dazeni",
+      "dozen",
+      "打"
+    ],
+    "zh": "打",
+    "en": "dazeni / dozen"
+  },
+  {
+    "patterns": [
+      "delivery",
+      "送货"
+    ],
+    "zh": "送货",
+    "en": "delivery"
+  },
+  {
+    "patterns": [
+      "delivery fee",
+      "送货费"
+    ],
+    "zh": "送货费",
+    "en": "delivery fee"
+  },
+  {
+    "patterns": [
+      "delivery note",
+      "送货单"
+    ],
+    "zh": "送货单",
+    "en": "delivery note"
+  },
+  {
+    "patterns": [
+      "deni",
+      "欠款"
+    ],
+    "zh": "欠款",
+    "en": "deni"
+  },
+  {
+    "patterns": [
+      "deni la zamani",
+      "以前的欠款"
+    ],
+    "zh": "以前的欠款",
+    "en": "deni la zamani"
+  },
+  {
+    "patterns": [
+      "deposit",
+      "定金"
+    ],
+    "zh": "定金",
+    "en": "deposit"
+  },
+  {
+    "patterns": [
+      "dereva",
+      "driver",
+      "司机"
+    ],
+    "zh": "司机",
+    "en": "dereva / driver"
+  },
+  {
+    "patterns": [
+      "dereva wangu",
+      "我的司机"
+    ],
+    "zh": "我的司机",
+    "en": "dereva wangu"
+  },
+  {
+    "patterns": [
+      "dereva yupo wapi",
+      "司机在哪里"
+    ],
+    "zh": "司机在哪里",
+    "en": "dereva yupo wapi"
+  },
+  {
+    "patterns": [
+      "details",
+      "详情"
+    ],
+    "zh": "详情",
+    "en": "details"
+  },
+  {
+    "patterns": [
+      "dhahabu",
+      "金色"
+    ],
+    "zh": "金色",
+    "en": "dhahabu"
+  },
+  {
+    "patterns": [
+      "dhamana",
+      "保修",
+      "担保"
+    ],
+    "zh": "保修/担保",
+    "en": "dhamana"
+  },
+  {
+    "patterns": [
+      "dhl"
+    ],
+    "zh": "DHL",
+    "en": "dhl"
+  },
+  {
+    "patterns": [
+      "discount",
+      "punguzo",
+      "折扣"
+    ],
+    "zh": "折扣",
+    "en": "discount / punguzo"
+  },
+  {
+    "patterns": [
+      "dodoma",
+      "多多马"
+    ],
     "zh": "多多马",
-    "en": "Dodoma (Tanzania official capital)"
+    "en": "dodoma"
   },
   {
-    "patterns": ["mbeya", "姆贝亚"],
-    "zh": "姆贝亚",
-    "en": "Mbeya (SW Tanzania, near Zambia border)"
+    "patterns": [
+      "dola",
+      "usd",
+      "美元"
+    ],
+    "zh": "美元",
+    "en": "dola / usd"
   },
   {
-    "patterns": ["morogoro", "莫罗戈罗"],
-    "zh": "莫罗戈罗",
-    "en": "Morogoro (central Tanzania)"
+    "patterns": [
+      "dollar rate",
+      "美元汇率"
+    ],
+    "zh": "美元汇率",
+    "en": "dollar rate"
   },
   {
-    "patterns": ["tanga", "坦噶"],
-    "zh": "坦噶",
-    "en": "Tanga (NE coastal port city)"
+    "patterns": [
+      "drc",
+      "刚果金"
+    ],
+    "zh": "刚果金",
+    "en": "drc"
   },
   {
-    "patterns": ["mtwara", "姆特瓦拉"],
-    "zh": "姆特瓦拉",
-    "en": "Mtwara (S Tanzania port)"
+    "patterns": [
+      "duka",
+      "商店"
+    ],
+    "zh": "商店",
+    "en": "duka"
   },
   {
-    "patterns": ["iringa", "伊林加"],
-    "zh": "伊林加",
-    "en": "Iringa (S highlands of Tanzania)"
+    "patterns": [
+      "duka lipo wapi",
+      "店在哪里"
+    ],
+    "zh": "店在哪里",
+    "en": "duka lipo wapi"
   },
   {
-    "patterns": ["singida", "辛吉达"],
-    "zh": "辛吉达",
-    "en": "Singida (central Tanzania)"
+    "patterns": [
+      "e27"
+    ],
+    "zh": "E27灯头",
+    "en": "e27"
   },
   {
-    "patterns": ["kilimanjaro", "乞力马扎罗"],
-    "zh": "乞力马扎罗",
-    "en": "Kilimanjaro (mountain / region)"
+    "patterns": [
+      "ebu",
+      "hebu",
+      "麻烦",
+      "请"
+    ],
+    "zh": "请/麻烦",
+    "en": "ebu / hebu",
+    "note": "口语"
   },
   {
-    "patterns": ["kinshasa", "金沙萨"],
-    "zh": "金沙萨",
-    "en": "Kinshasa (DRC capital)"
+    "patterns": [
+      "efd",
+      "vfd",
+      "电子税票"
+    ],
+    "zh": "电子税票",
+    "en": "efd / vfd"
   },
   {
-    "patterns": ["lubumbashi", "卢本巴希"],
-    "zh": "卢本巴希",
-    "en": "Lubumbashi (DRC, near Zambia border)"
+    "patterns": [
+      "efd receipt available"
+    ],
+    "zh": "可以开EFD票",
+    "en": "efd receipt available"
   },
   {
-    "patterns": ["nairobi", "内罗毕"],
-    "zh": "内罗毕",
-    "en": "Nairobi (Kenya capital)"
-  },
-  {
-    "patterns": ["mombasa", "蒙巴萨"],
-    "zh": "蒙巴萨",
-    "en": "Mombasa (Kenya port)"
-  },
-  {
-    "patterns": ["kampala", "坎帕拉"],
-    "zh": "坎帕拉",
-    "en": "Kampala (Uganda capital)"
-  },
-  {
-    "patterns": ["lusaka", "卢萨卡"],
-    "zh": "卢萨卡",
-    "en": "Lusaka (Zambia capital)"
-  },
-  {
-    "patterns": ["ela", "hela"],
+    "patterns": [
+      "ela",
+      "hela",
+      "pesa",
+      "钱"
+    ],
     "zh": "钱",
-    "en": "money (informal Swahili slang for 'hela')"
+    "en": "ela / hela / pesa",
+    "note": "口语"
   },
   {
-    "patterns": ["bei poa"],
-    "zh": "好价格",
-    "en": "good price (Swahili informal)"
+    "patterns": [
+      "electric kettle",
+      "kettle",
+      "电水壶"
+    ],
+    "zh": "电水壶",
+    "en": "electric kettle / kettle"
   },
   {
-    "patterns": ["bei nzuri"],
-    "zh": "好价格",
-    "en": "good price (Swahili)"
+    "patterns": [
+      "elewa",
+      "明白"
+    ],
+    "zh": "明白",
+    "en": "elewa"
   },
   {
-    "patterns": ["mzungu", "wazungu"],
-    "zh": "外国人",
-    "en": "foreigner (Swahili, often refers to Caucasians)"
+    "patterns": [
+      "elfu",
+      "千"
+    ],
+    "zh": "千",
+    "en": "elfu"
   },
   {
-    "patterns": ["bongo"],
+    "patterns": [
+      "elfu arobaini",
+      "四万"
+    ],
+    "zh": "四万",
+    "en": "elfu arobaini"
+  },
+  {
+    "patterns": [
+      "elfu hamsini",
+      "五万"
+    ],
+    "zh": "五万",
+    "en": "elfu hamsini"
+  },
+  {
+    "patterns": [
+      "elfu ishirini",
+      "二万"
+    ],
+    "zh": "二万",
+    "en": "elfu ishirini"
+  },
+  {
+    "patterns": [
+      "elfu kumi",
+      "一万"
+    ],
+    "zh": "一万",
+    "en": "elfu kumi"
+  },
+  {
+    "patterns": [
+      "elfu mbili",
+      "二千"
+    ],
+    "zh": "二千",
+    "en": "elfu mbili"
+  },
+  {
+    "patterns": [
+      "elfu moja",
+      "一千"
+    ],
+    "zh": "一千",
+    "en": "elfu moja"
+  },
+  {
+    "patterns": [
+      "elfu tano",
+      "五千"
+    ],
+    "zh": "五千",
+    "en": "elfu tano"
+  },
+  {
+    "patterns": [
+      "elfu thelathini",
+      "三万"
+    ],
+    "zh": "三万",
+    "en": "elfu thelathini"
+  },
+  {
+    "patterns": [
+      "emergency light",
+      "taa ya dharura",
+      "应急灯"
+    ],
+    "zh": "应急灯",
+    "en": "emergency light / taa ya dharura"
+  },
+  {
+    "patterns": [
+      "emotion sensor",
+      "sensor",
+      "感应器"
+    ],
+    "zh": "感应器",
+    "en": "emotion sensor / sensor",
+    "note": "客户常误写，通常指motion sensor"
+  },
+  {
+    "patterns": [
+      "ems"
+    ],
+    "zh": "EMS快递",
+    "en": "ems"
+  },
+  {
+    "patterns": [
+      "english",
+      "kiingereza",
+      "英语"
+    ],
+    "zh": "英语",
+    "en": "english / kiingereza"
+  },
+  {
+    "patterns": [
+      "exchange rate",
+      "rate",
+      "汇率"
+    ],
+    "zh": "汇率",
+    "en": "exchange rate / rate"
+  },
+  {
+    "patterns": [
+      "extension",
+      "extension socket",
+      "power strip",
+      "插线板"
+    ],
+    "zh": "插线板",
+    "en": "extension / extension socket / power strip"
+  },
+  {
+    "patterns": [
+      "factory",
+      "kiwanda",
+      "工厂"
+    ],
+    "zh": "工厂",
+    "en": "factory / kiwanda"
+  },
+  {
+    "patterns": [
+      "faida",
+      "利润"
+    ],
+    "zh": "利润",
+    "en": "faida"
+  },
+  {
+    "patterns": [
+      "fake",
+      "假货"
+    ],
+    "zh": "假货",
+    "en": "fake"
+  },
+  {
+    "patterns": [
+      "fan",
+      "feni",
+      "风扇"
+    ],
+    "zh": "风扇",
+    "en": "fan / feni"
+  },
+  {
+    "patterns": [
+      "fcl",
+      "full container",
+      "整柜"
+    ],
+    "zh": "整柜",
+    "en": "fcl / full container"
+  },
+  {
+    "patterns": [
+      "fixed price",
+      "固定价格"
+    ],
+    "zh": "固定价格",
+    "en": "fixed price"
+  },
+  {
+    "patterns": [
+      "flashlight",
+      "tochi",
+      "torch",
+      "手电筒"
+    ],
+    "zh": "手电筒",
+    "en": "flashlight / tochi / torch"
+  },
+  {
+    "patterns": [
+      "flood light",
+      "投光灯"
+    ],
+    "zh": "投光灯",
+    "en": "flood light"
+  },
+  {
+    "patterns": [
+      "free delivery",
+      "免费送货"
+    ],
+    "zh": "免费送货",
+    "en": "free delivery"
+  },
+  {
+    "patterns": [
+      "french",
+      "kifaransa",
+      "法语"
+    ],
+    "zh": "法语",
+    "en": "french / kifaransa"
+  },
+  {
+    "patterns": [
+      "freshi",
+      "不错",
+      "好的"
+    ],
+    "zh": "好的/不错",
+    "en": "freshi"
+  },
+  {
+    "patterns": [
+      "fund wangu",
+      "我的师傅"
+    ],
+    "zh": "我的师傅",
+    "en": "fund wangu"
+  },
+  {
+    "patterns": [
+      "fundi",
+      "安装工",
+      "师傅",
+      "维修工"
+    ],
+    "zh": "师傅/安装工/维修工",
+    "en": "fundi"
+  },
+  {
+    "patterns": [
+      "funga",
+      "安装",
+      "关闭"
+    ],
+    "zh": "关闭/安装",
+    "en": "funga"
+  },
+  {
+    "patterns": [
+      "fungua",
+      "打开"
+    ],
+    "zh": "打开",
+    "en": "fungua"
+  },
+  {
+    "patterns": [
+      "fungua saa ngapi",
+      "几点开门"
+    ],
+    "zh": "几点开门",
+    "en": "fungua saa ngapi"
+  },
+  {
+    "patterns": [
+      "fupi",
+      "短"
+    ],
+    "zh": "短",
+    "en": "fupi"
+  },
+  {
+    "patterns": [
+      "gani",
+      "哪个",
+      "什么样"
+    ],
+    "zh": "哪个/什么样",
+    "en": "gani"
+  },
+  {
+    "patterns": [
+      "garden light",
+      "庭院灯"
+    ],
+    "zh": "庭院灯",
+    "en": "garden light"
+  },
+  {
+    "patterns": [
+      "gari",
+      "车"
+    ],
+    "zh": "车",
+    "en": "gari"
+  },
+  {
+    "patterns": [
+      "gari lipo wapi",
+      "车在哪里"
+    ],
+    "zh": "车在哪里",
+    "en": "gari lipo wapi"
+  },
+  {
+    "patterns": [
+      "geita",
+      "盖塔"
+    ],
+    "zh": "盖塔",
+    "en": "geita"
+  },
+  {
+    "patterns": [
+      "generator",
+      "发电机"
+    ],
+    "zh": "发电机",
+    "en": "generator"
+  },
+  {
+    "patterns": [
+      "ghala",
+      "store",
+      "仓库"
+    ],
+    "zh": "仓库",
+    "en": "ghala / store"
+  },
+  {
+    "patterns": [
+      "ghali",
+      "贵"
+    ],
+    "zh": "贵",
+    "en": "ghali"
+  },
+  {
+    "patterns": [
+      "gharama",
+      "成本",
+      "费用"
+    ],
+    "zh": "成本/费用",
+    "en": "gharama"
+  },
+  {
+    "patterns": [
+      "gharama gani",
+      "费用多少"
+    ],
+    "zh": "费用多少",
+    "en": "gharama gani"
+  },
+  {
+    "patterns": [
+      "gharama iko chini",
+      "费用低"
+    ],
+    "zh": "费用低",
+    "en": "gharama iko chini"
+  },
+  {
+    "patterns": [
+      "gharama iko juu",
+      "费用高了"
+    ],
+    "zh": "费用高了",
+    "en": "gharama iko juu"
+  },
+  {
+    "patterns": [
+      "gharama ya usafiri",
+      "transport fee",
+      "运费"
+    ],
+    "zh": "运费",
+    "en": "gharama ya usafiri / transport fee"
+  },
+  {
+    "patterns": [
+      "gl",
+      "品牌型号"
+    ],
+    "zh": "GL型号/品牌型号",
+    "en": "gl"
+  },
+  {
+    "patterns": [
+      "goma",
+      "戈马"
+    ],
+    "zh": "戈马",
+    "en": "goma"
+  },
+  {
+    "patterns": [
+      "gongo la mboto",
+      "贡戈拉姆博托"
+    ],
+    "zh": "贡戈拉姆博托",
+    "en": "gongo la mboto"
+  },
+  {
+    "patterns": [
+      "good life",
+      "好生活"
+    ],
+    "zh": "好生活/Good Life品牌语",
+    "en": "good life"
+  },
+  {
+    "patterns": [
+      "grn",
+      "收货单"
+    ],
+    "zh": "收货单",
+    "en": "grn"
+  },
+  {
+    "patterns": [
+      "guarantee",
+      "质保"
+    ],
+    "zh": "质保",
+    "en": "guarantee"
+  },
+  {
+    "patterns": [
+      "gulio",
+      "集市"
+    ],
+    "zh": "集市",
+    "en": "gulio"
+  },
+  {
+    "patterns": [
+      "gunia",
+      "编织袋",
+      "麻袋"
+    ],
+    "zh": "编织袋/麻袋",
+    "en": "gunia"
+  },
+  {
+    "patterns": [
+      "gwell"
+    ],
+    "zh": "GWELL品牌",
+    "en": "gwell"
+  },
+  {
+    "patterns": [
+      "habari",
+      "你好",
+      "消息"
+    ],
+    "zh": "你好/消息",
+    "en": "habari"
+  },
+  {
+    "patterns": [
+      "haichaji",
+      "不能充电"
+    ],
+    "zh": "不能充电",
+    "en": "haichaji"
+  },
+  {
+    "patterns": [
+      "haifai",
+      "不合适"
+    ],
+    "zh": "不合适",
+    "en": "haifai"
+  },
+  {
+    "patterns": [
+      "haifanyi kazi",
+      "不能用"
+    ],
+    "zh": "不能用",
+    "en": "haifanyi kazi"
+  },
+  {
+    "patterns": [
+      "haijafika",
+      "还没到"
+    ],
+    "zh": "还没到",
+    "en": "haijafika"
+  },
+  {
+    "patterns": [
+      "haijawahi kutumika",
+      "没用过"
+    ],
+    "zh": "没用过",
+    "en": "haijawahi kutumika"
+  },
+  {
+    "patterns": [
+      "haina shida",
+      "hakuna shida",
+      "hamna shida",
+      "没问题"
+    ],
+    "zh": "没问题",
+    "en": "haina shida / hakuna shida / hamna shida"
+  },
+  {
+    "patterns": [
+      "haipo",
+      "hakuna",
+      "没有"
+    ],
+    "zh": "没有",
+    "en": "haipo / hakuna"
+  },
+  {
+    "patterns": [
+      "haitoshi",
+      "不够"
+    ],
+    "zh": "不够",
+    "en": "haitoshi"
+  },
+  {
+    "patterns": [
+      "haiuziki",
+      "不好卖"
+    ],
+    "zh": "不好卖",
+    "en": "haiuziki"
+  },
+  {
+    "patterns": [
+      "haiwaki",
+      "不亮"
+    ],
+    "zh": "不亮",
+    "en": "haiwaki"
+  },
+  {
+    "patterns": [
+      "hakikisha",
+      "确保",
+      "确认"
+    ],
+    "zh": "确认/确保",
+    "en": "hakikisha"
+  },
+  {
+    "patterns": [
+      "hakikisha kabla ya kuchukua",
+      "取货前确认"
+    ],
+    "zh": "取货前确认",
+    "en": "hakikisha kabla ya kuchukua"
+  },
+  {
+    "patterns": [
+      "hakuna kasoro",
+      "没有缺陷"
+    ],
+    "zh": "没有缺陷",
+    "en": "hakuna kasoro"
+  },
+  {
+    "patterns": [
+      "hakuna mkopo",
+      "hatupokei mkopo",
+      "no credit",
+      "不赊账"
+    ],
+    "zh": "不赊账",
+    "en": "hakuna mkopo / hatupokei mkopo / no credit"
+  },
+  {
+    "patterns": [
+      "hakuna noma",
+      "hamna noma",
+      "没事"
+    ],
+    "zh": "没事",
+    "en": "hakuna noma / hamna noma"
+  },
+  {
+    "patterns": [
+      "hakuna refund",
+      "不退款"
+    ],
+    "zh": "不退款",
+    "en": "hakuna refund"
+  },
+  {
+    "patterns": [
+      "hakuna rejareja",
+      "不零售"
+    ],
+    "zh": "不零售",
+    "en": "hakuna rejareja"
+  },
+  {
+    "patterns": [
+      "hakuna return",
+      "不退货"
+    ],
+    "zh": "不退货",
+    "en": "hakuna return"
+  },
+  {
+    "patterns": [
+      "hamsini",
+      "五十"
+    ],
+    "zh": "五十",
+    "en": "hamsini"
+  },
+  {
+    "patterns": [
+      "hapa",
+      "这里"
+    ],
+    "zh": "这里",
+    "en": "hapa"
+  },
+  {
+    "patterns": [
+      "hapana",
+      "不"
+    ],
+    "zh": "不",
+    "en": "hapana"
+  },
+  {
+    "patterns": [
+      "hapo",
+      "那里",
+      "这里"
+    ],
+    "zh": "那里/这里",
+    "en": "hapo"
+  },
+  {
+    "patterns": [
+      "haraka",
+      "快点"
+    ],
+    "zh": "快点",
+    "en": "haraka"
+  },
+  {
+    "patterns": [
+      "haraka sana",
+      "很急"
+    ],
+    "zh": "很急",
+    "en": "haraka sana"
+  },
+  {
+    "patterns": [
+      "harakisha",
+      "加快"
+    ],
+    "zh": "加快",
+    "en": "harakisha"
+  },
+  {
+    "patterns": [
+      "haribika",
+      "坏"
+    ],
+    "zh": "坏",
+    "en": "haribika"
+  },
+  {
+    "patterns": [
+      "hasara",
+      "亏损"
+    ],
+    "zh": "亏损",
+    "en": "hasara"
+  },
+  {
+    "patterns": [
+      "hatufanyi rejareja",
+      "我们不零售"
+    ],
+    "zh": "我们不零售",
+    "en": "hatufanyi rejareja"
+  },
+  {
+    "patterns": [
+      "hatupokei malalamiko",
+      "不接受投诉"
+    ],
+    "zh": "不接受投诉",
+    "en": "hatupokei malalamiko"
+  },
+  {
+    "patterns": [
+      "hatutumi bila malipo",
+      "没付款不发货"
+    ],
+    "zh": "没付款不发货",
+    "en": "hatutumi bila malipo"
+  },
+  {
+    "patterns": [
+      "hatutumi mikoani",
+      "我们不发外省"
+    ],
+    "zh": "我们不发外省",
+    "en": "hatutumi mikoani"
+  },
+  {
+    "patterns": [
+      "hayupo",
+      "他不在"
+    ],
+    "zh": "他不在",
+    "en": "hayupo"
+  },
+  {
+    "patterns": [
+      "headlamp",
+      "taa ya kichwani",
+      "头灯"
+    ],
+    "zh": "头灯",
+    "en": "headlamp / taa ya kichwani"
+  },
+  {
+    "patterns": [
+      "heater",
+      "加热器"
+    ],
+    "zh": "加热器",
+    "en": "heater"
+  },
+  {
+    "patterns": [
+      "hesabu",
+      "计算",
+      "账目"
+    ],
+    "zh": "计算/账目",
+    "en": "hesabu"
+  },
+  {
+    "patterns": [
+      "hesabu tena",
+      "重新计算"
+    ],
+    "zh": "重新计算",
+    "en": "hesabu tena"
+  },
+  {
+    "patterns": [
+      "high quality",
+      "高质量"
+    ],
+    "zh": "高质量",
+    "en": "high quality"
+  },
+  {
+    "patterns": [
+      "hii",
+      "这个"
+    ],
+    "zh": "这个",
+    "en": "hii"
+  },
+  {
+    "patterns": [
+      "hii bei",
+      "hiyo bei",
+      "这个价格"
+    ],
+    "zh": "这个价格",
+    "en": "hii bei / hiyo bei"
+  },
+  {
+    "patterns": [
+      "hii bidhaa",
+      "这个产品"
+    ],
+    "zh": "这个产品",
+    "en": "hii bidhaa"
+  },
+  {
+    "patterns": [
+      "hii inafaa",
+      "这个合适"
+    ],
+    "zh": "这个合适",
+    "en": "hii inafaa"
+  },
+  {
+    "patterns": [
+      "hii inauzika sana",
+      "这个很好卖"
+    ],
+    "zh": "这个很好卖",
+    "en": "hii inauzika sana"
+  },
+  {
+    "patterns": [
+      "hii ni bei nzuri",
+      "这是好价格"
+    ],
+    "zh": "这是好价格",
+    "en": "hii ni bei nzuri"
+  },
+  {
+    "patterns": [
+      "hii ni quality nzuri",
+      "这是好质量"
+    ],
+    "zh": "这是好质量",
+    "en": "hii ni quality nzuri"
+  },
+  {
+    "patterns": [
+      "hii sio ile",
+      "这个不是那个"
+    ],
+    "zh": "这个不是那个",
+    "en": "hii sio ile"
+  },
+  {
+    "patterns": [
+      "hiyo",
+      "ile",
+      "那个"
+    ],
+    "zh": "那个",
+    "en": "hiyo / ile"
+  },
+  {
+    "patterns": [
+      "hiyo bidhaa",
+      "那个产品"
+    ],
+    "zh": "那个产品",
+    "en": "hiyo bidhaa"
+  },
+  {
+    "patterns": [
+      "holder",
+      "灯头",
+      "支架"
+    ],
+    "zh": "灯头/支架",
+    "en": "holder"
+  },
+  {
+    "patterns": [
+      "home light",
+      "家用灯"
+    ],
+    "zh": "家用灯",
+    "en": "home light"
+  },
+  {
+    "patterns": [
+      "hot selling",
+      "热销"
+    ],
+    "zh": "热销",
+    "en": "hot selling"
+  },
+  {
+    "patterns": [
+      "huko",
+      "那边"
+    ],
+    "zh": "那边",
+    "en": "huko"
+  },
+  {
+    "patterns": [
+      "humu",
+      "这里面"
+    ],
+    "zh": "这里面",
+    "en": "humu"
+  },
+  {
+    "patterns": [
+      "ijumaa",
+      "星期五"
+    ],
+    "zh": "星期五",
+    "en": "ijumaa"
+  },
+  {
+    "patterns": [
+      "ikiwa imeharibika",
+      "如果坏了"
+    ],
+    "zh": "如果坏了",
+    "en": "ikiwa imeharibika"
+  },
+  {
+    "patterns": [
+      "ikiwa ni tatizo la kiwanda",
+      "如果是工厂问题"
+    ],
+    "zh": "如果是工厂问题",
+    "en": "ikiwa ni tatizo la kiwanda"
+  },
+  {
+    "patterns": [
+      "ikiwa umevunja",
+      "如果是你弄坏的"
+    ],
+    "zh": "如果是你弄坏的",
+    "en": "ikiwa umevunja"
+  },
+  {
+    "patterns": [
+      "ilala",
+      "伊拉拉"
+    ],
+    "zh": "伊拉拉",
+    "en": "ilala"
+  },
+  {
+    "patterns": [
+      "imara",
+      "结实耐用"
+    ],
+    "zh": "结实耐用",
+    "en": "imara"
+  },
+  {
+    "patterns": [
+      "imebaki",
+      "还剩"
+    ],
+    "zh": "还剩",
+    "en": "imebaki"
+  },
+  {
+    "patterns": [
+      "imechelewa",
+      "延迟了"
+    ],
+    "zh": "延迟了",
+    "en": "imechelewa"
+  },
+  {
+    "patterns": [
+      "imefika",
+      "已经到了"
+    ],
+    "zh": "已经到了",
+    "en": "imefika"
+  },
+  {
+    "patterns": [
+      "imeharibika",
+      "坏了"
+    ],
+    "zh": "坏了",
+    "en": "imeharibika"
+  },
+  {
+    "patterns": [
+      "imeisha",
+      "卖完了",
+      "用完了"
+    ],
+    "zh": "卖完了/用完了",
+    "en": "imeisha"
+  },
+  {
+    "patterns": [
+      "imekufa",
+      "不能用了",
+      "坏死了"
+    ],
+    "zh": "坏死了/不能用了",
+    "en": "imekufa"
+  },
+  {
+    "patterns": [
+      "imepimwa",
+      "已测试"
+    ],
+    "zh": "已测试",
+    "en": "imepimwa"
+  },
+  {
+    "patterns": [
+      "imetumika",
+      "用过了"
+    ],
+    "zh": "用过了",
+    "en": "imetumika"
+  },
+  {
+    "patterns": [
+      "imeungua",
+      "烧了"
+    ],
+    "zh": "烧了",
+    "en": "imeungua"
+  },
+  {
+    "patterns": [
+      "imevunjika",
+      "断了",
+      "破了"
+    ],
+    "zh": "破了/断了",
+    "en": "imevunjika"
+  },
+  {
+    "patterns": [
+      "ina charger",
+      "有充电器吗"
+    ],
+    "zh": "有充电器吗",
+    "en": "ina charger"
+  },
+  {
+    "patterns": [
+      "ina guarantee",
+      "有质保吗"
+    ],
+    "zh": "有质保吗",
+    "en": "ina guarantee"
+  },
+  {
+    "patterns": [
+      "ina kasoro",
+      "有缺陷"
+    ],
+    "zh": "有缺陷",
+    "en": "ina kasoro"
+  },
+  {
+    "patterns": [
+      "ina panel",
+      "有太阳能板吗"
+    ],
+    "zh": "有太阳能板吗",
+    "en": "ina panel"
+  },
+  {
+    "patterns": [
+      "ina remote",
+      "有遥控吗"
+    ],
+    "zh": "有遥控吗",
+    "en": "ina remote"
+  },
+  {
+    "patterns": [
+      "ina sensor",
+      "有感应吗"
+    ],
+    "zh": "有感应吗",
+    "en": "ina sensor"
+  },
+  {
+    "patterns": [
+      "ina shida",
+      "有问题"
+    ],
+    "zh": "有问题",
+    "en": "ina shida"
+  },
+  {
+    "patterns": [
+      "ina type c"
+    ],
+    "zh": "有Type-C吗",
+    "en": "ina type c"
+  },
+  {
+    "patterns": [
+      "ina usb"
+    ],
+    "zh": "有USB吗",
+    "en": "ina usb"
+  },
+  {
+    "patterns": [
+      "ina warranty",
+      "有保修吗"
+    ],
+    "zh": "有保修吗",
+    "en": "ina warranty"
+  },
+  {
+    "patterns": [
+      "inachaji",
+      "可以充电",
+      "正在充电"
+    ],
+    "zh": "正在充电/可以充电",
+    "en": "inachaji"
+  },
+  {
+    "patterns": [
+      "inachaji muda gani",
+      "充电多久"
+    ],
+    "zh": "充电多久",
+    "en": "inachaji muda gani"
+  },
+  {
+    "patterns": [
+      "inafaa",
+      "合适",
+      "可以用"
+    ],
+    "zh": "合适/可以用",
+    "en": "inafaa"
+  },
+  {
+    "patterns": [
+      "inatosha",
+      "够了"
+    ],
+    "zh": "够了",
+    "en": "inatosha"
+  },
+  {
+    "patterns": [
+      "inatumia muda gani",
+      "能用多久"
+    ],
+    "zh": "能用多久",
+    "en": "inatumia muda gani"
+  },
+  {
+    "patterns": [
+      "inauzika",
+      "好卖"
+    ],
+    "zh": "好卖",
+    "en": "inauzika"
+  },
+  {
+    "patterns": [
+      "inawaka",
+      "它会亮"
+    ],
+    "zh": "它会亮",
+    "en": "inawaka"
+  },
+  {
+    "patterns": [
+      "inawaka muda gani",
+      "能亮多久"
+    ],
+    "zh": "能亮多久",
+    "en": "inawaka muda gani"
+  },
+  {
+    "patterns": [
+      "install",
+      "installation",
+      "安装"
+    ],
+    "zh": "安装",
+    "en": "install / installation"
+  },
+  {
+    "patterns": [
+      "internet mbaya",
+      "mtandao mbaya",
+      "network mbaya",
+      "网络不好"
+    ],
+    "zh": "网络不好",
+    "en": "internet mbaya / mtandao mbaya / network mbaya"
+  },
+  {
+    "patterns": [
+      "inverter",
+      "逆变器"
+    ],
+    "zh": "逆变器",
+    "en": "inverter"
+  },
+  {
+    "patterns": [
+      "invoice nitakutumia",
+      "我会发发票给你"
+    ],
+    "zh": "我会发发票给你",
+    "en": "invoice nitakutumia"
+  },
+  {
+    "patterns": [
+      "ip65"
+    ],
+    "zh": "IP65防水",
+    "en": "ip65"
+  },
+  {
+    "patterns": [
+      "ip66"
+    ],
+    "zh": "IP66防水",
+    "en": "ip66"
+  },
+  {
+    "patterns": [
+      "ipi",
+      "哪个"
+    ],
+    "zh": "哪个",
+    "en": "ipi"
+  },
+  {
+    "patterns": [
+      "ipo",
+      "zipo",
+      "有"
+    ],
+    "zh": "有",
+    "en": "ipo / zipo"
+  },
+  {
+    "patterns": [
+      "iringa",
+      "伊林加"
+    ],
+    "zh": "伊林加",
+    "en": "iringa"
+  },
+  {
+    "patterns": [
+      "ishirini",
+      "二十"
+    ],
+    "zh": "二十",
+    "en": "ishirini"
+  },
+  {
+    "patterns": [
+      "item number",
+      "货号"
+    ],
+    "zh": "货号",
+    "en": "item number"
+  },
+  {
+    "patterns": [
+      "jana",
+      "昨天"
+    ],
+    "zh": "昨天",
+    "en": "jana"
+  },
+  {
+    "patterns": [
+      "jaribu",
+      "试一下"
+    ],
+    "zh": "试一下",
+    "en": "jaribu"
+  },
+  {
+    "patterns": [
+      "jibu",
+      "回答"
+    ],
+    "zh": "回答",
+    "en": "jibu"
+  },
+  {
+    "patterns": [
+      "jina la account",
+      "账户名"
+    ],
+    "zh": "账户名",
+    "en": "jina la account"
+  },
+  {
+    "patterns": [
+      "jina la bidhaa",
+      "产品名称"
+    ],
+    "zh": "产品名称",
+    "en": "jina la bidhaa"
+  },
+  {
+    "patterns": [
+      "jina la dereva",
+      "司机名字"
+    ],
+    "zh": "司机名字",
+    "en": "jina la dereva"
+  },
+  {
+    "patterns": [
+      "jioni",
+      "晚上"
+    ],
+    "zh": "晚上",
+    "en": "jioni"
+  },
+  {
+    "patterns": [
+      "jirani na",
+      "邻近"
+    ],
+    "zh": "邻近",
+    "en": "jirani na"
+  },
+  {
+    "patterns": [
+      "jnia",
+      "尼雷尔国际机场"
+    ],
+    "zh": "尼雷尔国际机场",
+    "en": "jnia"
+  },
+  {
+    "patterns": [
+      "jumamosi",
+      "星期六"
+    ],
+    "zh": "星期六",
+    "en": "jumamosi"
+  },
+  {
+    "patterns": [
+      "jumanne",
+      "星期二"
+    ],
+    "zh": "星期二",
+    "en": "jumanne"
+  },
+  {
+    "patterns": [
+      "jumapili",
+      "星期日"
+    ],
+    "zh": "星期日",
+    "en": "jumapili"
+  },
+  {
+    "patterns": [
+      "jumatano",
+      "星期三"
+    ],
+    "zh": "星期三",
+    "en": "jumatano"
+  },
+  {
+    "patterns": [
+      "jumatatu",
+      "星期一"
+    ],
+    "zh": "星期一",
+    "en": "jumatatu"
+  },
+  {
+    "patterns": [
+      "jumla",
+      "wholesale",
+      "批发"
+    ],
+    "zh": "批发",
+    "en": "jumla / wholesale"
+  },
+  {
+    "patterns": [
+      "jumla kuu",
+      "总金额"
+    ],
+    "zh": "总金额",
+    "en": "jumla kuu"
+  },
+  {
+    "patterns": [
+      "jumla tu",
+      "只批发"
+    ],
+    "zh": "只批发",
+    "en": "jumla tu"
+  },
+  {
+    "patterns": [
+      "jumlisha",
+      "合计"
+    ],
+    "zh": "合计",
+    "en": "jumlisha"
+  },
+  {
+    "patterns": [
+      "kagera",
+      "卡盖拉"
+    ],
+    "zh": "卡盖拉",
+    "en": "kagera"
+  },
+  {
+    "patterns": [
+      "kaka",
+      "哥哥",
+      "兄弟"
+    ],
+    "zh": "哥哥/兄弟",
+    "en": "kaka"
+  },
+  {
+    "patterns": [
+      "kalemie",
+      "卡莱米"
+    ],
+    "zh": "卡莱米",
+    "en": "kalemie"
+  },
+  {
+    "patterns": [
+      "kampala",
+      "坎帕拉"
+    ],
+    "zh": "坎帕拉",
+    "en": "kampala"
+  },
+  {
+    "patterns": [
+      "kampuni",
+      "公司"
+    ],
+    "zh": "公司",
+    "en": "kampuni"
+  },
+  {
+    "patterns": [
+      "kariakoo",
+      "卡里亚库"
+    ],
+    "zh": "卡里亚库",
+    "en": "kariakoo"
+  },
+  {
+    "patterns": [
+      "kariakoo market"
+    ],
+    "zh": "Kariakoo市场",
+    "en": "kariakoo market"
+  },
+  {
+    "patterns": [
+      "karibu",
+      "欢迎",
+      "近"
+    ],
+    "zh": "近/欢迎",
+    "en": "karibu"
+  },
+  {
+    "patterns": [
+      "karibu dukani",
+      "欢迎来店里"
+    ],
+    "zh": "欢迎来店里",
+    "en": "karibu dukani"
+  },
+  {
+    "patterns": [
+      "karibu kiwandani",
+      "欢迎来工厂"
+    ],
+    "zh": "欢迎来工厂",
+    "en": "karibu kiwandani"
+  },
+  {
+    "patterns": [
+      "karibu na",
+      "靠近"
+    ],
+    "zh": "靠近",
+    "en": "karibu na"
+  },
+  {
+    "patterns": [
+      "karibu ofisini",
+      "欢迎来办公室"
+    ],
+    "zh": "欢迎来办公室",
+    "en": "karibu ofisini"
+  },
+  {
+    "patterns": [
+      "karibu sana",
+      "非常欢迎"
+    ],
+    "zh": "非常欢迎",
+    "en": "karibu sana"
+  },
+  {
+    "patterns": [
+      "kasoro",
+      "缺陷"
+    ],
+    "zh": "缺陷",
+    "en": "kasoro"
+  },
+  {
+    "patterns": [
+      "kasulu",
+      "卡苏卢"
+    ],
+    "zh": "卡苏卢",
+    "en": "kasulu"
+  },
+  {
+    "patterns": [
+      "kasumbalesa",
+      "卡松巴莱萨"
+    ],
+    "zh": "卡松巴莱萨",
+    "en": "kasumbalesa"
+  },
+  {
+    "patterns": [
+      "kataa",
+      "拒绝"
+    ],
+    "zh": "拒绝",
+    "en": "kataa"
+  },
+  {
+    "patterns": [
+      "katavi",
+      "卡塔维"
+    ],
+    "zh": "卡塔维",
+    "en": "katavi"
+  },
+  {
+    "patterns": [
+      "kawe",
+      "卡维"
+    ],
+    "zh": "卡维",
+    "en": "kawe"
+  },
+  {
+    "patterns": [
+      "keko",
+      "凯科"
+    ],
+    "zh": "凯科",
+    "en": "keko"
+  },
+  {
+    "patterns": [
+      "kenya",
+      "肯尼亚"
+    ],
+    "zh": "肯尼亚",
+    "en": "kenya"
+  },
+  {
+    "patterns": [
+      "kesho",
+      "明天"
+    ],
+    "zh": "明天",
+    "en": "kesho"
+  },
+  {
+    "patterns": [
+      "kesho asubuhi",
+      "明天早上"
+    ],
+    "zh": "明天早上",
+    "en": "kesho asubuhi"
+  },
+  {
+    "patterns": [
+      "kesho jioni",
+      "明天晚上"
+    ],
+    "zh": "明天晚上",
+    "en": "kesho jioni"
+  },
+  {
+    "patterns": [
+      "kiasi gani",
+      "ngapi",
+      "多少"
+    ],
+    "zh": "多少",
+    "en": "kiasi gani / ngapi"
+  },
+  {
+    "patterns": [
+      "kibaha",
+      "基巴哈"
+    ],
+    "zh": "基巴哈",
+    "en": "kibaha"
+  },
+  {
+    "patterns": [
+      "kichina",
+      "中国的",
+      "中文"
+    ],
+    "zh": "中文/中国的",
+    "en": "kichina"
+  },
+  {
+    "patterns": [
+      "kigamboni",
+      "基甘博尼"
+    ],
+    "zh": "基甘博尼",
+    "en": "kigamboni"
+  },
+  {
+    "patterns": [
+      "kigogo",
+      "基戈戈"
+    ],
+    "zh": "基戈戈",
+    "en": "kigogo"
+  },
+  {
+    "patterns": [
+      "kigoma",
+      "基戈马"
+    ],
+    "zh": "基戈马",
+    "en": "kigoma"
+  },
+  {
+    "patterns": [
+      "kijani",
+      "绿色"
+    ],
+    "zh": "绿色",
+    "en": "kijani"
+  },
+  {
+    "patterns": [
+      "kijitonyama",
+      "基吉通亚玛"
+    ],
+    "zh": "基吉通亚玛",
+    "en": "kijitonyama"
+  },
+  {
+    "patterns": [
+      "kilimanjaro",
+      "乞力马扎罗"
+    ],
+    "zh": "乞力马扎罗",
+    "en": "kilimanjaro"
+  },
+  {
+    "patterns": [
+      "kimara",
+      "基马拉"
+    ],
+    "zh": "基马拉",
+    "en": "kimara"
+  },
+  {
+    "patterns": [
+      "kinondoni",
+      "基农多尼"
+    ],
+    "zh": "基农多尼",
+    "en": "kinondoni"
+  },
+  {
+    "patterns": [
+      "kioo cha solar",
+      "panel",
+      "solar panel",
+      "太阳能板"
+    ],
+    "zh": "太阳能板",
+    "en": "kioo cha solar / panel / solar panel",
+    "note": "口语"
+  },
+  {
+    "patterns": [
+      "kioo kimepasuka",
+      "玻璃裂了"
+    ],
+    "zh": "玻璃裂了",
+    "en": "kioo kimepasuka"
+  },
+  {
+    "patterns": [
+      "kipande",
+      "vipande",
+      "个",
+      "件"
+    ],
+    "zh": "件/个",
+    "en": "kipande / vipande"
+  },
+  {
+    "patterns": [
+      "kisutu",
+      "基苏图"
+    ],
+    "zh": "基苏图",
+    "en": "kisutu"
+  },
+  {
+    "patterns": [
+      "kiswahili",
+      "斯瓦希里语"
+    ],
+    "zh": "斯瓦希里语",
+    "en": "kiswahili"
+  },
+  {
+    "patterns": [
+      "kituo",
+      "站点"
+    ],
+    "zh": "站点",
+    "en": "kituo"
+  },
+  {
+    "patterns": [
+      "kitwe",
+      "基特韦"
+    ],
+    "zh": "基特韦",
+    "en": "kitwe"
+  },
+  {
+    "patterns": [
+      "kiwanda kipo wapi",
+      "工厂在哪里"
+    ],
+    "zh": "工厂在哪里",
+    "en": "kiwanda kipo wapi"
+  },
+  {
+    "patterns": [
+      "kiwandani",
+      "工厂价",
+      "工厂里"
+    ],
+    "zh": "工厂里/工厂价",
+    "en": "kiwandani"
+  },
+  {
+    "patterns": [
+      "kiwango",
+      "标准",
+      "等级"
+    ],
+    "zh": "标准/等级",
+    "en": "kiwango"
+  },
+  {
+    "patterns": [
+      "kolwezi",
+      "科卢韦齐"
+    ],
+    "zh": "科卢韦齐",
+    "en": "kolwezi"
+  },
+  {
+    "patterns": [
+      "kuagiza",
+      "进口",
+      "下单"
+    ],
+    "zh": "下单/进口",
+    "en": "kuagiza"
+  },
+  {
+    "patterns": [
+      "kubadilisha bidhaa",
+      "replacement",
+      "换货"
+    ],
+    "zh": "换货",
+    "en": "kubadilisha bidhaa / replacement"
+  },
+  {
+    "patterns": [
+      "kubali",
+      "同意"
+    ],
+    "zh": "同意",
+    "en": "kubali"
+  },
+  {
+    "patterns": [
+      "kubwa",
+      "大"
+    ],
+    "zh": "大",
+    "en": "kubwa"
+  },
+  {
+    "patterns": [
+      "kuchukua",
+      "取"
+    ],
+    "zh": "取",
+    "en": "kuchukua"
+  },
+  {
+    "patterns": [
+      "kufunga",
+      "安装",
+      "关闭"
+    ],
+    "zh": "安装/关闭",
+    "en": "kufunga"
+  },
+  {
+    "patterns": [
+      "kuletea",
+      "送到"
+    ],
+    "zh": "送到",
+    "en": "kuletea"
+  },
+  {
+    "patterns": [
+      "kulipa",
+      "malipo",
+      "付款"
+    ],
+    "zh": "付款",
+    "en": "kulipa / malipo"
+  },
+  {
+    "patterns": [
+      "kumi",
+      "十"
+    ],
+    "zh": "十",
+    "en": "kumi"
+  },
+  {
+    "patterns": [
+      "kupakia",
+      "loading",
+      "装货"
+    ],
+    "zh": "装货",
+    "en": "kupakia / loading"
+  },
+  {
+    "patterns": [
+      "kurasini",
+      "库拉西尼"
+    ],
+    "zh": "库拉西尼",
+    "en": "kurasini"
+  },
+  {
+    "patterns": [
+      "kurasini port",
+      "库拉西尼港口"
+    ],
+    "zh": "库拉西尼港口",
+    "en": "kurasini port"
+  },
+  {
+    "patterns": [
+      "kurudisha bidhaa",
+      "return",
+      "退货"
+    ],
+    "zh": "退货",
+    "en": "kurudisha bidhaa / return"
+  },
+  {
+    "patterns": [
+      "kusafirisha",
+      "发货",
+      "运输"
+    ],
+    "zh": "发货/运输",
+    "en": "kusafirisha"
+  },
+  {
+    "patterns": [
+      "kusafirisha mzigo",
+      "tuma mzigo",
+      "发货"
+    ],
+    "zh": "发货",
+    "en": "kusafirisha mzigo / tuma mzigo"
+  },
+  {
+    "patterns": [
+      "kushusha",
+      "unloading",
+      "卸货"
+    ],
+    "zh": "卸货",
+    "en": "kushusha / unloading"
+  },
+  {
+    "patterns": [
+      "kwa carton nyingi",
+      "多箱的话"
+    ],
+    "zh": "多箱的话",
+    "en": "kwa carton nyingi"
+  },
+  {
+    "patterns": [
+      "kwa nini",
+      "kwanini",
+      "为什么"
+    ],
+    "zh": "为什么",
+    "en": "kwa nini / kwanini"
+  },
+  {
+    "patterns": [
+      "kwani",
+      "难道",
+      "因为啥"
+    ],
+    "zh": "难道/因为啥",
+    "en": "kwani"
+  },
+  {
+    "patterns": [
+      "kweli",
+      "真的"
+    ],
+    "zh": "真的",
+    "en": "kweli"
+  },
+  {
+    "patterns": [
+      "labda",
+      "可能"
+    ],
+    "zh": "可能",
+    "en": "labda"
+  },
+  {
+    "patterns": [
+      "laki",
+      "laki moja",
+      "十万先令"
+    ],
+    "zh": "十万先令",
+    "en": "laki / laki moja"
+  },
+  {
+    "patterns": [
+      "laki mbili",
+      "二十万先令"
+    ],
+    "zh": "二十万先令",
+    "en": "laki mbili"
+  },
+  {
+    "patterns": [
+      "laki nne",
+      "四十万先令"
+    ],
+    "zh": "四十万先令",
+    "en": "laki nne"
+  },
+  {
+    "patterns": [
+      "laki tano",
+      "五十万先令"
+    ],
+    "zh": "五十万先令",
+    "en": "laki tano"
+  },
+  {
+    "patterns": [
+      "laki tatu",
+      "三十万先令"
+    ],
+    "zh": "三十万先令",
+    "en": "laki tatu"
+  },
+  {
+    "patterns": [
+      "lamp holder",
+      "灯头"
+    ],
+    "zh": "灯头",
+    "en": "lamp holder"
+  },
+  {
+    "patterns": [
+      "lcl",
+      "拼箱"
+    ],
+    "zh": "拼箱",
+    "en": "lcl"
+  },
+  {
+    "patterns": [
+      "led"
+    ],
+    "zh": "LED",
+    "en": "led"
+  },
+  {
+    "patterns": [
+      "leo",
+      "今天"
+    ],
+    "zh": "今天",
+    "en": "leo"
+  },
+  {
+    "patterns": [
+      "leo leo",
+      "今天之内"
+    ],
+    "zh": "今天之内",
+    "en": "leo leo"
+  },
+  {
+    "patterns": [
+      "leseni",
+      "执照"
+    ],
+    "zh": "执照",
+    "en": "leseni"
+  },
+  {
+    "patterns": [
+      "leta mzigo",
+      "送货过来"
+    ],
+    "zh": "送货过来",
+    "en": "leta mzigo"
+  },
+  {
+    "patterns": [
+      "leta nyingine",
+      "拿另一个"
+    ],
+    "zh": "拿另一个",
+    "en": "leta nyingine"
+  },
+  {
+    "patterns": [
+      "lete",
+      "带来",
+      "拿来"
+    ],
+    "zh": "带来/拿来",
+    "en": "lete"
+  },
+  {
+    "patterns": [
+      "lindi",
+      "林迪"
+    ],
+    "zh": "林迪",
+    "en": "lindi"
+  },
+  {
+    "patterns": [
+      "lini",
+      "什么时候"
+    ],
+    "zh": "什么时候",
+    "en": "lini"
+  },
+  {
+    "patterns": [
+      "link haifunguki",
+      "链接打不开"
+    ],
+    "zh": "链接打不开",
+    "en": "link haifunguki"
+  },
+  {
+    "patterns": [
+      "lipa deni",
+      "还欠款"
+    ],
+    "zh": "还欠款",
+    "en": "lipa deni"
+  },
+  {
+    "patterns": [
+      "lipa kwanza",
+      "malipo kwanza",
+      "pay first",
+      "payment first",
+      "先付款"
+    ],
+    "zh": "先付款",
+    "en": "lipa kwanza / malipo kwanza / pay first / payment first"
+  },
+  {
+    "patterns": [
+      "lipa ndipo tutume",
+      "付款后我们发货"
+    ],
+    "zh": "付款后我们发货",
+    "en": "lipa ndipo tutume"
+  },
+  {
+    "patterns": [
+      "lipia",
+      "支付"
+    ],
+    "zh": "支付",
+    "en": "lipia"
+  },
+  {
+    "patterns": [
+      "list ya bei",
+      "price list",
+      "价格表"
+    ],
+    "zh": "价格表",
+    "en": "list ya bei / price list"
+  },
+  {
+    "patterns": [
+      "location",
+      "lokesheni",
+      "位置"
+    ],
+    "zh": "位置",
+    "en": "location / lokesheni"
+  },
+  {
+    "patterns": [
+      "lori",
+      "truck",
+      "卡车"
+    ],
+    "zh": "卡车",
+    "en": "lori / truck"
+  },
+  {
+    "patterns": [
+      "lpo",
+      "本地采购订单"
+    ],
+    "zh": "本地采购订单",
+    "en": "lpo"
+  },
+  {
+    "patterns": [
+      "lubumbashi",
+      "卢本巴希"
+    ],
+    "zh": "卢本巴希",
+    "en": "lubumbashi"
+  },
+  {
+    "patterns": [
+      "lusaka",
+      "卢萨卡"
+    ],
+    "zh": "卢萨卡",
+    "en": "lusaka"
+  },
+  {
+    "patterns": [
+      "m-pesa",
+      "mpesa"
+    ],
+    "zh": "M-Pesa 手机钱包",
+    "en": "m-pesa / mpesa"
+  },
+  {
+    "patterns": [
+      "maana yake nini",
+      "什么意思"
+    ],
+    "zh": "什么意思",
+    "en": "maana yake nini"
+  },
+  {
+    "patterns": [
+      "made in china",
+      "中国制造"
+    ],
+    "zh": "中国制造",
+    "en": "made in china"
+  },
+  {
+    "patterns": [
+      "made in tanzania",
+      "坦桑尼亚制造"
+    ],
+    "zh": "坦桑尼亚制造",
+    "en": "made in tanzania"
+  },
+  {
+    "patterns": [
+      "maduka",
+      "商店们"
+    ],
+    "zh": "商店们",
+    "en": "maduka"
+  },
+  {
+    "patterns": [
+      "maelezo",
+      "说明",
+      "详情"
+    ],
+    "zh": "说明/详情",
+    "en": "maelezo"
+  },
+  {
+    "patterns": [
+      "maelezo ya bidhaa",
+      "产品说明"
+    ],
+    "zh": "产品说明",
+    "en": "maelezo ya bidhaa"
+  },
+  {
+    "patterns": [
+      "mafundi",
+      "师傅们"
+    ],
+    "zh": "师傅们",
+    "en": "mafundi"
+  },
+  {
+    "patterns": [
+      "magomeni",
+      "马戈梅尼"
+    ],
+    "zh": "马戈梅尼",
+    "en": "magomeni"
+  },
+  {
+    "patterns": [
+      "mah",
+      "毫安时"
+    ],
+    "zh": "毫安时",
+    "en": "mah"
+  },
+  {
+    "patterns": [
+      "mah ngapi",
+      "多少毫安"
+    ],
+    "zh": "多少毫安",
+    "en": "mah ngapi"
+  },
+  {
+    "patterns": [
+      "makubaliano",
+      "协议"
+    ],
+    "zh": "协议",
+    "en": "makubaliano"
+  },
+  {
+    "patterns": [
+      "makumbusho",
+      "马库姆布绍"
+    ],
+    "zh": "马库姆布绍",
+    "en": "makumbusho"
+  },
+  {
+    "patterns": [
+      "malawi",
+      "马拉维"
+    ],
+    "zh": "马拉维",
+    "en": "malawi"
+  },
+  {
+    "patterns": [
+      "malipo kabla ya mzigo",
+      "先付款后发货"
+    ],
+    "zh": "先付款后发货",
+    "en": "malipo kabla ya mzigo"
+  },
+  {
+    "patterns": [
+      "malipo kwa dola",
+      "美元付款"
+    ],
+    "zh": "美元付款",
+    "en": "malipo kwa dola"
+  },
+  {
+    "patterns": [
+      "malipo kwa shilingi",
+      "先令付款"
+    ],
+    "zh": "先令付款",
+    "en": "malipo kwa shilingi"
+  },
+  {
+    "patterns": [
+      "malipo yameingia",
+      "款到了"
+    ],
+    "zh": "款到了",
+    "en": "malipo yameingia"
+  },
+  {
+    "patterns": [
+      "malipo yamekamilika",
+      "付款已完成"
+    ],
+    "zh": "付款已完成",
+    "en": "malipo yamekamilika"
+  },
+  {
+    "patterns": [
+      "mama",
+      "阿姨",
+      "女士"
+    ],
+    "zh": "女士/阿姨",
+    "en": "mama"
+  },
+  {
+    "patterns": [
+      "mambo",
+      "你好"
+    ],
+    "zh": "你好",
+    "en": "mambo"
+  },
+  {
+    "patterns": [
+      "manyara",
+      "曼亚拉"
+    ],
+    "zh": "曼亚拉",
+    "en": "manyara"
+  },
+  {
+    "patterns": [
+      "manzese",
+      "曼泽塞"
+    ],
+    "zh": "曼泽塞",
+    "en": "manzese"
+  },
+  {
+    "patterns": [
+      "mapema",
+      "早一点"
+    ],
+    "zh": "早一点",
+    "en": "mapema"
+  },
+  {
+    "patterns": [
+      "mara",
+      "马拉"
+    ],
+    "zh": "马拉",
+    "en": "mara"
+  },
+  {
+    "patterns": [
+      "market",
+      "soko",
+      "市场"
+    ],
+    "zh": "市场",
+    "en": "market / soko"
+  },
+  {
+    "patterns": [
+      "masaki",
+      "马萨基"
+    ],
+    "zh": "马萨基",
+    "en": "masaki"
+  },
+  {
+    "patterns": [
+      "mbagala",
+      "姆巴加拉"
+    ],
+    "zh": "姆巴加拉",
+    "en": "mbagala"
+  },
+  {
+    "patterns": [
+      "mbali",
+      "远"
+    ],
+    "zh": "远",
+    "en": "mbali"
+  },
+  {
+    "patterns": [
+      "mbaya",
+      "不好",
+      "差"
+    ],
+    "zh": "差/不好",
+    "en": "mbaya"
+  },
+  {
+    "patterns": [
+      "mbele ya",
+      "在……前面"
+    ],
+    "zh": "在……前面",
+    "en": "mbele ya"
+  },
+  {
+    "patterns": [
+      "mbeya",
+      "姆贝亚"
+    ],
+    "zh": "姆贝亚",
+    "en": "mbeya"
+  },
+  {
+    "patterns": [
+      "mbezi",
+      "姆贝济"
+    ],
+    "zh": "姆贝济",
+    "en": "mbezi"
+  },
+  {
+    "patterns": [
+      "mbezi beach",
+      "姆贝济海滩"
+    ],
+    "zh": "姆贝济海滩",
+    "en": "mbezi beach"
+  },
+  {
+    "patterns": [
+      "mbezi mwisho",
+      "姆贝济终点站"
+    ],
+    "zh": "姆贝济终点站",
+    "en": "mbezi mwisho"
+  },
+  {
+    "patterns": [
+      "mbili",
+      "二"
+    ],
+    "zh": "二",
+    "en": "mbili"
+  },
+  {
+    "patterns": [
+      "mbu",
+      "蚊子"
+    ],
+    "zh": "蚊子",
+    "en": "mbu"
+  },
+  {
+    "patterns": [
+      "mchana",
+      "白天",
+      "中午"
+    ],
+    "zh": "中午/白天",
+    "en": "mchana"
+  },
+  {
+    "patterns": [
+      "mchina",
+      "中国人"
+    ],
+    "zh": "中国人",
+    "en": "mchina"
+  },
+  {
+    "patterns": [
+      "message",
+      "消息"
+    ],
+    "zh": "消息",
+    "en": "message"
+  },
+  {
+    "patterns": [
+      "mfuko",
+      "袋子"
+    ],
+    "zh": "袋子",
+    "en": "mfuko"
+  },
+  {
+    "patterns": [
+      "mia",
+      "百"
+    ],
+    "zh": "百",
+    "en": "mia"
+  },
+  {
+    "patterns": [
+      "mia mbili",
+      "二百"
+    ],
+    "zh": "二百",
+    "en": "mia mbili"
+  },
+  {
+    "patterns": [
+      "mia moja",
+      "一百"
+    ],
+    "zh": "一百",
+    "en": "mia moja"
+  },
+  {
+    "patterns": [
+      "mia tano",
+      "五百"
+    ],
+    "zh": "五百",
+    "en": "mia tano"
+  },
+  {
+    "patterns": [
+      "miezi sita",
+      "六个月"
+    ],
+    "zh": "六个月",
+    "en": "miezi sita"
+  },
+  {
+    "patterns": [
+      "mikoani",
+      "地方城市",
+      "外省"
+    ],
+    "zh": "外省/地方城市",
+    "en": "mikoani"
+  },
+  {
+    "patterns": [
+      "mikocheni",
+      "米科切尼"
+    ],
+    "zh": "米科切尼",
+    "en": "mikocheni"
+  },
+  {
+    "patterns": [
+      "milioni",
+      "百万"
+    ],
+    "zh": "百万",
+    "en": "milioni"
+  },
+  {
+    "patterns": [
+      "milioni moja",
+      "一百万"
+    ],
+    "zh": "一百万",
+    "en": "milioni moja"
+  },
+  {
+    "patterns": [
+      "mimi ni dealer",
+      "我是经销商"
+    ],
+    "zh": "我是经销商",
+    "en": "mimi ni dealer"
+  },
+  {
+    "patterns": [
+      "mimi ni fundi",
+      "我是安装师傅"
+    ],
+    "zh": "我是安装师傅",
+    "en": "mimi ni fundi"
+  },
+  {
+    "patterns": [
+      "mimi ni muuzaji",
+      "我是卖家"
+    ],
+    "zh": "我是卖家",
+    "en": "mimi ni muuzaji"
+  },
+  {
+    "patterns": [
+      "mimi ni supplier",
+      "我是供应商"
+    ],
+    "zh": "我是供应商",
+    "en": "mimi ni supplier"
+  },
+  {
+    "patterns": [
+      "mimi ni wholesaler",
+      "我是批发商"
+    ],
+    "zh": "我是批发商",
+    "en": "mimi ni wholesaler"
+  },
+  {
+    "patterns": [
+      "mimi niko mikoani",
+      "我在外省"
+    ],
+    "zh": "我在外省",
+    "en": "mimi niko mikoani"
+  },
+  {
+    "patterns": [
+      "minimum order",
+      "最小起订量"
+    ],
+    "zh": "最小起订量",
+    "en": "minimum order"
+  },
+  {
+    "patterns": [
+      "mkopo",
+      "贷款",
+      "赊账"
+    ],
+    "zh": "赊账/贷款",
+    "en": "mkopo"
+  },
+  {
+    "patterns": [
+      "mkuranga",
+      "姆库兰加"
+    ],
+    "zh": "姆库兰加",
+    "en": "mkuranga"
+  },
+  {
+    "patterns": [
+      "mkuu",
+      "大哥",
+      "老板"
+    ],
+    "zh": "老板/大哥",
+    "en": "mkuu"
+  },
+  {
+    "patterns": [
+      "mna balbu",
+      "你们有灯泡吗"
+    ],
+    "zh": "你们有灯泡吗",
+    "en": "mna balbu"
+  },
+  {
+    "patterns": [
+      "mna bei gani",
+      "你们价格多少"
+    ],
+    "zh": "你们价格多少",
+    "en": "mna bei gani"
+  },
+  {
+    "patterns": [
+      "mna duka",
+      "你们有店吗"
+    ],
+    "zh": "你们有店吗",
+    "en": "mna duka"
+  },
+  {
+    "patterns": [
+      "mna feni",
+      "你们有风扇吗"
+    ],
+    "zh": "你们有风扇吗",
+    "en": "mna feni"
+  },
+  {
+    "patterns": [
+      "mna kettle",
+      "你们有电水壶吗"
+    ],
+    "zh": "你们有电水壶吗",
+    "en": "mna kettle"
+  },
+  {
+    "patterns": [
+      "mna solar",
+      "你们有太阳能吗"
+    ],
+    "zh": "你们有太阳能吗",
+    "en": "mna solar"
+  },
+  {
+    "patterns": [
+      "mna stock",
+      "你们有货吗"
+    ],
+    "zh": "你们有货吗",
+    "en": "mna stock"
+  },
+  {
+    "patterns": [
+      "mna taa",
+      "你们有灯吗"
+    ],
+    "zh": "你们有灯吗",
+    "en": "mna taa"
+  },
+  {
+    "patterns": [
+      "mna tochi",
+      "你们有手电筒吗"
+    ],
+    "zh": "你们有手电筒吗",
+    "en": "mna tochi"
+  },
+  {
+    "patterns": [
+      "mnafunga saa ngapi",
+      "你们几点关门"
+    ],
+    "zh": "你们几点关门",
+    "en": "mnafunga saa ngapi"
+  },
+  {
+    "patterns": [
+      "mnapatikana wapi",
+      "你们在哪里"
+    ],
+    "zh": "你们在哪里",
+    "en": "mnapatikana wapi"
+  },
+  {
+    "patterns": [
+      "model",
+      "model number",
+      "modili",
+      "型号"
+    ],
+    "zh": "型号",
+    "en": "model / model number / modili",
+    "note": "口语写法"
+  },
+  {
+    "patterns": [
+      "model mpya",
+      "新型号"
+    ],
+    "zh": "新型号",
+    "en": "model mpya"
+  },
+  {
+    "patterns": [
+      "model tofauti",
+      "型号不一样"
+    ],
+    "zh": "型号不一样",
+    "en": "model tofauti"
+  },
+  {
+    "patterns": [
+      "moja",
+      "一"
+    ],
+    "zh": "一",
+    "en": "moja"
+  },
+  {
+    "patterns": [
+      "moq",
+      "起订量"
+    ],
+    "zh": "起订量",
+    "en": "moq"
+  },
+  {
+    "patterns": [
+      "morogoro",
+      "莫罗戈罗"
+    ],
+    "zh": "莫罗戈罗",
+    "en": "morogoro"
+  },
+  {
+    "patterns": [
+      "moshi",
+      "莫希"
+    ],
+    "zh": "莫希",
+    "en": "moshi"
+  },
+  {
+    "patterns": [
+      "mosquito killer",
+      "电蚊拍",
+      "灭蚊灯"
+    ],
+    "zh": "灭蚊灯/电蚊拍",
+    "en": "mosquito killer"
+  },
+  {
+    "patterns": [
+      "mosquito racket",
+      "raketi ya mbu",
+      "电蚊拍"
+    ],
+    "zh": "电蚊拍",
+    "en": "mosquito racket / raketi ya mbu"
+  },
+  {
+    "patterns": [
+      "motion sensor",
+      "人体感应"
+    ],
+    "zh": "人体感应",
+    "en": "motion sensor"
+  },
+  {
+    "patterns": [
+      "mozambique",
+      "莫桑比克"
+    ],
+    "zh": "莫桑比克",
+    "en": "mozambique"
+  },
+  {
+    "patterns": [
+      "mpokeaji",
+      "receiver",
+      "收货人"
+    ],
+    "zh": "收货人",
+    "en": "mpokeaji / receiver"
+  },
+  {
+    "patterns": [
+      "mpya",
+      "新的"
+    ],
+    "zh": "新的",
+    "en": "mpya"
+  },
+  {
+    "patterns": [
+      "msambazaji",
+      "supplier",
+      "供应商"
+    ],
+    "zh": "供应商",
+    "en": "msambazaji / supplier"
+  },
+  {
+    "patterns": [
+      "mtanzania",
+      "坦桑尼亚人"
+    ],
+    "zh": "坦桑尼亚人",
+    "en": "mtanzania"
+  },
+  {
+    "patterns": [
+      "mteja analipa usafiri",
+      "客户付运费"
+    ],
+    "zh": "客户付运费",
+    "en": "mteja analipa usafiri"
+  },
+  {
+    "patterns": [
+      "mteja anataka bei",
+      "客户要价格"
+    ],
+    "zh": "客户要价格",
+    "en": "mteja anataka bei"
+  },
+  {
+    "patterns": [
+      "mteja anataka discount",
+      "客户要折扣"
+    ],
+    "zh": "客户要折扣",
+    "en": "mteja anataka discount"
+  },
+  {
+    "patterns": [
+      "mteja anataka picha",
+      "客户要图片"
+    ],
+    "zh": "客户要图片",
+    "en": "mteja anataka picha"
+  },
+  {
+    "patterns": [
+      "mteja wangu",
+      "我的客户"
+    ],
+    "zh": "我的客户",
+    "en": "mteja wangu"
+  },
+  {
+    "patterns": [
+      "mteja yupo congo",
+      "客户在刚果"
+    ],
+    "zh": "客户在刚果",
+    "en": "mteja yupo congo"
+  },
+  {
+    "patterns": [
+      "mteja yupo mbali",
+      "客户在远处"
+    ],
+    "zh": "客户在远处",
+    "en": "mteja yupo mbali"
+  },
+  {
+    "patterns": [
+      "mteja yupo zambia",
+      "客户在赞比亚"
+    ],
+    "zh": "客户在赞比亚",
+    "en": "mteja yupo zambia"
+  },
+  {
+    "patterns": [
+      "mteja yupo zanzibar",
+      "客户在桑给巴尔"
+    ],
+    "zh": "客户在桑给巴尔",
+    "en": "mteja yupo zanzibar"
+  },
+  {
+    "patterns": [
+      "mtu wangu",
+      "我的人"
+    ],
+    "zh": "我的人",
+    "en": "mtu wangu"
+  },
+  {
+    "patterns": [
+      "mtu wangu atakuja",
+      "我的人会来"
+    ],
+    "zh": "我的人会来",
+    "en": "mtu wangu atakuja"
+  },
+  {
+    "patterns": [
+      "mtumaji",
+      "sender",
+      "发货人"
+    ],
+    "zh": "发货人",
+    "en": "mtumaji / sender"
+  },
+  {
+    "patterns": [
+      "mtwara",
+      "姆特瓦拉"
+    ],
+    "zh": "姆特瓦拉",
+    "en": "mtwara"
+  },
+  {
+    "patterns": [
+      "muamala",
+      "交易记录"
+    ],
+    "zh": "交易记录",
+    "en": "muamala"
+  },
+  {
+    "patterns": [
+      "muda gani",
+      "多久"
+    ],
+    "zh": "多久",
+    "en": "muda gani"
+  },
+  {
+    "patterns": [
+      "muda kidogo",
+      "一点时间"
+    ],
+    "zh": "一点时间",
+    "en": "muda kidogo"
+  },
+  {
+    "patterns": [
+      "musoma",
+      "穆索马"
+    ],
+    "zh": "穆索马",
+    "en": "musoma"
+  },
+  {
+    "patterns": [
+      "muuzaji",
+      "卖家",
+      "销售员"
+    ],
+    "zh": "销售员/卖家",
+    "en": "muuzaji"
+  },
+  {
+    "patterns": [
+      "mwaka",
+      "年"
+    ],
+    "zh": "年",
+    "en": "mwaka"
+  },
+  {
+    "patterns": [
+      "mwaka mmoja",
+      "一年"
+    ],
+    "zh": "一年",
+    "en": "mwaka mmoja"
+  },
+  {
+    "patterns": [
+      "mwanga",
+      "光",
+      "亮度"
+    ],
+    "zh": "光/亮度",
+    "en": "mwanga"
+  },
+  {
+    "patterns": [
+      "mwanga mdogo",
+      "亮度小"
+    ],
+    "zh": "亮度小",
+    "en": "mwanga mdogo"
+  },
+  {
+    "patterns": [
+      "mwanga mkali",
+      "亮度强"
+    ],
+    "zh": "亮度强",
+    "en": "mwanga mkali"
+  },
+  {
+    "patterns": [
+      "mwanga wake ukoje",
+      "亮度怎么样"
+    ],
+    "zh": "亮度怎么样",
+    "en": "mwanga wake ukoje"
+  },
+  {
+    "patterns": [
+      "mwangaza",
+      "亮度",
+      "照明"
+    ],
+    "zh": "亮度/照明",
+    "en": "mwangaza"
+  },
+  {
+    "patterns": [
+      "mwanza",
+      "姆万扎"
+    ],
+    "zh": "姆万扎",
+    "en": "mwanza"
+  },
+  {
+    "patterns": [
+      "mwenge",
+      "姆文格"
+    ],
+    "zh": "姆文格",
+    "en": "mwenge"
+  },
+  {
+    "patterns": [
+      "mwezi",
+      "月"
+    ],
+    "zh": "月",
+    "en": "mwezi"
+  },
+  {
+    "patterns": [
+      "mwezi huu",
+      "这个月"
+    ],
+    "zh": "这个月",
+    "en": "mwezi huu"
+  },
+  {
+    "patterns": [
+      "mwezi ujao",
+      "下个月"
+    ],
+    "zh": "下个月",
+    "en": "mwezi ujao"
+  },
+  {
+    "patterns": [
+      "mzigo",
+      "货"
+    ],
+    "zh": "货",
+    "en": "mzigo"
+  },
+  {
+    "patterns": [
+      "mzigo haujafika",
+      "货还没到"
+    ],
+    "zh": "货还没到",
+    "en": "mzigo haujafika"
+  },
+  {
+    "patterns": [
+      "mzigo hauko tayari",
+      "货还没准备好"
+    ],
+    "zh": "货还没准备好",
+    "en": "mzigo hauko tayari"
+  },
+  {
+    "patterns": [
+      "mzigo mpya",
+      "stock mpya",
+      "新货"
+    ],
+    "zh": "新货",
+    "en": "mzigo mpya / stock mpya"
+  },
+  {
+    "patterns": [
+      "mzigo uko tayari",
+      "货已经准备好"
+    ],
+    "zh": "货已经准备好",
+    "en": "mzigo uko tayari"
+  },
+  {
+    "patterns": [
+      "mzigo umefika",
+      "货到了"
+    ],
+    "zh": "货到了",
+    "en": "mzigo umefika"
+  },
+  {
+    "patterns": [
+      "mzigo unakwisha",
+      "货快卖完了"
+    ],
+    "zh": "货快卖完了",
+    "en": "mzigo unakwisha"
+  },
+  {
+    "patterns": [
+      "mzigo unatoka dar",
+      "货从达市发出"
+    ],
+    "zh": "货从达市发出",
+    "en": "mzigo unatoka dar"
+  },
+  {
+    "patterns": [
+      "mzigo unatoka kariakoo"
+    ],
+    "zh": "货从Kariakoo发出",
+    "en": "mzigo unatoka kariakoo"
+  },
+  {
+    "patterns": [
+      "mzigo upo kwa dereva",
+      "货在司机那里"
+    ],
+    "zh": "货在司机那里",
+    "en": "mzigo upo kwa dereva"
+  },
+  {
+    "patterns": [
+      "mzigo upo stendi",
+      "货在车站"
+    ],
+    "zh": "货在车站",
+    "en": "mzigo upo stendi"
+  },
+  {
+    "patterns": [
+      "mzigo upo wapi",
+      "货在哪里"
+    ],
+    "zh": "货在哪里",
+    "en": "mzigo upo wapi"
+  },
+  {
+    "patterns": [
+      "mzigo wa carton",
+      "整箱货"
+    ],
+    "zh": "整箱货",
+    "en": "mzigo wa carton"
+  },
+  {
+    "patterns": [
+      "mzigo wa zamani",
+      "旧货"
+    ],
+    "zh": "旧货",
+    "en": "mzigo wa zamani"
+  },
+  {
+    "patterns": [
+      "na battery",
+      "带电池"
+    ],
+    "zh": "带电池",
+    "en": "na battery"
+  },
+  {
+    "patterns": [
+      "na panel",
+      "带太阳能板"
+    ],
+    "zh": "带太阳能板",
+    "en": "na panel"
+  },
+  {
+    "patterns": [
+      "na waya",
+      "带线"
+    ],
+    "zh": "带线",
+    "en": "na waya"
+  },
+  {
+    "patterns": [
+      "nacheki account",
+      "我查账户"
+    ],
+    "zh": "我查账户",
+    "en": "nacheki account"
+  },
+  {
+    "patterns": [
+      "nafuu",
+      "便宜",
+      "划算"
+    ],
+    "zh": "便宜/划算",
+    "en": "nafuu"
+  },
+  {
+    "patterns": [
+      "nahitaji",
+      "naitaji",
+      "我需要"
+    ],
+    "zh": "我需要",
+    "en": "nahitaji / naitaji",
+    "note": "口语误写"
+  },
+  {
+    "patterns": [
+      "nairobi",
+      "内罗毕"
+    ],
+    "zh": "内罗毕",
+    "en": "nairobi"
+  },
+  {
+    "patterns": [
+      "nakonde",
+      "纳孔德"
+    ],
+    "zh": "纳孔德",
+    "en": "nakonde"
+  },
+  {
+    "patterns": [
+      "nakuamini",
+      "我相信你"
+    ],
+    "zh": "我相信你",
+    "en": "nakuamini"
+  },
+  {
+    "patterns": [
+      "nakuja",
+      "我来了"
+    ],
+    "zh": "我来了",
+    "en": "nakuja"
+  },
+  {
+    "patterns": [
+      "nakuja kuchukua",
+      "我来取货"
+    ],
+    "zh": "我来取货",
+    "en": "nakuja kuchukua"
+  },
+  {
+    "patterns": [
+      "namba ya dereva",
+      "司机电话"
+    ],
+    "zh": "司机电话",
+    "en": "namba ya dereva"
+  },
+  {
+    "patterns": [
+      "namba ya malipo",
+      "付款号码"
+    ],
+    "zh": "付款号码",
+    "en": "namba ya malipo"
+  },
+  {
+    "patterns": [
+      "namba ya mpokeaji",
+      "收货人电话"
+    ],
+    "zh": "收货人电话",
+    "en": "namba ya mpokeaji"
+  },
+  {
+    "patterns": [
+      "namba yako",
+      "你的电话"
+    ],
+    "zh": "你的电话",
+    "en": "namba yako"
+  },
+  {
+    "patterns": [
+      "namba yangu",
+      "我的电话"
+    ],
+    "zh": "我的电话",
+    "en": "namba yangu"
+  },
+  {
+    "patterns": [
+      "nane",
+      "八"
+    ],
+    "zh": "八",
+    "en": "nane"
+  },
+  {
+    "patterns": [
+      "nani",
+      "谁"
+    ],
+    "zh": "谁",
+    "en": "nani"
+  },
+  {
+    "patterns": [
+      "nani analipa usafiri",
+      "谁付运费"
+    ],
+    "zh": "谁付运费",
+    "en": "nani analipa usafiri"
+  },
+  {
+    "patterns": [
+      "naomba",
+      "请给我",
+      "我请求"
+    ],
+    "zh": "请给我/我请求",
+    "en": "naomba"
+  },
+  {
+    "patterns": [
+      "naomba bei",
+      "请给价格"
+    ],
+    "zh": "请给价格",
+    "en": "naomba bei"
+  },
+  {
+    "patterns": [
+      "naomba picha",
+      "请发图片"
+    ],
+    "zh": "请发图片",
+    "en": "naomba picha"
+  },
+  {
+    "patterns": [
+      "naomba punguzo",
+      "请给折扣"
+    ],
+    "zh": "请给折扣",
+    "en": "naomba punguzo"
+  },
+  {
+    "patterns": [
+      "natafuta",
+      "我在找"
+    ],
+    "zh": "我在找",
+    "en": "natafuta"
+  },
+  {
+    "patterns": [
+      "nataka",
+      "我要"
+    ],
+    "zh": "我要",
+    "en": "nataka"
+  },
+  {
+    "patterns": [
+      "nataka box moja",
+      "nataka carton moja",
+      "我要一箱"
+    ],
+    "zh": "我要一箱",
+    "en": "nataka box moja / nataka carton moja"
+  },
+  {
+    "patterns": [
+      "nataka carton mbili",
+      "我要两箱"
+    ],
+    "zh": "我要两箱",
+    "en": "nataka carton mbili"
+  },
+  {
+    "patterns": [
+      "nataka hii",
+      "我要这个"
+    ],
+    "zh": "我要这个",
+    "en": "nataka hii"
+  },
+  {
+    "patterns": [
+      "nataka ile",
+      "我要那个"
+    ],
+    "zh": "我要那个",
+    "en": "nataka ile"
+  },
+  {
+    "patterns": [
+      "nataka kununua",
+      "我要买"
+    ],
+    "zh": "我要买",
+    "en": "nataka kununua"
+  },
+  {
+    "patterns": [
+      "nataka nyingine",
+      "我要另一个"
+    ],
+    "zh": "我要另一个",
+    "en": "nataka nyingine"
+  },
+  {
+    "patterns": [
+      "nataka pcs moja",
+      "我要一个"
+    ],
+    "zh": "我要一个",
+    "en": "nataka pcs moja"
+  },
+  {
+    "patterns": [
+      "nauli",
+      "车费",
+      "运费"
+    ],
+    "zh": "车费/运费",
+    "en": "nauli"
+  },
+  {
+    "patterns": [
+      "nauliza",
+      "我问一下"
+    ],
+    "zh": "我问一下",
+    "en": "nauliza"
+  },
+  {
+    "patterns": [
+      "nauza dukani",
+      "我在店里卖"
+    ],
+    "zh": "我在店里卖",
+    "en": "nauza dukani"
+  },
+  {
+    "patterns": [
+      "nauza jumla",
+      "我做批发"
+    ],
+    "zh": "我做批发",
+    "en": "nauza jumla"
+  },
+  {
+    "patterns": [
+      "nauza rejareja",
+      "我做零售"
+    ],
+    "zh": "我做零售",
+    "en": "nauza rejareja"
+  },
+  {
+    "patterns": [
+      "ndefu",
+      "长"
+    ],
+    "zh": "长",
+    "en": "ndefu"
+  },
+  {
+    "patterns": [
+      "ndio",
+      "ndiyo",
+      "是"
+    ],
+    "zh": "是",
+    "en": "ndio / ndiyo"
+  },
+  {
+    "patterns": [
+      "ndogo",
+      "小"
+    ],
+    "zh": "小",
+    "en": "ndogo"
+  },
+  {
+    "patterns": [
+      "ndola",
+      "恩多拉"
+    ],
+    "zh": "恩多拉",
+    "en": "ndola"
+  },
+  {
+    "patterns": [
+      "nenda",
+      "去"
+    ],
+    "zh": "去",
+    "en": "nenda"
+  },
+  {
+    "patterns": [
+      "new arrival",
+      "新款"
+    ],
+    "zh": "新款",
+    "en": "new arrival"
+  },
+  {
+    "patterns": [
+      "ngojea",
+      "subiri",
+      "等一下"
+    ],
+    "zh": "等一下",
+    "en": "ngojea / subiri"
+  },
+  {
+    "patterns": [
+      "niaje",
+      "vipi",
+      "vp",
+      "怎么样"
+    ],
+    "zh": "怎么样",
+    "en": "niaje / vipi / vp",
+    "note": "vipi缩写"
+  },
+  {
+    "patterns": [
+      "nijibu",
+      "回复我"
+    ],
+    "zh": "回复我",
+    "en": "nijibu"
+  },
+  {
+    "patterns": [
+      "nikichukua nyingi",
+      "如果我拿很多"
+    ],
+    "zh": "如果我拿很多",
+    "en": "nikichukua nyingi"
+  },
+  {
+    "patterns": [
+      "niko busy",
+      "我很忙"
+    ],
+    "zh": "我很忙",
+    "en": "niko busy"
+  },
+  {
+    "patterns": [
+      "niko kwenye meeting",
+      "我在开会"
+    ],
+    "zh": "我在开会",
+    "en": "niko kwenye meeting"
+  },
+  {
+    "patterns": [
+      "niko njiani",
+      "nipo njiani",
+      "我在路上"
+    ],
+    "zh": "我在路上",
+    "en": "niko njiani / nipo njiani"
+  },
+  {
+    "patterns": [
+      "niletee dukani",
+      "送到我店里"
+    ],
+    "zh": "送到我店里",
+    "en": "niletee dukani"
+  },
+  {
+    "patterns": [
+      "niletee ofisini",
+      "送到我办公室"
+    ],
+    "zh": "送到我办公室",
+    "en": "niletee ofisini"
+  },
+  {
+    "patterns": [
+      "nimeagiza",
+      "我已经下单"
+    ],
+    "zh": "我已经下单",
+    "en": "nimeagiza"
+  },
+  {
+    "patterns": [
+      "nimeangalia",
+      "我看过了"
+    ],
+    "zh": "我看过了",
+    "en": "nimeangalia"
+  },
+  {
+    "patterns": [
+      "nimechagua",
+      "我选好了"
+    ],
+    "zh": "我选好了",
+    "en": "nimechagua"
+  },
+  {
+    "patterns": [
+      "nimeconfirm",
+      "我已确认"
+    ],
+    "zh": "我已确认",
+    "en": "nimeconfirm"
+  },
+  {
+    "patterns": [
+      "nimeelewa",
+      "我明白了"
+    ],
+    "zh": "我明白了",
+    "en": "nimeelewa"
+  },
+  {
+    "patterns": [
+      "nimefika",
+      "我到了"
+    ],
+    "zh": "我到了",
+    "en": "nimefika"
+  },
+  {
+    "patterns": [
+      "nimekosea",
+      "我搞错了"
+    ],
+    "zh": "我搞错了",
+    "en": "nimekosea"
+  },
+  {
+    "patterns": [
+      "nimekubali",
+      "我同意"
+    ],
+    "zh": "我同意",
+    "en": "nimekubali"
+  },
+  {
+    "patterns": [
+      "nimekutumia",
+      "我已经发给你"
+    ],
+    "zh": "我已经发给你",
+    "en": "nimekutumia"
+  },
+  {
+    "patterns": [
+      "nimelipa",
+      "我已经付款"
+    ],
+    "zh": "我已经付款",
+    "en": "nimelipa"
+  },
+  {
+    "patterns": [
+      "nimepata",
+      "nimepokea",
+      "我收到了"
+    ],
+    "zh": "我收到了",
+    "en": "nimepata / nimepokea"
+  },
+  {
+    "patterns": [
+      "nina chenji",
+      "我有零钱"
+    ],
+    "zh": "我有零钱",
+    "en": "nina chenji"
+  },
+  {
+    "patterns": [
+      "nina wateja",
+      "我有客户"
+    ],
+    "zh": "我有客户",
+    "en": "nina wateja"
+  },
+  {
+    "patterns": [
+      "ninataka",
+      "我想要"
+    ],
+    "zh": "我想要",
+    "en": "ninataka"
+  },
+  {
+    "patterns": [
+      "nini",
+      "什么"
+    ],
+    "zh": "什么",
+    "en": "nini"
+  },
+  {
+    "patterns": [
+      "nipatie bei nzuri",
+      "给我好价格"
+    ],
+    "zh": "给我好价格",
+    "en": "nipatie bei nzuri"
+  },
+  {
+    "patterns": [
+      "nipe muda",
+      "给我时间"
+    ],
+    "zh": "给我时间",
+    "en": "nipe muda"
+  },
+  {
+    "patterns": [
+      "nipigie",
+      "给我打电话"
+    ],
+    "zh": "给我打电话",
+    "en": "nipigie"
+  },
+  {
+    "patterns": [
+      "nipo",
+      "我在"
+    ],
+    "zh": "我在",
+    "en": "nipo"
+  },
+  {
+    "patterns": [
+      "nipo dukani",
+      "我在店里"
+    ],
+    "zh": "我在店里",
+    "en": "nipo dukani"
+  },
+  {
+    "patterns": [
+      "nipo kariakoo"
+    ],
+    "zh": "我在Kariakoo",
+    "en": "nipo kariakoo"
+  },
+  {
+    "patterns": [
+      "nipo nje ya dar",
+      "我在达市外"
+    ],
+    "zh": "我在达市外",
+    "en": "nipo nje ya dar"
+  },
+  {
+    "patterns": [
+      "nipo ofisini",
+      "我在办公室"
+    ],
+    "zh": "我在办公室",
+    "en": "nipo ofisini"
+  },
+  {
+    "patterns": [
+      "nipo sokoni",
+      "我在市场"
+    ],
+    "zh": "我在市场",
+    "en": "nipo sokoni"
+  },
+  {
+    "patterns": [
+      "nishikie mzigo",
+      "帮我留货"
+    ],
+    "zh": "帮我留货",
+    "en": "nishikie mzigo"
+  },
+  {
+    "patterns": [
+      "nitacheki bei",
+      "我查价格"
+    ],
+    "zh": "我查价格",
+    "en": "nitacheki bei"
+  },
+  {
+    "patterns": [
+      "nitacheki stock",
+      "我查库存"
+    ],
+    "zh": "我查库存",
+    "en": "nitacheki stock"
+  },
+  {
+    "patterns": [
+      "nitachukua mwenyewe",
+      "我自己来取"
+    ],
+    "zh": "我自己来取",
+    "en": "nitachukua mwenyewe"
+  },
+  {
+    "patterns": [
+      "nitafsirie",
+      "帮我翻译"
+    ],
+    "zh": "帮我翻译",
+    "en": "nitafsirie"
+  },
+  {
+    "patterns": [
+      "nitakuambia baadae",
+      "我晚点告诉你"
+    ],
+    "zh": "我晚点告诉你",
+    "en": "nitakuambia baadae"
+  },
+  {
+    "patterns": [
+      "nitakujibu baadae",
+      "我晚点回复你"
+    ],
+    "zh": "我晚点回复你",
+    "en": "nitakujibu baadae"
+  },
+  {
+    "patterns": [
+      "nitakupigia",
+      "我会打给你"
+    ],
+    "zh": "我会打给你",
+    "en": "nitakupigia"
+  },
+  {
+    "patterns": [
+      "nitaleta pesa",
+      "我会带钱来"
+    ],
+    "zh": "我会带钱来",
+    "en": "nitaleta pesa"
+  },
+  {
+    "patterns": [
+      "nitalipa",
+      "我会付款"
+    ],
+    "zh": "我会付款",
+    "en": "nitalipa"
+  },
+  {
+    "patterns": [
+      "nitalipa baadae",
+      "我晚点付款"
+    ],
+    "zh": "我晚点付款",
+    "en": "nitalipa baadae"
+  },
+  {
+    "patterns": [
+      "nitalipa jioni",
+      "我晚上付款"
+    ],
+    "zh": "我晚上付款",
+    "en": "nitalipa jioni"
+  },
+  {
+    "patterns": [
+      "nitalipa kesho",
+      "我明天付款"
+    ],
+    "zh": "我明天付款",
+    "en": "nitalipa kesho"
+  },
+  {
+    "patterns": [
+      "nitamtuma mtu",
+      "我派人来"
+    ],
+    "zh": "我派人来",
+    "en": "nitamtuma mtu"
+  },
+  {
+    "patterns": [
+      "nitanunua nyingi",
+      "我会买很多"
+    ],
+    "zh": "我会买很多",
+    "en": "nitanunua nyingi"
+  },
+  {
+    "patterns": [
+      "nitatuma leo",
+      "我今天发货"
+    ],
+    "zh": "我今天发货",
+    "en": "nitatuma leo"
+  },
+  {
+    "patterns": [
+      "nitatuma pesa",
+      "我会转钱"
+    ],
+    "zh": "我会转钱",
+    "en": "nitatuma pesa"
+  },
+  {
+    "patterns": [
+      "nitatuma tena",
+      "我再发一次"
+    ],
+    "zh": "我再发一次",
+    "en": "nitatuma tena"
+  },
+  {
+    "patterns": [
+      "nitume mzigo",
+      "我发货"
+    ],
+    "zh": "我发货",
+    "en": "nitume mzigo"
+  },
+  {
+    "patterns": [
+      "nitume pesa",
+      "我转钱"
+    ],
+    "zh": "我转钱",
+    "en": "nitume pesa"
+  },
+  {
+    "patterns": [
+      "nitume screenshot",
+      "我发截图"
+    ],
+    "zh": "我发截图",
+    "en": "nitume screenshot"
+  },
+  {
+    "patterns": [
+      "nitumie",
+      "发给我"
+    ],
+    "zh": "发给我",
+    "en": "nitumie"
+  },
+  {
+    "patterns": [
+      "nitumie picha",
+      "发图片给我"
+    ],
+    "zh": "发图片给我",
+    "en": "nitumie picha"
+  },
+  {
+    "patterns": [
+      "nitumie video",
+      "发视频给我"
+    ],
+    "zh": "发视频给我",
+    "en": "nitumie video"
+  },
+  {
+    "patterns": [
+      "njano",
+      "黄色"
+    ],
+    "zh": "黄色",
+    "en": "njano"
+  },
+  {
+    "patterns": [
+      "njombe",
+      "恩琼贝"
+    ],
+    "zh": "恩琼贝",
+    "en": "njombe"
+  },
+  {
+    "patterns": [
+      "njoo",
+      "来"
+    ],
+    "zh": "来",
+    "en": "njoo"
+  },
+  {
+    "patterns": [
+      "nmb"
+    ],
+    "zh": "NMB银行",
+    "en": "nmb"
+  },
+  {
+    "patterns": [
+      "nne",
+      "四"
+    ],
+    "zh": "四",
+    "en": "nne"
+  },
+  {
+    "patterns": [
+      "nunua",
+      "买"
+    ],
+    "zh": "买",
+    "en": "nunua"
+  },
+  {
+    "patterns": [
+      "nunua sasa",
+      "现在购买"
+    ],
+    "zh": "现在购买",
+    "en": "nunua sasa"
+  },
+  {
+    "patterns": [
+      "nusu",
+      "一半"
+    ],
+    "zh": "一半",
+    "en": "nusu"
+  },
+  {
+    "patterns": [
+      "nusu saa",
+      "半小时"
+    ],
+    "zh": "半小时",
+    "en": "nusu saa"
+  },
+  {
+    "patterns": [
+      "nyekundu",
+      "红色"
+    ],
+    "zh": "红色",
+    "en": "nyekundu"
+  },
+  {
+    "patterns": [
+      "nyepesi",
+      "轻"
+    ],
+    "zh": "轻",
+    "en": "nyepesi"
+  },
+  {
+    "patterns": [
+      "nyeupe",
+      "rangi nyeupe",
+      "白色"
+    ],
+    "zh": "白色",
+    "en": "nyeupe / rangi nyeupe"
+  },
+  {
+    "patterns": [
+      "nyeusi",
+      "黑色"
+    ],
+    "zh": "黑色",
+    "en": "nyeusi"
+  },
+  {
+    "patterns": [
+      "nyuma ya",
+      "在……后面"
+    ],
+    "zh": "在……后面",
+    "en": "nyuma ya"
+  },
+  {
+    "patterns": [
+      "nzito",
+      "重"
+    ],
+    "zh": "重",
+    "en": "nzito"
+  },
+  {
+    "patterns": [
+      "nzuri",
+      "好"
+    ],
+    "zh": "好",
+    "en": "nzuri"
+  },
+  {
+    "patterns": [
+      "oda",
+      "order",
+      "订单"
+    ],
+    "zh": "订单",
+    "en": "oda / order"
+  },
+  {
+    "patterns": [
+      "offer",
+      "优惠"
+    ],
+    "zh": "优惠",
+    "en": "offer"
+  },
+  {
+    "patterns": [
+      "office",
+      "ofisi",
+      "办公室"
+    ],
+    "zh": "办公室",
+    "en": "office / ofisi"
+  },
+  {
+    "patterns": [
+      "ofisi ipo wapi",
+      "办公室在哪里"
+    ],
+    "zh": "办公室在哪里",
+    "en": "ofisi ipo wapi"
+  },
+  {
+    "patterns": [
+      "ongea",
+      "说话"
+    ],
+    "zh": "说话",
+    "en": "ongea"
+  },
+  {
+    "patterns": [
+      "ongea english",
+      "说英语"
+    ],
+    "zh": "说英语",
+    "en": "ongea english"
+  },
+  {
+    "patterns": [
+      "ongea kichina",
+      "说中文"
+    ],
+    "zh": "说中文",
+    "en": "ongea kichina"
+  },
+  {
+    "patterns": [
+      "ongea kiswahili",
+      "说斯瓦希里语"
+    ],
+    "zh": "说斯瓦希里语",
+    "en": "ongea kiswahili"
+  },
+  {
+    "patterns": [
+      "ongea polepole",
+      "慢点说"
+    ],
+    "zh": "慢点说",
+    "en": "ongea polepole"
+  },
+  {
+    "patterns": [
+      "ongeza",
+      "增加"
+    ],
+    "zh": "增加",
+    "en": "ongeza"
+  },
+  {
+    "patterns": [
+      "ongeza carton moja",
+      "加一箱"
+    ],
+    "zh": "加一箱",
+    "en": "ongeza carton moja"
+  },
+  {
+    "patterns": [
+      "ongeza kidogo",
+      "加一点"
+    ],
+    "zh": "加一点",
+    "en": "ongeza kidogo"
+  },
+  {
+    "patterns": [
+      "ongeza kwenye order",
+      "加到订单里"
+    ],
+    "zh": "加到订单里",
+    "en": "ongeza kwenye order"
+  },
+  {
+    "patterns": [
+      "ongeza moja",
+      "加一个"
+    ],
+    "zh": "加一个",
+    "en": "ongeza moja"
+  },
+  {
+    "patterns": [
+      "ongeza order",
+      "增加订单"
+    ],
+    "zh": "增加订单",
+    "en": "ongeza order"
+  },
+  {
+    "patterns": [
+      "ongeza vat"
+    ],
+    "zh": "加VAT",
+    "en": "ongeza vat"
+  },
+  {
+    "patterns": [
+      "opposite",
+      "对面"
+    ],
+    "zh": "对面",
+    "en": "opposite"
+  },
+  {
+    "patterns": [
+      "order haijakamilika",
+      "订单未完成"
+    ],
+    "zh": "订单未完成",
+    "en": "order haijakamilika"
+  },
+  {
+    "patterns": [
+      "order imekamilika",
+      "订单完成"
+    ],
+    "zh": "订单完成",
+    "en": "order imekamilika"
+  },
+  {
+    "patterns": [
+      "order yako",
+      "你的订单"
+    ],
+    "zh": "你的订单",
+    "en": "order yako"
+  },
+  {
+    "patterns": [
+      "order yangu",
+      "我的订单"
+    ],
+    "zh": "我的订单",
+    "en": "order yangu"
+  },
+  {
+    "patterns": [
+      "original",
+      "原装",
+      "正品"
+    ],
+    "zh": "原装/正品",
+    "en": "original"
+  },
+  {
+    "patterns": [
+      "original quality",
+      "正品质量"
+    ],
+    "zh": "正品质量",
+    "en": "original quality"
+  },
+  {
+    "patterns": [
+      "orodha ya bidhaa",
+      "产品清单"
+    ],
+    "zh": "产品清单",
+    "en": "orodha ya bidhaa"
+  },
+  {
+    "patterns": [
+      "oya",
+      "嘿",
+      "喂"
+    ],
+    "zh": "喂/嘿",
+    "en": "oya",
+    "note": "口语"
+  },
+  {
+    "patterns": [
+      "oysterbay",
+      "蚝湾区"
+    ],
+    "zh": "蚝湾区",
+    "en": "oysterbay"
+  },
+  {
+    "patterns": [
+      "package",
+      "packing",
+      "包装"
+    ],
+    "zh": "包装",
+    "en": "package / packing"
+  },
+  {
+    "patterns": [
+      "packing list",
+      "装箱单"
+    ],
+    "zh": "装箱单",
+    "en": "packing list"
+  },
+  {
+    "patterns": [
+      "pakiti",
+      "包"
+    ],
+    "zh": "包",
+    "en": "pakiti"
+  },
+  {
+    "patterns": [
+      "pale",
+      "那里"
+    ],
+    "zh": "那里",
+    "en": "pale"
+  },
+  {
+    "patterns": [
+      "pallet",
+      "托盘"
+    ],
+    "zh": "托盘",
+    "en": "pallet"
+  },
+  {
+    "patterns": [
+      "panel iko ndani",
+      "包含",
+      "太阳能板在里面"
+    ],
+    "zh": "太阳能板在里面/包含",
+    "en": "panel iko ndani"
+  },
+  {
+    "patterns": [
+      "panel ni watt ngapi",
+      "太阳能板多少瓦"
+    ],
+    "zh": "太阳能板多少瓦",
+    "en": "panel ni watt ngapi"
+  },
+  {
+    "patterns": [
+      "panel tofauti",
+      "太阳能板是分开的"
+    ],
+    "zh": "太阳能板是分开的",
+    "en": "panel tofauti"
+  },
+  {
+    "patterns": [
+      "pata",
+      "得到",
+      "收到"
+    ],
+    "zh": "得到/收到",
+    "en": "pata"
+  },
+  {
+    "patterns": [
+      "payment complete",
+      "付款完成"
+    ],
+    "zh": "付款完成",
+    "en": "payment complete"
+  },
+  {
+    "patterns": [
+      "payment pending",
+      "付款待确认"
+    ],
+    "zh": "付款待确认",
+    "en": "payment pending"
+  },
+  {
+    "patterns": [
+      "pcs",
+      "piece",
+      "个",
+      "件"
+    ],
+    "zh": "个/件",
+    "en": "pcs / piece"
+  },
+  {
+    "patterns": [
+      "peleka",
+      "送去"
+    ],
+    "zh": "送去",
+    "en": "peleka"
+  },
+  {
+    "patterns": [
+      "peleka dukani",
+      "送到店里"
+    ],
+    "zh": "送到店里",
+    "en": "peleka dukani"
+  },
+  {
+    "patterns": [
+      "peleka ofisini",
+      "送到办公室"
+    ],
+    "zh": "送到办公室",
+    "en": "peleka ofisini"
+  },
+  {
+    "patterns": [
+      "peleka stendi",
+      "送到车站"
+    ],
+    "zh": "送到车站",
+    "en": "peleka stendi"
+  },
+  {
+    "patterns": [
+      "pemba",
+      "奔巴岛"
+    ],
+    "zh": "奔巴岛",
+    "en": "pemba"
+  },
+  {
+    "patterns": [
+      "pembeni ya",
+      "在……旁边"
+    ],
+    "zh": "在……旁边",
+    "en": "pembeni ya"
+  },
+  {
+    "patterns": [
+      "pending",
+      "待处理"
+    ],
+    "zh": "待处理",
+    "en": "pending"
+  },
+  {
+    "patterns": [
+      "pengine",
+      "也许"
+    ],
+    "zh": "也许",
+    "en": "pengine"
+  },
+  {
+    "patterns": [
+      "pesa haijaingia",
+      "钱还没到账"
+    ],
+    "zh": "钱还没到账",
+    "en": "pesa haijaingia"
+  },
+  {
+    "patterns": [
+      "pesa imeingia",
+      "钱到账了"
+    ],
+    "zh": "钱到账了",
+    "en": "pesa imeingia"
+  },
+  {
+    "patterns": [
+      "picha haionekani",
+      "图片看不清"
+    ],
+    "zh": "图片看不清",
+    "en": "picha haionekani"
+  },
+  {
+    "patterns": [
+      "picha tofauti",
+      "图片不一样"
+    ],
+    "zh": "图片不一样",
+    "en": "picha tofauti"
+  },
+  {
+    "patterns": [
+      "pickup",
+      "self pickup",
+      "自取"
+    ],
+    "zh": "自取",
+    "en": "pickup / self pickup"
+  },
+  {
+    "patterns": [
+      "piga simu",
+      "打电话"
+    ],
+    "zh": "打电话",
+    "en": "piga simu"
+  },
+  {
+    "patterns": [
+      "pima",
+      "测量",
+      "测试"
+    ],
+    "zh": "测试/测量",
+    "en": "pima"
+  },
+  {
+    "patterns": [
+      "plagi",
+      "plug",
+      "插头"
+    ],
+    "zh": "插头",
+    "en": "plagi / plug"
+  },
+  {
+    "patterns": [
+      "po",
+      "purchase order",
+      "采购订单"
+    ],
+    "zh": "采购订单",
+    "en": "po / purchase order"
+  },
+  {
+    "patterns": [
+      "poa",
+      "好的",
+      "酷"
+    ],
+    "zh": "好的/酷",
+    "en": "poa"
+  },
+  {
+    "patterns": [
+      "poa poa",
+      "好好"
+    ],
+    "zh": "好好",
+    "en": "poa poa"
+  },
+  {
+    "patterns": [
+      "pokea",
+      "接收"
+    ],
+    "zh": "接收",
+    "en": "pokea"
+  },
+  {
+    "patterns": [
+      "pole",
+      "抱歉",
+      "辛苦了"
+    ],
+    "zh": "抱歉/辛苦了",
+    "en": "pole"
+  },
+  {
+    "patterns": [
+      "pole sana",
+      "很抱歉",
+      "辛苦了"
+    ],
+    "zh": "很抱歉/辛苦了",
+    "en": "pole sana"
+  },
+  {
+    "patterns": [
+      "polepole",
+      "慢慢来"
+    ],
+    "zh": "慢慢来",
+    "en": "polepole"
+  },
+  {
+    "patterns": [
+      "posta",
+      "市中心",
+      "邮局区"
+    ],
+    "zh": "市中心/邮局区",
+    "en": "posta"
+  },
+  {
+    "patterns": [
+      "power bank",
+      "充电宝"
+    ],
+    "zh": "充电宝",
+    "en": "power bank"
+  },
+  {
+    "patterns": [
+      "premium",
+      "高端"
+    ],
+    "zh": "高端",
+    "en": "premium"
+  },
+  {
+    "patterns": [
+      "product",
+      "产品"
+    ],
+    "zh": "产品",
+    "en": "product"
+  },
+  {
+    "patterns": [
+      "proforma",
+      "proforma invoice",
+      "形式发票"
+    ],
+    "zh": "形式发票",
+    "en": "proforma / proforma invoice"
+  },
+  {
+    "patterns": [
+      "promo",
+      "promotion",
+      "促销"
+    ],
+    "zh": "促销",
+    "en": "promo / promotion"
+  },
+  {
+    "patterns": [
+      "pugu",
+      "普古"
+    ],
+    "zh": "普古",
+    "en": "pugu"
+  },
+  {
+    "patterns": [
+      "punguza",
+      "减少",
+      "降价"
+    ],
+    "zh": "减少/降价",
+    "en": "punguza"
+  },
+  {
+    "patterns": [
+      "punguza bei",
+      "降价"
+    ],
+    "zh": "降价",
+    "en": "punguza bei"
+  },
+  {
+    "patterns": [
+      "punguza moja",
+      "减一个"
+    ],
+    "zh": "减一个",
+    "en": "punguza moja"
+  },
+  {
+    "patterns": [
+      "punguza order",
+      "减少订单"
+    ],
+    "zh": "减少订单",
+    "en": "punguza order"
+  },
+  {
+    "patterns": [
+      "pwani",
+      "滨海省"
+    ],
+    "zh": "滨海省",
+    "en": "pwani"
+  },
+  {
+    "patterns": [
+      "quality",
+      "ubora",
+      "质量"
+    ],
+    "zh": "质量",
+    "en": "quality / ubora"
+  },
+  {
+    "patterns": [
+      "quality tofauti",
+      "质量不一样"
+    ],
+    "zh": "质量不一样",
+    "en": "quality tofauti"
+  },
+  {
+    "patterns": [
+      "quotation",
+      "报价单"
+    ],
+    "zh": "报价单",
+    "en": "quotation"
+  },
+  {
+    "patterns": [
+      "quote",
+      "报价"
+    ],
+    "zh": "报价",
+    "en": "quote"
+  },
+  {
+    "patterns": [
+      "rafiki",
+      "朋友"
+    ],
+    "zh": "朋友",
+    "en": "rafiki"
+  },
+  {
+    "patterns": [
+      "rangi",
+      "颜色"
+    ],
+    "zh": "颜色",
+    "en": "rangi"
+  },
+  {
+    "patterns": [
+      "rangi ya mwanga",
+      "灯光颜色"
+    ],
+    "zh": "灯光颜色",
+    "en": "rangi ya mwanga"
+  },
+  {
+    "patterns": [
+      "rangi ya njano",
+      "黄色",
+      "暖黄"
+    ],
+    "zh": "黄色/暖黄",
+    "en": "rangi ya njano"
+  },
+  {
+    "patterns": [
+      "receipt",
+      "risiti",
+      "收据"
+    ],
+    "zh": "收据",
+    "en": "receipt / risiti"
+  },
+  {
+    "patterns": [
+      "receipt nitakutumia",
+      "我会发收据给你"
+    ],
+    "zh": "我会发收据给你",
+    "en": "receipt nitakutumia"
+  },
+  {
+    "patterns": [
+      "rechargeable",
+      "可充电"
+    ],
+    "zh": "可充电",
+    "en": "rechargeable"
+  },
+  {
+    "patterns": [
+      "refund",
+      "退款"
+    ],
+    "zh": "退款",
+    "en": "refund"
+  },
+  {
+    "patterns": [
+      "registered company",
+      "注册公司"
+    ],
+    "zh": "注册公司",
+    "en": "registered company"
+  },
+  {
+    "patterns": [
+      "rejareja",
+      "retail",
+      "零售"
+    ],
+    "zh": "零售",
+    "en": "rejareja / retail"
+  },
+  {
+    "patterns": [
+      "rejected",
+      "已拒绝"
+    ],
+    "zh": "已拒绝",
+    "en": "rejected"
+  },
+  {
+    "patterns": [
+      "remote",
+      "rimoti",
+      "遥控器"
+    ],
+    "zh": "遥控器",
+    "en": "remote / rimoti"
+  },
+  {
+    "patterns": [
+      "repair",
+      "维修"
+    ],
+    "zh": "维修",
+    "en": "repair"
+  },
+  {
+    "patterns": [
+      "reply",
+      "回复"
+    ],
+    "zh": "回复",
+    "en": "reply"
+  },
+  {
+    "patterns": [
+      "reserve stock",
+      "预留库存"
+    ],
+    "zh": "预留库存",
+    "en": "reserve stock"
+  },
+  {
+    "patterns": [
+      "rgb",
+      "彩色灯光"
+    ],
+    "zh": "彩色灯光",
+    "en": "rgb"
+  },
+  {
+    "patterns": [
+      "risiti ya efd"
+    ],
+    "zh": "EFD收据",
+    "en": "risiti ya efd"
+  },
+  {
+    "patterns": [
+      "robo",
+      "四分之一"
+    ],
+    "zh": "四分之一",
+    "en": "robo"
+  },
+  {
+    "patterns": [
+      "rudia",
+      "重复"
+    ],
+    "zh": "重复",
+    "en": "rudia"
+  },
+  {
+    "patterns": [
+      "rudisha",
+      "还回来",
+      "退回"
+    ],
+    "zh": "退回/还回来",
+    "en": "rudisha"
+  },
+  {
+    "patterns": [
+      "rukwa",
+      "鲁夸"
+    ],
+    "zh": "鲁夸",
+    "en": "rukwa"
+  },
+  {
+    "patterns": [
+      "ruvuma",
+      "鲁伍马"
+    ],
+    "zh": "鲁伍马",
+    "en": "ruvuma"
+  },
+  {
+    "patterns": [
+      "rwanda",
+      "卢旺达"
+    ],
+    "zh": "卢旺达",
+    "en": "rwanda"
+  },
+  {
+    "patterns": [
+      "saa",
+      "时间",
+      "小时"
+    ],
+    "zh": "小时/时间",
+    "en": "saa"
+  },
+  {
+    "patterns": [
+      "saa moja",
+      "七点",
+      "一点"
+    ],
+    "zh": "一点/七点",
+    "en": "saa moja",
+    "note": "需结合语境"
+  },
+  {
+    "patterns": [
+      "saa ngapi",
+      "几点"
+    ],
+    "zh": "几点",
+    "en": "saa ngapi"
+  },
+  {
+    "patterns": [
+      "saba",
+      "七"
+    ],
+    "zh": "七",
+    "en": "saba"
+  },
+  {
+    "patterns": [
+      "sabini",
+      "七十"
+    ],
+    "zh": "七十",
+    "en": "sabini"
+  },
+  {
+    "patterns": [
+      "saizi",
+      "size",
+      "尺寸"
+    ],
+    "zh": "尺寸",
+    "en": "saizi / size"
+  },
+  {
+    "patterns": [
+      "sales",
+      "销售"
+    ],
+    "zh": "销售",
+    "en": "sales"
+  },
+  {
+    "patterns": [
+      "salio",
+      "余额"
+    ],
+    "zh": "余额",
+    "en": "salio"
+  },
+  {
+    "patterns": [
+      "salio halitoshi",
+      "余额不足"
+    ],
+    "zh": "余额不足",
+    "en": "salio halitoshi"
+  },
+  {
+    "patterns": [
+      "samahani",
+      "抱歉",
+      "不好意思"
+    ],
+    "zh": "不好意思/抱歉",
+    "en": "samahani"
+  },
+  {
+    "patterns": [
+      "samahani nimekosea",
+      "不好意思我搞错了"
+    ],
+    "zh": "不好意思我搞错了",
+    "en": "samahani nimekosea"
+  },
+  {
+    "patterns": [
+      "sambaza",
+      "分销"
+    ],
+    "zh": "分销",
+    "en": "sambaza"
+  },
+  {
+    "patterns": [
+      "sample",
+      "sampuli",
+      "样品"
+    ],
+    "zh": "样品",
+    "en": "sample / sampuli"
+  },
+  {
+    "patterns": [
+      "sasa",
+      "现在"
+    ],
+    "zh": "现在",
+    "en": "sasa"
+  },
+  {
+    "patterns": [
+      "sauti",
+      "声音"
+    ],
+    "zh": "声音",
+    "en": "sauti"
+  },
+  {
+    "patterns": [
+      "sauti haieleweki",
+      "语音听不清"
+    ],
+    "zh": "语音听不清",
+    "en": "sauti haieleweki"
+  },
+  {
+    "patterns": [
+      "sawa",
+      "好",
+      "可以"
+    ],
+    "zh": "好/可以",
+    "en": "sawa"
+  },
+  {
+    "patterns": [
+      "sawa sawa",
+      "好的",
+      "没问题"
+    ],
+    "zh": "好的/没问题",
+    "en": "sawa sawa"
+  },
+  {
+    "patterns": [
+      "screenshot",
+      "截图"
+    ],
+    "zh": "截图",
+    "en": "screenshot"
+  },
+  {
+    "patterns": [
+      "second hand",
+      "二手"
+    ],
+    "zh": "二手",
+    "en": "second hand"
+  },
+  {
+    "patterns": [
+      "security light",
+      "安防灯"
+    ],
+    "zh": "安防灯",
+    "en": "security light"
+  },
+  {
+    "patterns": [
+      "segerea",
+      "塞格雷亚"
+    ],
+    "zh": "塞格雷亚",
+    "en": "segerea"
+  },
+  {
+    "patterns": [
+      "seller",
+      "卖家"
+    ],
+    "zh": "卖家",
+    "en": "seller"
+  },
+  {
+    "patterns": [
+      "sema tena",
+      "再说一遍"
+    ],
+    "zh": "再说一遍",
+    "en": "sema tena"
+  },
+  {
+    "patterns": [
+      "serious",
+      "认真",
+      "真的"
+    ],
+    "zh": "认真/真的",
+    "en": "serious"
+  },
+  {
+    "patterns": [
+      "set",
+      "套"
+    ],
+    "zh": "套",
+    "en": "set"
+  },
+  {
+    "patterns": [
+      "share location",
+      "分享位置"
+    ],
+    "zh": "分享位置",
+    "en": "share location"
+  },
+  {
+    "patterns": [
+      "shida",
+      "tatizo",
+      "问题"
+    ],
+    "zh": "问题",
+    "en": "shida / tatizo"
+  },
+  {
+    "patterns": [
+      "shika stock",
+      "留库存"
+    ],
+    "zh": "留库存",
+    "en": "shika stock"
+  },
+  {
+    "patterns": [
+      "shilingi",
+      "先令"
+    ],
+    "zh": "先令",
+    "en": "shilingi"
+  },
+  {
+    "patterns": [
+      "shinyanga",
+      "希尼安加"
+    ],
+    "zh": "希尼安加",
+    "en": "shinyanga"
+  },
+  {
+    "patterns": [
+      "shipping",
+      "transport",
+      "运输"
+    ],
+    "zh": "运输",
+    "en": "shipping / transport"
+  },
+  {
+    "patterns": [
+      "shop light",
+      "店铺灯"
+    ],
+    "zh": "店铺灯",
+    "en": "shop light"
+  },
+  {
+    "patterns": [
+      "short",
+      "短路"
+    ],
+    "zh": "短路",
+    "en": "short"
+  },
+  {
+    "patterns": [
+      "shwari",
+      "没问题",
+      "平稳"
+    ],
+    "zh": "没问题/平稳",
+    "en": "shwari"
+  },
+  {
+    "patterns": [
+      "si",
+      "sio",
+      "不是"
+    ],
+    "zh": "不是",
+    "en": "si / sio"
+  },
+  {
+    "patterns": [
+      "si tatizo letu",
+      "不是我们的问题"
+    ],
+    "zh": "不是我们的问题",
+    "en": "si tatizo letu"
+  },
+  {
+    "patterns": [
+      "siamini",
+      "我不相信"
+    ],
+    "zh": "我不相信",
+    "en": "siamini"
+  },
+  {
+    "patterns": [
+      "sielewi",
+      "我不明白"
+    ],
+    "zh": "我不明白",
+    "en": "sielewi"
+  },
+  {
+    "patterns": [
+      "sijaelewa",
+      "我没明白"
+    ],
+    "zh": "我没明白",
+    "en": "sijaelewa"
+  },
+  {
+    "patterns": [
+      "sijakuelewa",
+      "我没听懂你"
+    ],
+    "zh": "我没听懂你",
+    "en": "sijakuelewa"
+  },
+  {
+    "patterns": [
+      "sijapokea",
+      "我没收到"
+    ],
+    "zh": "我没收到",
+    "en": "sijapokea"
+  },
+  {
+    "patterns": [
+      "sijui",
+      "我不知道"
+    ],
+    "zh": "我不知道",
+    "en": "sijui"
+  },
+  {
+    "patterns": [
+      "siku",
+      "天"
+    ],
+    "zh": "天",
+    "en": "siku"
+  },
+  {
+    "patterns": [
+      "siku saba",
+      "七天"
+    ],
+    "zh": "七天",
+    "en": "siku saba"
+  },
+  {
+    "patterns": [
+      "siku tatu",
+      "三天"
+    ],
+    "zh": "三天",
+    "en": "siku tatu"
+  },
+  {
+    "patterns": [
+      "sikubali",
+      "我不同意"
+    ],
+    "zh": "我不同意",
+    "en": "sikubali"
+  },
+  {
+    "patterns": [
+      "silver",
+      "银色"
+    ],
+    "zh": "银色",
+    "en": "silver"
+  },
+  {
+    "patterns": [
+      "simiyu",
+      "西米尤"
+    ],
+    "zh": "西米尤",
+    "en": "simiyu"
+  },
+  {
+    "patterns": [
+      "simu",
+      "电话",
+      "手机"
+    ],
+    "zh": "电话/手机",
+    "en": "simu"
+  },
+  {
+    "patterns": [
+      "sina chenji",
+      "我没有零钱"
+    ],
+    "zh": "我没有零钱",
+    "en": "sina chenji"
+  },
+  {
+    "patterns": [
+      "singida",
+      "辛吉达"
+    ],
+    "zh": "辛吉达",
+    "en": "singida"
+  },
+  {
+    "patterns": [
+      "sinza",
+      "辛扎"
+    ],
+    "zh": "辛扎",
+    "en": "sinza"
+  },
+  {
+    "patterns": [
+      "sipo",
+      "我不在"
+    ],
+    "zh": "我不在",
+    "en": "sipo"
+  },
+  {
+    "patterns": [
+      "sita",
+      "六"
+    ],
+    "zh": "六",
+    "en": "sita"
+  },
+  {
+    "patterns": [
+      "sitini",
+      "六十"
+    ],
+    "zh": "六十",
+    "en": "sitini"
+  },
+  {
+    "patterns": [
+      "siwezi kupunguza",
+      "不能降价"
+    ],
+    "zh": "不能降价",
+    "en": "siwezi kupunguza"
+  },
+  {
+    "patterns": [
+      "siwezi kushika bila malipo",
+      "没付款不能留货"
+    ],
+    "zh": "没付款不能留货",
+    "en": "siwezi kushika bila malipo"
+  },
+  {
+    "patterns": [
+      "siwezi kusikia",
+      "我听不到"
+    ],
+    "zh": "我听不到",
+    "en": "siwezi kusikia"
+  },
+  {
+    "patterns": [
+      "sms",
+      "短信"
+    ],
+    "zh": "短信",
+    "en": "sms"
+  },
+  {
+    "patterns": [
+      "socket",
+      "soketi",
+      "插座"
+    ],
+    "zh": "插座",
+    "en": "socket / soketi"
+  },
+  {
+    "patterns": [
+      "soko linataka",
+      "市场需要"
+    ],
+    "zh": "市场需要",
+    "en": "soko linataka"
+  },
+  {
+    "patterns": [
+      "sola",
+      "solar",
+      "太阳能"
+    ],
+    "zh": "太阳能",
+    "en": "sola / solar",
+    "note": "保留英文"
+  },
+  {
+    "patterns": [
+      "solar lamp",
+      "solar light",
+      "taa ya solar",
+      "太阳能灯"
+    ],
+    "zh": "太阳能灯",
+    "en": "solar lamp / solar light / taa ya solar"
+  },
+  {
+    "patterns": [
+      "songea",
+      "松盖阿"
+    ],
+    "zh": "松盖阿",
+    "en": "songea"
+  },
+  {
+    "patterns": [
+      "songwe",
+      "松圭"
+    ],
+    "zh": "松圭",
+    "en": "songwe"
+  },
+  {
+    "patterns": [
+      "specification",
+      "specifications",
+      "参数"
+    ],
+    "zh": "参数",
+    "en": "specification / specifications"
+  },
+  {
+    "patterns": [
+      "stand",
+      "车站",
+      "摊位"
+    ],
+    "zh": "车站/摊位",
+    "en": "stand"
+  },
+  {
+    "patterns": [
+      "standard",
+      "标准"
+    ],
+    "zh": "标准",
+    "en": "standard"
+  },
+  {
+    "patterns": [
+      "standing fan",
+      "落地扇"
+    ],
+    "zh": "落地扇",
+    "en": "standing fan"
+  },
+  {
+    "patterns": [
+      "stendi",
+      "车站"
+    ],
+    "zh": "车站",
+    "en": "stendi"
+  },
+  {
+    "patterns": [
+      "stock",
+      "库存"
+    ],
+    "zh": "库存",
+    "en": "stock"
+  },
+  {
+    "patterns": [
+      "stock hakuna",
+      "没库存"
+    ],
+    "zh": "没库存",
+    "en": "stock hakuna"
+  },
+  {
+    "patterns": [
+      "stock hakuna",
+      "没货"
+    ],
+    "zh": "没货",
+    "en": "stock hakuna"
+  },
+  {
+    "patterns": [
+      "stock iko tayari",
+      "库存准备好了"
+    ],
+    "zh": "库存准备好了",
+    "en": "stock iko tayari"
+  },
+  {
+    "patterns": [
+      "stock inaisha",
+      "库存快没了"
+    ],
+    "zh": "库存快没了",
+    "en": "stock inaisha"
+  },
+  {
+    "patterns": [
+      "stock ipo",
+      "有库存"
+    ],
+    "zh": "有库存",
+    "en": "stock ipo"
+  },
+  {
+    "patterns": [
+      "stone town",
+      "石头城"
+    ],
+    "zh": "石头城",
+    "en": "stone town",
+    "note": "桑给巴尔老城"
+  },
+  {
+    "patterns": [
+      "stoo",
+      "仓库",
+      "库存"
+    ],
+    "zh": "仓库/库存",
+    "en": "stoo"
+  },
+  {
+    "patterns": [
+      "street light",
+      "taa ya barabarani",
+      "路灯"
+    ],
+    "zh": "路灯",
+    "en": "street light / taa ya barabarani"
+  },
+  {
+    "patterns": [
+      "subiri kidogo",
+      "稍等一下"
+    ],
+    "zh": "稍等一下",
+    "en": "subiri kidogo"
+  },
+  {
+    "patterns": [
+      "subiri nicheki",
+      "等我查一下"
+    ],
+    "zh": "等我查一下",
+    "en": "subiri nicheki"
+  },
+  {
+    "patterns": [
+      "subiri pesa iingie",
+      "等钱到账"
+    ],
+    "zh": "等钱到账",
+    "en": "subiri pesa iingie"
+  },
+  {
+    "patterns": [
+      "sufuria",
+      "锅"
+    ],
+    "zh": "锅",
+    "en": "sufuria"
+  },
+  {
+    "patterns": [
+      "sumbawanga",
+      "松巴旺加"
+    ],
+    "zh": "松巴旺加",
+    "en": "sumbawanga"
+  },
+  {
+    "patterns": [
+      "swichi",
+      "switch",
+      "开关"
+    ],
+    "zh": "开关",
+    "en": "swichi / switch"
+  },
+  {
+    "patterns": [
+      "swichi mbovu",
+      "开关坏了"
+    ],
+    "zh": "开关坏了",
+    "en": "swichi mbovu"
+  },
+  {
+    "patterns": [
+      "swift"
+    ],
+    "zh": "SWIFT代码",
+    "en": "swift"
+  },
+  {
+    "patterns": [
+      "taa",
+      "灯"
+    ],
+    "zh": "灯",
+    "en": "taa"
+  },
+  {
+    "patterns": [
+      "taa hafifu",
+      "灯光弱"
+    ],
+    "zh": "灯光弱",
+    "en": "taa hafifu"
+  },
+  {
+    "patterns": [
+      "taa inawaka vizuri",
+      "灯亮得好"
+    ],
+    "zh": "灯亮得好",
+    "en": "taa inawaka vizuri"
+  },
+  {
+    "patterns": [
+      "taa kali",
+      "很亮的灯"
+    ],
+    "zh": "很亮的灯",
+    "en": "taa kali"
+  },
+  {
+    "patterns": [
+      "taa ya kuchaji",
+      "充电灯"
+    ],
+    "zh": "充电灯",
+    "en": "taa ya kuchaji"
+  },
+  {
+    "patterns": [
+      "taa ya ndani",
+      "室内灯"
+    ],
+    "zh": "室内灯",
+    "en": "taa ya ndani"
+  },
+  {
+    "patterns": [
+      "taa ya nje",
+      "户外灯"
+    ],
+    "zh": "户外灯",
+    "en": "taa ya nje"
+  },
+  {
+    "patterns": [
+      "taa ya rangi",
+      "彩色灯"
+    ],
+    "zh": "彩色灯",
+    "en": "taa ya rangi"
+  },
+  {
+    "patterns": [
+      "taa ya umeme",
+      "电灯"
+    ],
+    "zh": "电灯",
+    "en": "taa ya umeme"
+  },
+  {
+    "patterns": [
+      "taa za led"
+    ],
+    "zh": "LED灯",
+    "en": "taa za led"
+  },
+  {
+    "patterns": [
+      "tabata",
+      "塔巴塔"
+    ],
+    "zh": "塔巴塔",
+    "en": "tabata"
+  },
+  {
+    "patterns": [
+      "table fan",
+      "台扇"
+    ],
+    "zh": "台扇",
+    "en": "table fan"
+  },
+  {
+    "patterns": [
+      "tabora",
+      "塔博拉"
+    ],
+    "zh": "塔博拉",
+    "en": "tabora"
+  },
+  {
+    "patterns": [
+      "tafadhali",
+      "请"
+    ],
+    "zh": "请",
+    "en": "tafadhali"
+  },
+  {
+    "patterns": [
+      "tafsiri",
+      "translate",
+      "翻译"
+    ],
+    "zh": "翻译",
+    "en": "tafsiri / translate"
+  },
+  {
+    "patterns": [
+      "tafuta",
+      "找"
+    ],
+    "zh": "找",
+    "en": "tafuta"
+  },
+  {
+    "patterns": [
+      "tandika",
+      "坦迪卡"
+    ],
+    "zh": "坦迪卡",
+    "en": "tandika"
+  },
+  {
+    "patterns": [
+      "tanga",
+      "坦噶"
+    ],
+    "zh": "坦噶",
+    "en": "tanga"
+  },
+  {
+    "patterns": [
+      "tano",
+      "五"
+    ],
+    "zh": "五",
+    "en": "tano"
+  },
+  {
+    "patterns": [
+      "tanzania",
+      "坦桑尼亚"
+    ],
     "zh": "坦桑尼亚",
-    "en": "Tanzania (slang)"
+    "en": "tanzania"
   },
   {
-    "patterns": ["sasa hivi"],
-    "zh": "现在马上",
-    "en": "right now (Swahili)"
+    "patterns": [
+      "tatu",
+      "三"
+    ],
+    "zh": "三",
+    "en": "tatu"
   },
   {
-    "patterns": ["m-pesa", "mpesa", "tigopesa", "halopesa", "airtelmoney"],
-    "zh": "移动支付",
-    "en": "Tanzania mobile money services",
-    "note": "保留原品牌名（M-Pesa, TigoPesa 等）"
+    "patterns": [
+      "tax",
+      "税"
+    ],
+    "zh": "税",
+    "en": "tax"
+  },
+  {
+    "patterns": [
+      "tax invoice",
+      "税票"
+    ],
+    "zh": "税票",
+    "en": "tax invoice"
+  },
+  {
+    "patterns": [
+      "tazara",
+      "塔扎拉"
+    ],
+    "zh": "塔扎拉",
+    "en": "tazara"
+  },
+  {
+    "patterns": [
+      "tegeta",
+      "特格塔"
+    ],
+    "zh": "特格塔",
+    "en": "tegeta"
+  },
+  {
+    "patterns": [
+      "temeke",
+      "特梅克"
+    ],
+    "zh": "特梅克",
+    "en": "temeke"
+  },
+  {
+    "patterns": [
+      "tengeneza",
+      "修理",
+      "制作"
+    ],
+    "zh": "修理/制作",
+    "en": "tengeneza"
+  },
+  {
+    "patterns": [
+      "terms",
+      "条款"
+    ],
+    "zh": "条款",
+    "en": "terms"
+  },
+  {
+    "patterns": [
+      "terms and conditions",
+      "条款和条件"
+    ],
+    "zh": "条款和条件",
+    "en": "terms and conditions"
+  },
+  {
+    "patterns": [
+      "test",
+      "测试"
+    ],
+    "zh": "测试",
+    "en": "test"
+  },
+  {
+    "patterns": [
+      "thelathini",
+      "三十"
+    ],
+    "zh": "三十",
+    "en": "thelathini"
+  },
+  {
+    "patterns": [
+      "themanini",
+      "八十"
+    ],
+    "zh": "八十",
+    "en": "themanini"
+  },
+  {
+    "patterns": [
+      "tigo pesa"
+    ],
+    "zh": "Tigo Pesa 手机钱包",
+    "en": "tigo pesa"
+  },
+  {
+    "patterns": [
+      "tin number",
+      "税号"
+    ],
+    "zh": "税号",
+    "en": "tin number"
+  },
+  {
+    "patterns": [
+      "tisa",
+      "九"
+    ],
+    "zh": "九",
+    "en": "tisa"
+  },
+  {
+    "patterns": [
+      "tisini",
+      "九十"
+    ],
+    "zh": "九十",
+    "en": "tisini"
+  },
+  {
+    "patterns": [
+      "toa",
+      "拿出",
+      "去掉"
+    ],
+    "zh": "拿出/去掉",
+    "en": "toa"
+  },
+  {
+    "patterns": [
+      "toa kwenye order",
+      "从订单里删掉"
+    ],
+    "zh": "从订单里删掉",
+    "en": "toa kwenye order"
+  },
+  {
+    "patterns": [
+      "total",
+      "总计"
+    ],
+    "zh": "总计",
+    "en": "total"
+  },
+  {
+    "patterns": [
+      "tra",
+      "坦桑税务局"
+    ],
+    "zh": "坦桑税务局",
+    "en": "tra"
+  },
+  {
+    "patterns": [
+      "tracking",
+      "物流跟踪"
+    ],
+    "zh": "物流跟踪",
+    "en": "tracking"
+  },
+  {
+    "patterns": [
+      "transaction",
+      "交易"
+    ],
+    "zh": "交易",
+    "en": "transaction"
+  },
+  {
+    "patterns": [
+      "transaction id",
+      "交易编号"
+    ],
+    "zh": "交易编号",
+    "en": "transaction id"
+  },
+  {
+    "patterns": [
+      "tsh",
+      "tzs",
+      "坦桑尼亚先令"
+    ],
+    "zh": "坦桑尼亚先令",
+    "en": "tsh / tzs"
+  },
+  {
+    "patterns": [
+      "tukipokea malipo tutatuma",
+      "收到付款后我们发货"
+    ],
+    "zh": "收到付款后我们发货",
+    "en": "tukipokea malipo tutatuma"
+  },
+  {
+    "patterns": [
+      "tuma account",
+      "发账户"
+    ],
+    "zh": "发账户",
+    "en": "tuma account"
+  },
+  {
+    "patterns": [
+      "tuma jina",
+      "发名字"
+    ],
+    "zh": "发名字",
+    "en": "tuma jina"
+  },
+  {
+    "patterns": [
+      "tuma jina la mpokeaji",
+      "发收货人名字"
+    ],
+    "zh": "发收货人名字",
+    "en": "tuma jina la mpokeaji"
+  },
+  {
+    "patterns": [
+      "tuma kwa basi",
+      "用大巴发货"
+    ],
+    "zh": "用大巴发货",
+    "en": "tuma kwa basi"
+  },
+  {
+    "patterns": [
+      "tuma kwa courier",
+      "用快递发货"
+    ],
+    "zh": "用快递发货",
+    "en": "tuma kwa courier"
+  },
+  {
+    "patterns": [
+      "tuma kwa truck",
+      "用卡车发货"
+    ],
+    "zh": "用卡车发货",
+    "en": "tuma kwa truck"
+  },
+  {
+    "patterns": [
+      "tuma location",
+      "发位置"
+    ],
+    "zh": "发位置",
+    "en": "tuma location"
+  },
+  {
+    "patterns": [
+      "tuma namba",
+      "发号码"
+    ],
+    "zh": "发号码",
+    "en": "tuma namba"
+  },
+  {
+    "patterns": [
+      "tuma namba ya dereva",
+      "发司机电话"
+    ],
+    "zh": "发司机电话",
+    "en": "tuma namba ya dereva"
+  },
+  {
+    "patterns": [
+      "tuma pesa",
+      "发钱",
+      "转账"
+    ],
+    "zh": "发钱/转账",
+    "en": "tuma pesa"
+  },
+  {
+    "patterns": [
+      "tuma picha",
+      "发图片"
+    ],
+    "zh": "发图片",
+    "en": "tuma picha"
+  },
+  {
+    "patterns": [
+      "tuma screenshot",
+      "发截图"
+    ],
+    "zh": "发截图",
+    "en": "tuma screenshot"
+  },
+  {
+    "patterns": [
+      "tuma tena",
+      "再发一次"
+    ],
+    "zh": "再发一次",
+    "en": "tuma tena"
+  },
+  {
+    "patterns": [
+      "tuma tin"
+    ],
+    "zh": "发TIN税号",
+    "en": "tuma tin"
+  },
+  {
+    "patterns": [
+      "tuma video",
+      "发视频"
+    ],
+    "zh": "发视频",
+    "en": "tuma video"
+  },
+  {
+    "patterns": [
+      "tuma voice",
+      "发语音"
+    ],
+    "zh": "发语音",
+    "en": "tuma voice"
+  },
+  {
+    "patterns": [
+      "tumefunga",
+      "我们关门了"
+    ],
+    "zh": "我们关门了",
+    "en": "tumefunga"
+  },
+  {
+    "patterns": [
+      "tuna profit ndogo",
+      "我们利润很低"
+    ],
+    "zh": "我们利润很低",
+    "en": "tuna profit ndogo"
+  },
+  {
+    "patterns": [
+      "tunaandaa mzigo",
+      "我们在准备货"
+    ],
+    "zh": "我们在准备货",
+    "en": "tunaandaa mzigo"
+  },
+  {
+    "patterns": [
+      "tunapakia mzigo",
+      "我们在装货"
+    ],
+    "zh": "我们在装货",
+    "en": "tunapakia mzigo"
+  },
+  {
+    "patterns": [
+      "tunatuma mikoani",
+      "我们发外省"
+    ],
+    "zh": "我们发外省",
+    "en": "tunatuma mikoani"
+  },
+  {
+    "patterns": [
+      "tunauza kwa carton",
+      "我们按箱卖"
+    ],
+    "zh": "我们按箱卖",
+    "en": "tunauza kwa carton"
+  },
+  {
+    "patterns": [
+      "tunauza kwa carton",
+      "按箱卖"
+    ],
+    "zh": "按箱卖",
+    "en": "tunauza kwa carton"
+  },
+  {
+    "patterns": [
+      "tunauza kwa jumla",
+      "我们做批发"
+    ],
+    "zh": "我们做批发",
+    "en": "tunauza kwa jumla"
+  },
+  {
+    "patterns": [
+      "tunaweza kubadilisha",
+      "可以换货"
+    ],
+    "zh": "可以换货",
+    "en": "tunaweza kubadilisha"
+  },
+  {
+    "patterns": [
+      "tunaweza kutuma",
+      "我们可以发货"
+    ],
+    "zh": "我们可以发货",
+    "en": "tunaweza kutuma"
+  },
+  {
+    "patterns": [
+      "tunduma",
+      "通杜马"
+    ],
+    "zh": "通杜马",
+    "en": "tunduma"
+  },
+  {
+    "patterns": [
+      "tupo wazi",
+      "我们营业"
+    ],
+    "zh": "我们营业",
+    "en": "tupo wazi"
+  },
+  {
+    "patterns": [
+      "tutaagiza",
+      "我们会订货"
+    ],
+    "zh": "我们会订货",
+    "en": "tutaagiza"
+  },
+  {
+    "patterns": [
+      "tutakutumia",
+      "我们会发给你"
+    ],
+    "zh": "我们会发给你",
+    "en": "tutakutumia"
+  },
+  {
+    "patterns": [
+      "tutatuma kesho",
+      "我们明天发货"
+    ],
+    "zh": "我们明天发货",
+    "en": "tutatuma kesho"
+  },
+  {
+    "patterns": [
+      "tutume",
+      "我们发"
+    ],
+    "zh": "我们发",
+    "en": "tutume"
+  },
+  {
+    "patterns": [
+      "type-c"
+    ],
+    "zh": "Type-C接口",
+    "en": "type-c"
+  },
+  {
+    "patterns": [
+      "tzs account",
+      "先令账户"
+    ],
+    "zh": "先令账户",
+    "en": "tzs account"
+  },
+  {
+    "patterns": [
+      "ubungo",
+      "乌本戈"
+    ],
+    "zh": "乌本戈",
+    "en": "ubungo"
+  },
+  {
+    "patterns": [
+      "uelewa",
+      "理解"
+    ],
+    "zh": "理解",
+    "en": "uelewa"
+  },
+  {
+    "patterns": [
+      "uganda",
+      "乌干达"
+    ],
+    "zh": "乌干达",
+    "en": "uganda"
+  },
+  {
+    "patterns": [
+      "ukichelewa itaisha",
+      "你晚了会卖完"
+    ],
+    "zh": "你晚了会卖完",
+    "en": "ukichelewa itaisha"
+  },
+  {
+    "patterns": [
+      "uko kariakoo"
+    ],
+    "zh": "你在Kariakoo吗",
+    "en": "uko kariakoo"
+  },
+  {
+    "patterns": [
+      "uko serious",
+      "你是认真的吗"
+    ],
+    "zh": "你是认真的吗",
+    "en": "uko serious"
+  },
+  {
+    "patterns": [
+      "uko wapi",
+      "upo wapi",
+      "你在哪里"
+    ],
+    "zh": "你在哪里",
+    "en": "uko wapi / upo wapi"
+  },
+  {
+    "patterns": [
+      "ukonga",
+      "乌孔加"
+    ],
+    "zh": "乌孔加",
+    "en": "ukonga"
+  },
+  {
+    "patterns": [
+      "ukubwa",
+      "大小"
+    ],
+    "zh": "大小",
+    "en": "ukubwa"
+  },
+  {
+    "patterns": [
+      "uliza",
+      "问"
+    ],
+    "zh": "问",
+    "en": "uliza"
+  },
+  {
+    "patterns": [
+      "umbali",
+      "距离"
+    ],
+    "zh": "距离",
+    "en": "umbali"
+  },
+  {
+    "patterns": [
+      "umebakiza",
+      "你还剩",
+      "你欠"
+    ],
+    "zh": "你还剩/你欠",
+    "en": "umebakiza"
+  },
+  {
+    "patterns": [
+      "umefika",
+      "你到了吗"
+    ],
+    "zh": "你到了吗",
+    "en": "umefika"
+  },
+  {
+    "patterns": [
+      "umekosea",
+      "你搞错了"
+    ],
+    "zh": "你搞错了",
+    "en": "umekosea"
+  },
+  {
+    "patterns": [
+      "umelipa",
+      "你付款了吗"
+    ],
+    "zh": "你付款了吗",
+    "en": "umelipa"
+  },
+  {
+    "patterns": [
+      "umeme",
+      "电"
+    ],
+    "zh": "电",
+    "en": "umeme"
+  },
+  {
+    "patterns": [
+      "umeme umekatika",
+      "停电了"
+    ],
+    "zh": "停电了",
+    "en": "umeme umekatika"
+  },
+  {
+    "patterns": [
+      "umeme umerudi",
+      "来电了"
+    ],
+    "zh": "来电了",
+    "en": "umeme umerudi"
+  },
+  {
+    "patterns": [
+      "umepata",
+      "umepokea",
+      "你收到了吗"
+    ],
+    "zh": "你收到了吗",
+    "en": "umepata / umepokea"
+  },
+  {
+    "patterns": [
+      "unamaanisha nini",
+      "你什么意思"
+    ],
+    "zh": "你什么意思",
+    "en": "unamaanisha nini"
+  },
+  {
+    "patterns": [
+      "unapatikana wapi",
+      "你们在哪里",
+      "你在哪里"
+    ],
+    "zh": "你在哪里/你们在哪里",
+    "en": "unapatikana wapi"
+  },
+  {
+    "patterns": [
+      "unataka efd"
+    ],
+    "zh": "你要EFD票吗",
+    "en": "unataka efd"
+  },
+  {
+    "patterns": [
+      "unaweza",
+      "可以吗",
+      "你可以"
+    ],
+    "zh": "可以吗/你可以",
+    "en": "unaweza"
+  },
+  {
+    "patterns": [
+      "unaweza kulipa cash",
+      "可以现金付款"
+    ],
+    "zh": "可以现金付款",
+    "en": "unaweza kulipa cash"
+  },
+  {
+    "patterns": [
+      "unaweza kulipa kwa bank",
+      "可以银行付款"
+    ],
+    "zh": "可以银行付款",
+    "en": "unaweza kulipa kwa bank"
+  },
+  {
+    "patterns": [
+      "unaweza kulipa kwa mpesa"
+    ],
+    "zh": "可以用M-Pesa付款",
+    "en": "unaweza kulipa kwa mpesa"
+  },
+  {
+    "patterns": [
+      "unaweza kunipa bei nzuri",
+      "可以给好价格吗"
+    ],
+    "zh": "可以给好价格吗",
+    "en": "unaweza kunipa bei nzuri"
+  },
+  {
+    "patterns": [
+      "unaweza kupunguza",
+      "可以便宜吗"
+    ],
+    "zh": "可以便宜吗",
+    "en": "unaweza kupunguza"
+  },
+  {
+    "patterns": [
+      "unaweza kutuma",
+      "可以发货吗"
+    ],
+    "zh": "可以发货吗",
+    "en": "unaweza kutuma"
+  },
+  {
+    "patterns": [
+      "unaweza kutuma mikoani",
+      "可以发外省吗"
+    ],
+    "zh": "可以发外省吗",
+    "en": "unaweza kutuma mikoani"
+  },
+  {
+    "patterns": [
+      "unguja",
+      "zanzibar",
+      "znz",
+      "桑给巴尔"
+    ],
+    "zh": "桑给巴尔",
+    "en": "unguja / zanzibar / znz",
+    "note": "Zanzibar 主岛"
+  },
+  {
+    "patterns": [
+      "upanga",
+      "乌潘加"
+    ],
+    "zh": "乌潘加",
+    "en": "upanga"
+  },
+  {
+    "patterns": [
+      "upo",
+      "你在"
+    ],
+    "zh": "你在",
+    "en": "upo"
+  },
+  {
+    "patterns": [
+      "ups"
+    ],
+    "zh": "UPS备用电源",
+    "en": "ups"
+  },
+  {
+    "patterns": [
+      "usafiri",
+      "交通",
+      "运输"
+    ],
+    "zh": "交通/运输",
+    "en": "usafiri"
+  },
+  {
+    "patterns": [
+      "usb"
+    ],
+    "zh": "USB",
+    "en": "usb"
+  },
+  {
+    "patterns": [
+      "usd account",
+      "美元账户"
+    ],
+    "zh": "美元账户",
+    "en": "usd account"
+  },
+  {
+    "patterns": [
+      "used",
+      "二手",
+      "用过"
+    ],
+    "zh": "二手/用过",
+    "en": "used"
+  },
+  {
+    "patterns": [
+      "ushuru",
+      "关税",
+      "税"
+    ],
+    "zh": "税/关税",
+    "en": "ushuru"
+  },
+  {
+    "patterns": [
+      "usichelewe",
+      "不要迟"
+    ],
+    "zh": "不要迟",
+    "en": "usichelewe"
+  },
+  {
+    "patterns": [
+      "usijali",
+      "不用担心"
+    ],
+    "zh": "不用担心",
+    "en": "usijali"
+  },
+  {
+    "patterns": [
+      "usiku",
+      "晚上",
+      "夜里"
+    ],
+    "zh": "晚上/夜里",
+    "en": "usiku"
+  },
+  {
+    "patterns": [
+      "usinitumie",
+      "不要发给我"
+    ],
+    "zh": "不要发给我",
+    "en": "usinitumie"
+  },
+  {
+    "patterns": [
+      "usipige simu",
+      "不要打电话"
+    ],
+    "zh": "不要打电话",
+    "en": "usipige simu"
+  },
+  {
+    "patterns": [
+      "utanitumia",
+      "你会发给我"
+    ],
+    "zh": "你会发给我",
+    "en": "utanitumia"
+  },
+  {
+    "patterns": [
+      "uvira",
+      "乌维拉"
+    ],
+    "zh": "乌维拉",
+    "en": "uvira"
+  },
+  {
+    "patterns": [
+      "uza",
+      "卖"
+    ],
+    "zh": "卖",
+    "en": "uza"
+  },
+  {
+    "patterns": [
+      "vat",
+      "增值税"
+    ],
+    "zh": "增值税",
+    "en": "vat"
+  },
+  {
+    "patterns": [
+      "vat excluded"
+    ],
+    "zh": "不含VAT",
+    "en": "vat excluded"
+  },
+  {
+    "patterns": [
+      "vat included"
+    ],
+    "zh": "含VAT",
+    "en": "vat included"
+  },
+  {
+    "patterns": [
+      "vat registered"
+    ],
+    "zh": "已注册VAT",
+    "en": "vat registered"
+  },
+  {
+    "patterns": [
+      "video haifunguki",
+      "视频打不开"
+    ],
+    "zh": "视频打不开",
+    "en": "video haifunguki"
+  },
+  {
+    "patterns": [
+      "vingunguti",
+      "维贡古蒂"
+    ],
+    "zh": "维贡古蒂",
+    "en": "vingunguti"
+  },
+  {
+    "patterns": [
+      "vipimo",
+      "参数",
+      "尺寸"
+    ],
+    "zh": "参数/尺寸",
+    "en": "vipimo"
+  },
+  {
+    "patterns": [
+      "voice note",
+      "语音消息"
+    ],
+    "zh": "语音消息",
+    "en": "voice note"
+  },
+  {
+    "patterns": [
+      "volt",
+      "伏"
+    ],
+    "zh": "伏",
+    "en": "volt"
+  },
+  {
+    "patterns": [
+      "voltage",
+      "电压"
+    ],
+    "zh": "电压",
+    "en": "voltage"
+  },
+  {
+    "patterns": [
+      "wa",
+      "whatsapp"
+    ],
+    "zh": "WhatsApp",
+    "en": "wa / whatsapp"
+  },
+  {
+    "patterns": [
+      "wachina",
+      "中国人们"
+    ],
+    "zh": "中国人们",
+    "en": "wachina"
+  },
+  {
+    "patterns": [
+      "waiting approval",
+      "等待批准"
+    ],
+    "zh": "等待批准",
+    "en": "waiting approval"
+  },
+  {
+    "patterns": [
+      "wakala",
+      "代理",
+      "网点"
+    ],
+    "zh": "代理/网点",
+    "en": "wakala"
+  },
+  {
+    "patterns": [
+      "wapi",
+      "哪里"
+    ],
+    "zh": "哪里",
+    "en": "wapi"
+  },
+  {
+    "patterns": [
+      "warehouse light",
+      "仓库灯"
+    ],
+    "zh": "仓库灯",
+    "en": "warehouse light"
+  },
+  {
+    "patterns": [
+      "warm light",
+      "暖光"
+    ],
+    "zh": "暖光",
+    "en": "warm light"
+  },
+  {
+    "patterns": [
+      "warranty",
+      "保修"
+    ],
+    "zh": "保修",
+    "en": "warranty"
+  },
+  {
+    "patterns": [
+      "wateja",
+      "客户们"
+    ],
+    "zh": "客户们",
+    "en": "wateja"
+  },
+  {
+    "patterns": [
+      "wateja wanapenda",
+      "客户喜欢"
+    ],
+    "zh": "客户喜欢",
+    "en": "wateja wanapenda"
+  },
+  {
+    "patterns": [
+      "waterproof",
+      "防水"
+    ],
+    "zh": "防水",
+    "en": "waterproof"
+  },
+  {
+    "patterns": [
+      "watt",
+      "watts",
+      "瓦"
+    ],
+    "zh": "瓦",
+    "en": "watt / watts"
+  },
+  {
+    "patterns": [
+      "watt ngapi",
+      "多少瓦"
+    ],
+    "zh": "多少瓦",
+    "en": "watt ngapi"
+  },
+  {
+    "patterns": [
+      "waya",
+      "wire",
+      "电线"
+    ],
+    "zh": "电线",
+    "en": "waya / wire"
+  },
+  {
+    "patterns": [
+      "waybill",
+      "运单"
+    ],
+    "zh": "运单",
+    "en": "waybill"
+  },
+  {
+    "patterns": [
+      "weka",
+      "放"
+    ],
+    "zh": "放",
+    "en": "weka"
+  },
+  {
+    "patterns": [
+      "well powerd"
+    ],
+    "zh": "Well Powered品牌语",
+    "en": "well powerd"
+  },
+  {
+    "patterns": [
+      "white light",
+      "白光"
+    ],
+    "zh": "白光",
+    "en": "white light"
+  },
+  {
+    "patterns": [
+      "wiki",
+      "周"
+    ],
+    "zh": "周",
+    "en": "wiki"
+  },
+  {
+    "patterns": [
+      "wiki ijayo",
+      "下周"
+    ],
+    "zh": "下周",
+    "en": "wiki ijayo"
+  },
+  {
+    "patterns": [
+      "wikiendi",
+      "周末"
+    ],
+    "zh": "周末",
+    "en": "wikiendi"
+  },
+  {
+    "patterns": [
+      "wire imekatika",
+      "线断了"
+    ],
+    "zh": "线断了",
+    "en": "wire imekatika"
+  },
+  {
+    "patterns": [
+      "wireless",
+      "无线"
+    ],
+    "zh": "无线",
+    "en": "wireless"
+  },
+  {
+    "patterns": [
+      "yas"
+    ],
+    "zh": "Yas 手机钱包",
+    "en": "yas"
+  },
+  {
+    "patterns": [
+      "zamani",
+      "旧的"
+    ],
+    "zh": "旧的",
+    "en": "zamani"
+  },
+  {
+    "patterns": [
+      "zambia",
+      "赞比亚"
+    ],
+    "zh": "赞比亚",
+    "en": "zambia"
+  },
+  {
+    "patterns": [
+      "zimeisha",
+      "都卖完了"
+    ],
+    "zh": "都卖完了",
+    "en": "zimeisha"
   }
 ]
