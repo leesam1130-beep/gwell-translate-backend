@@ -1,0 +1,30 @@
+# 密钥文件 —— 绝对不能进 git
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm/
+.pnpm-store/
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# 构建产物 / 缓存
+dist/
+build/
+.cache/
+coverage/
+*.log

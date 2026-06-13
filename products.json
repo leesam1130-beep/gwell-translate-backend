@@ -1,0 +1,82 @@
+[
+  {
+    "code": "A60-9W-E27",
+    "name": "LED bulb A60 9W E27",
+    "category": "bulb",
+    "specs": "9W, 220V, 6500K, E27, 800lm",
+    "packing": "100 pcs / carton",
+    "keywords": ["a60", "9w", "balbu", "bulb", "球泡", "灯泡", "e27"]
+  },
+  {
+    "code": "A70-12W-E27",
+    "name": "LED bulb A70 12W E27",
+    "category": "bulb",
+    "specs": "12W, 220V, 6500K, E27, 1100lm",
+    "packing": "80 pcs / carton",
+    "keywords": ["a70", "12w", "balbu", "bulb", "球泡", "灯泡", "e27"]
+  },
+  {
+    "code": "T8-1.2M-18W",
+    "name": "LED tube T8 1.2m 18W",
+    "category": "tube",
+    "specs": "18W, 1.2m, 220V, 6500K, T8",
+    "packing": "25 pcs / carton",
+    "keywords": ["t8", "tube", "灯管", "1.2m", "18w"]
+  },
+  {
+    "code": "TORCH-AL-3W",
+    "name": "Aluminum rechargeable torch 3W",
+    "category": "torch",
+    "specs": "3W LED, 1200mAh, USB charge, aluminum body",
+    "packing": "60 pcs / carton",
+    "keywords": ["torch", "tochi", "手电", "手电筒", "rechargeable", "kuchaji"]
+  },
+  {
+    "code": "EMR-LED-30",
+    "name": "Emergency light 30 LED rechargeable wall-mount",
+    "category": "emergency",
+    "specs": "30 SMD LEDs, 4hrs backup, 220V charge",
+    "packing": "30 pcs / carton",
+    "keywords": ["emergency", "dharura", "应急灯", "充电灯"]
+  },
+  {
+    "code": "SOLAR-1TO3",
+    "name": "Solar home system 1-to-3 (panel + battery + 3 bulbs)",
+    "category": "solar",
+    "specs": "10W panel, 6Ah battery, 3 x 3W bulbs, USB phone charge",
+    "packing": "10 sets / carton",
+    "keywords": ["solar", "sola", "1to3", "1-to-3", "太阳能", "一拖三", "system"]
+  },
+  {
+    "code": "SOLAR-1TO5",
+    "name": "Solar home system 1-to-5 (panel + battery + 5 bulbs)",
+    "category": "solar",
+    "specs": "20W panel, 12Ah battery, 5 x 3W bulbs, USB phone charge",
+    "packing": "6 sets / carton",
+    "keywords": ["solar", "sola", "1to5", "1-to-5", "太阳能", "一拖五", "system"]
+  },
+  {
+    "code": "FAN-RC-12IN",
+    "name": "Rechargeable fan 12 inch with built-in LED",
+    "category": "fan",
+    "specs": "12 inch, 4400mAh, 8h runtime, USB+AC charge, LED light",
+    "packing": "6 pcs / carton",
+    "keywords": ["fan", "feni", "风扇", "rechargeable", "kuchaji"]
+  },
+  {
+    "code": "MOSQ-UV-15W",
+    "name": "Mosquito killer lamp UV 15W",
+    "category": "mosquito",
+    "specs": "15W UV tube, 220V, electric grid",
+    "packing": "20 pcs / carton",
+    "keywords": ["mosquito", "mbu", "灭蚊", "电蚊拍", "uv"]
+  },
+  {
+    "code": "FLOOD-SOLAR-100W",
+    "name": "Solar flood light 100W with motion sensor",
+    "category": "solar-flood",
+    "specs": "100W LED, IP65, motion sensor, remote control",
+    "packing": "10 pcs / carton",
+    "keywords": ["flood", "solar", "投光灯", "泛光灯", "sensor", "100w"]
+  }
+]
