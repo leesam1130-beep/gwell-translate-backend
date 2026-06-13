@@ -1,0 +1,157 @@
+[
+  {
+    "patterns": ["unguja", "zanzibar", "桑给巴尔"],
+    "zh": "桑给巴尔",
+    "en": "Zanzibar (Unguja is the main island)",
+    "note": "Unguja 是斯瓦希里语对桑给巴尔主岛的称呼"
+  },
+  {
+    "patterns": ["pemba", "奔巴岛", "奔巴"],
+    "zh": "奔巴岛",
+    "en": "Pemba island (Zanzibar archipelago)"
+  },
+  {
+    "patterns": ["dar es salaam", "dar", "达累斯萨拉姆", "达市"],
+    "zh": "达累斯萨拉姆",
+    "en": "Dar es Salaam (DAR — Tanzania commercial capital)"
+  },
+  {
+    "patterns": ["kariakoo"],
+    "zh": "Kariakoo",
+    "en": "Kariakoo (Dar es Salaam wholesale market district, GWELL office is here)",
+    "note": "保留原写法 Kariakoo，不要中文音译"
+  },
+  {
+    "patterns": ["kigamboni"],
+    "zh": "Kigamboni",
+    "en": "Kigamboni (Dar es Salaam area across the harbor, GWELL factory is here)",
+    "note": "保留原写法 Kigamboni，不要中文音译"
+  },
+  {
+    "patterns": ["kibamba", "基班巴"],
+    "zh": "Kibamba",
+    "en": "Kibamba (Dar es Salaam western suburb)",
+    "note": "通常保留原写法"
+  },
+  {
+    "patterns": ["bagamoyo", "巴加莫约"],
+    "zh": "巴加莫约",
+    "en": "Bagamoyo (historic coastal town north of Dar)"
+  },
+  {
+    "patterns": ["mwanza", "姆万扎"],
+    "zh": "姆万扎",
+    "en": "Mwanza (Lake Victoria, NW Tanzania)"
+  },
+  {
+    "patterns": ["arusha", "阿鲁沙"],
+    "zh": "阿鲁沙",
+    "en": "Arusha (N Tanzania, near Kilimanjaro)"
+  },
+  {
+    "patterns": ["dodoma", "多多马"],
+    "zh": "多多马",
+    "en": "Dodoma (Tanzania official capital)"
+  },
+  {
+    "patterns": ["mbeya", "姆贝亚"],
+    "zh": "姆贝亚",
+    "en": "Mbeya (SW Tanzania, near Zambia border)"
+  },
+  {
+    "patterns": ["morogoro", "莫罗戈罗"],
+    "zh": "莫罗戈罗",
+    "en": "Morogoro (central Tanzania)"
+  },
+  {
+    "patterns": ["tanga", "坦噶"],
+    "zh": "坦噶",
+    "en": "Tanga (NE coastal port city)"
+  },
+  {
+    "patterns": ["mtwara", "姆特瓦拉"],
+    "zh": "姆特瓦拉",
+    "en": "Mtwara (S Tanzania port)"
+  },
+  {
+    "patterns": ["iringa", "伊林加"],
+    "zh": "伊林加",
+    "en": "Iringa (S highlands of Tanzania)"
+  },
+  {
+    "patterns": ["singida", "辛吉达"],
+    "zh": "辛吉达",
+    "en": "Singida (central Tanzania)"
+  },
+  {
+    "patterns": ["kilimanjaro", "乞力马扎罗"],
+    "zh": "乞力马扎罗",
+    "en": "Kilimanjaro (mountain / region)"
+  },
+  {
+    "patterns": ["kinshasa", "金沙萨"],
+    "zh": "金沙萨",
+    "en": "Kinshasa (DRC capital)"
+  },
+  {
+    "patterns": ["lubumbashi", "卢本巴希"],
+    "zh": "卢本巴希",
+    "en": "Lubumbashi (DRC, near Zambia border)"
+  },
+  {
+    "patterns": ["nairobi", "内罗毕"],
+    "zh": "内罗毕",
+    "en": "Nairobi (Kenya capital)"
+  },
+  {
+    "patterns": ["mombasa", "蒙巴萨"],
+    "zh": "蒙巴萨",
+    "en": "Mombasa (Kenya port)"
+  },
+  {
+    "patterns": ["kampala", "坎帕拉"],
+    "zh": "坎帕拉",
+    "en": "Kampala (Uganda capital)"
+  },
+  {
+    "patterns": ["lusaka", "卢萨卡"],
+    "zh": "卢萨卡",
+    "en": "Lusaka (Zambia capital)"
+  },
+  {
+    "patterns": ["ela", "hela"],
+    "zh": "钱",
+    "en": "money (informal Swahili slang for 'hela')"
+  },
+  {
+    "patterns": ["bei poa"],
+    "zh": "好价格",
+    "en": "good price (Swahili informal)"
+  },
+  {
+    "patterns": ["bei nzuri"],
+    "zh": "好价格",
+    "en": "good price (Swahili)"
+  },
+  {
+    "patterns": ["mzungu", "wazungu"],
+    "zh": "外国人",
+    "en": "foreigner (Swahili, often refers to Caucasians)"
+  },
+  {
+    "patterns": ["bongo"],
+    "zh": "坦桑尼亚",
+    "en": "Tanzania (slang)"
+  },
+  {
+    "patterns": ["sasa hivi"],
+    "zh": "现在马上",
+    "en": "right now (Swahili)"
+  },
+  {
+    "patterns": ["m-pesa", "mpesa", "tigopesa", "halopesa", "airtelmoney"],
+    "zh": "移动支付",
+    "en": "Tanzania mobile money services",
+    "note": "保留原品牌名（M-Pesa, TigoPesa 等）"
+  }
+]

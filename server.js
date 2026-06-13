@@ -169,6 +169,58 @@ try {
   console.warn(`[gwell-backend] products.json not loaded (${err.code || err.message}); /quote will degrade to slim translation.`);
 }
 
+// ============================================================
+// Local glossary（本地术语词典，启动时加载）
+// 用法：编辑 local-glossary.json 添加新词条 → push → Railway 自动 redeploy 即生效
+// 不命中任何词条时 0 token 开销；命中 N 条时仅追加 N 行参考块
+// ============================================================
+let GLOSSARY = [];
+try {
+  const raw = readFileSync(join(__dirname, "local-glossary.json"), "utf8");
+  GLOSSARY = JSON.parse(raw);
+  console.log(`[gwell-backend] loaded ${GLOSSARY.length} glossary entries from local-glossary.json`);
+} catch (err) {
+  console.warn(`[gwell-backend] local-glossary.json not loaded (${err.code || err.message}); local term injection disabled.`);
+}
+
+function findGlossaryMatches(text) {
+  if (!GLOSSARY.length || !text) return [];
+  const lower = String(text).toLowerCase();
+  const matches = [];
+  const seen = new Set();
+  for (const entry of GLOSSARY) {
+    if (seen.has(entry)) continue;
+    const pats = Array.isArray(entry.patterns) ? entry.patterns : [];
+    for (const pat of pats) {
+      const p = String(pat || "").toLowerCase();
+      if (!p) continue;
+      let hit = false;
+      if (/[\u4e00-\u9fff]/.test(p)) {
+        hit = lower.includes(p);
+      } else {
+        const escaped = p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        hit = new RegExp(`(^|[^a-z0-9])${escaped}([^a-z0-9]|$)`, "i").test(lower);
+      }
+      if (hit) {
+        matches.push(entry);
+        seen.add(entry);
+        break;
+      }
+    }
+  }
+  return matches;
+}
+
+function buildGlossaryBlock(matches) {
+  if (!matches || matches.length === 0) return "";
+  const lines = matches.map((m) => {
+    const en = m.en || (Array.isArray(m.patterns) ? m.patterns[0] : "");
+    const note = m.note ? ` — ${m.note}` : "";
+    return `- ${en} ↔ ${m.zh}${note}`;
+  });
+  return `## Local-knowledge terms found in this conversation (use these mappings exactly, both directions)\n${lines.join("\n")}\n\n`;
+}
+
 function searchProducts(text, max = 5) {
   if (!PRODUCTS.length || !text) return [];
   const s = String(text).toLowerCase();
@@ -733,7 +785,14 @@ Respond strictly with the JSON schema provided.`;
 
 function buildOutboundInput({ customerMessages, sourceText }) {
   const clamped = clampHistory(customerMessages);
+  const combined = [
+    sourceText,
+    ...clamped.map((m) => (typeof m === "string" ? m : String(m.text || "")))
+  ].filter(Boolean).join("\n");
+  const glossaryBlock = buildGlossaryBlock(findGlossaryMatches(combined));
+
   const lines = [];
+  if (glossaryBlock) lines.push(glossaryBlock);
   lines.push(`## Customer recent messages (oldest → newest, max ${HISTORY_MAX_ITEMS} × ${HISTORY_MAX_CHARS} chars)`);
   if (clamped.length === 0) {
     lines.push("(none — no incoming messages were readable from the current chat)");
@@ -773,7 +832,8 @@ app.get("/api/health", (req, res) => {
     authorized,
     defaultTranslateMode: DEFAULT_TRANSLATE_MODE,
     allowPremiumModels: ALLOW_PREMIUM_MODELS,
-    fallbackModel: FALLBACK_MODEL
+    fallbackModel: FALLBACK_MODEL,
+    glossaryEntries: GLOSSARY.length
   });
 });
 
@@ -905,8 +965,13 @@ ${ctxLines}
         const safeText = String(it.text || "").replace(/\r?\n/g, "\n");
         return `[item ${idx + 1}] id=${it.id}\n${safeText}`;
       });
+      const glossarySource = [
+        ...subItems.map((it) => String(it.text || "")),
+        ...recentContext
+      ].join("\n");
+      const glossaryBlock = buildGlossaryBlock(findGlossaryMatches(glossarySource));
       const subInput =
-`${contextBlock}Translate the following ${subItems.length} foreign-language customer message(s) into Simplified Chinese.
+`${glossaryBlock}${contextBlock}Translate the following ${subItems.length} foreign-language customer message(s) into Simplified Chinese.
 
 ${subLines.join("\n\n---\n\n")}`;
       const { text, usage } = await callOpenAIResponses({
