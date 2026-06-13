@@ -178,6 +178,20 @@ let GLOSSARY = [];
 try {
   const raw = readFileSync(join(__dirname, "local-glossary.json"), "utf8");
   GLOSSARY = JSON.parse(raw);
+  // 启动时一次性编译每个 pattern，运行时直接 test，避免每次请求重复构造 RegExp
+  for (const entry of GLOSSARY) {
+    entry._compiled = (Array.isArray(entry.patterns) ? entry.patterns : [])
+      .map((pat) => {
+        const p = String(pat || "").toLowerCase();
+        if (!p) return null;
+        if (/[\u4e00-\u9fff]/.test(p)) {
+          return { type: "cjk", needle: p };
+        }
+        const escaped = p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        return { type: "re", re: new RegExp(`(^|[^a-z0-9])${escaped}([^a-z0-9]|$)`, "i") };
+      })
+      .filter(Boolean);
+  }
   console.log(`[gwell-backend] loaded ${GLOSSARY.length} glossary entries from local-glossary.json`);
 } catch (err) {
   console.warn(`[gwell-backend] local-glossary.json not loaded (${err.code || err.message}); local term injection disabled.`);
@@ -187,23 +201,12 @@ function findGlossaryMatches(text) {
   if (!GLOSSARY.length || !text) return [];
   const lower = String(text).toLowerCase();
   const matches = [];
-  const seen = new Set();
   for (const entry of GLOSSARY) {
-    if (seen.has(entry)) continue;
-    const pats = Array.isArray(entry.patterns) ? entry.patterns : [];
-    for (const pat of pats) {
-      const p = String(pat || "").toLowerCase();
-      if (!p) continue;
-      let hit = false;
-      if (/[\u4e00-\u9fff]/.test(p)) {
-        hit = lower.includes(p);
-      } else {
-        const escaped = p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        hit = new RegExp(`(^|[^a-z0-9])${escaped}([^a-z0-9]|$)`, "i").test(lower);
-      }
+    const compiled = entry._compiled || [];
+    for (const c of compiled) {
+      const hit = c.type === "cjk" ? lower.includes(c.needle) : c.re.test(lower);
       if (hit) {
         matches.push(entry);
-        seen.add(entry);
         break;
       }
     }
