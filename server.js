@@ -18,6 +18,8 @@
 //   - 所有调用加 max_output_tokens 上限
 //   - 新增 token 使用日志，input/output > 10:1 时输出 WARNING
 //   - 安全网：保留旧 prompt 作为 expert 模式，可 per-request 或 env GWELL_TRANSLATE_DEFAULT_MODE=expert 回退
+//   - 模型白名单：默认拒绝 gpt-4o / gpt-4.1 / o1 等昂贵模型（单价 16.7× mini），自动降级到 gpt-4o-mini
+//                 env GWELL_ALLOW_PREMIUM_MODELS=true 可解除限制；典型日费用从 $1.55 → $0.10 量级
 
 import "dotenv/config";
 import express from "express";
@@ -50,6 +52,67 @@ if (!OPENAI_API_KEY) {
 const DEFAULT_TRANSLATE_MODE =
   String(process.env.GWELL_TRANSLATE_DEFAULT_MODE || "slim").toLowerCase() === "expert" ? "expert" : "slim";
 console.log(`[gwell-backend] default translate mode: ${DEFAULT_TRANSLATE_MODE}`);
+
+// ============================================================
+// 模型白名单（防止昂贵模型被默认调用，每年节省数百美元）
+// ============================================================
+// GWELL_ALLOW_PREMIUM_MODELS:
+//   未设置 / "false" → 后端拒绝接受 gpt-4o / gpt-4.1 / o1 等高价模型，自动降级到 gpt-4o-mini
+//   "true"          → 完全放行，相信客户端的 model 字段（紧急/高质量场景再开）
+// 默认 false。这能彻底防止 Chrome 插件意外或刻意传 "gpt-4o" 导致单价瞬间放大 16.7 倍。
+const ALLOW_PREMIUM_MODELS = String(process.env.GWELL_ALLOW_PREMIUM_MODELS || "").toLowerCase() === "true";
+const FALLBACK_MODEL = "gpt-4o-mini";
+
+// 公认便宜的 mini 系列（前缀匹配）
+const ALLOWED_MINI_PREFIXES = [
+  "gpt-4o-mini",
+  "gpt-4.1-mini",
+  "gpt-4_1-mini" // OpenAI dashboard 见过的别名形式
+];
+
+// 公认昂贵的 premium 系列（前缀匹配）—— 命中即降级（除非 ALLOW_PREMIUM_MODELS=true）
+const PREMIUM_PREFIXES = [
+  "gpt-4o-2024",
+  "gpt-4o-2025",
+  "gpt-4o-realtime",
+  "gpt-4o-audio",
+  "gpt-4o-search",
+  "gpt-4.1-2025",
+  "gpt-4-turbo",
+  "gpt-4-",
+  "chatgpt-4o-latest",
+  "o1",
+  "o3"
+];
+
+function isMiniModel(m) {
+  const s = String(m || "").toLowerCase();
+  return ALLOWED_MINI_PREFIXES.some((p) => s === p || s.startsWith(p + "-") || s.startsWith(p));
+}
+
+function isPremiumModel(m) {
+  const s = String(m || "").toLowerCase();
+  if (isMiniModel(s)) return false; // mini 系列优先
+  return s === "gpt-4o" || s === "gpt-4.1" || s === "gpt-4" || PREMIUM_PREFIXES.some((p) => s.startsWith(p));
+}
+
+function enforceModelPolicy(requested, route) {
+  const m = String(requested || "").trim();
+  if (!m) return FALLBACK_MODEL;
+  if (isMiniModel(m)) return m;
+  if (isPremiumModel(m)) {
+    if (ALLOW_PREMIUM_MODELS) {
+      console.log(`[gwell-backend] [${route}] PREMIUM model "${m}" allowed by GWELL_ALLOW_PREMIUM_MODELS=true`);
+      return m;
+    }
+    console.warn(`[gwell-backend] [${route}] BLOCKED premium model "${m}" → forced to "${FALLBACK_MODEL}" (set GWELL_ALLOW_PREMIUM_MODELS=true to permit)`);
+    return FALLBACK_MODEL;
+  }
+  console.warn(`[gwell-backend] [${route}] UNKNOWN model "${m}" → forced to "${FALLBACK_MODEL}"`);
+  return FALLBACK_MODEL;
+}
+
+console.log(`[gwell-backend] premium model policy: ${ALLOW_PREMIUM_MODELS ? "ALLOWED (GWELL_ALLOW_PREMIUM_MODELS=true)" : "BLOCKED → fallback to " + FALLBACK_MODEL}`);
 
 // 历史消息上限（用于 /api/translate、/api/batch-translate-incoming）
 const HISTORY_MAX_ITEMS = 3;
@@ -707,7 +770,10 @@ app.get("/api/health", (req, res) => {
     authEnabled: AUTH_ENABLED,
     allowedCount: AUTH_ENABLED ? ALLOWED_USERS.size : 0,
     yourUser: user || null,
-    authorized
+    authorized,
+    defaultTranslateMode: DEFAULT_TRANSLATE_MODE,
+    allowPremiumModels: ALLOW_PREMIUM_MODELS,
+    fallbackModel: FALLBACK_MODEL
   });
 });
 
@@ -720,12 +786,15 @@ app.post("/api/translate", requireUser, async (req, res) => {
       customerMessages = [],
       overrideLanguage = null,
       contextHint = null,
-      model = "gpt-4o-mini",
+      model: requestedModel = FALLBACK_MODEL,
       mode: reqMode
     } = req.body || {};
 
     const src = String(sourceText || "").trim();
     if (!src) return res.status(400).json({ ok: false, error: "EMPTY_SOURCE" });
+
+    const model = enforceModelPolicy(requestedModel, "/api/translate");
+    const modelDowngraded = model !== requestedModel;
 
     const mode = (String(reqMode || DEFAULT_TRANSLATE_MODE).toLowerCase() === "expert") ? "expert" : "slim";
     const instructions = mode === "expert"
@@ -764,10 +833,22 @@ app.post("/api/translate", requireUser, async (req, res) => {
       };
     }
 
-    res.json({ ok: true, ...parsed, usage, model, mode });
+    res.json({
+      ok: true,
+      ...parsed,
+      usage,
+      model,
+      mode,
+      requestedModel,
+      modelDowngraded
+    });
   } catch (err) {
     console.error("[/api/translate]", err);
-    res.status(500).json({ ok: false, error: err?.message || String(err) });
+    res.status(500).json({
+      ok: false,
+      error: err?.message || String(err),
+      requestedModel: req.body?.model ?? null
+    });
   }
 });
 
@@ -777,13 +858,19 @@ app.post("/api/batch-translate-incoming", requireUser, async (req, res) => {
     const {
       items: rawItems,
       recentContext: rawCtx = [],
-      model = "gpt-4o-mini",
-      upgradeModel = null,
+      model: requestedModel = FALLBACK_MODEL,
+      upgradeModel: requestedUpgradeModel = null,
       mode: reqMode
     } = req.body || {};
 
     const items = Array.isArray(rawItems) ? rawItems.filter(Boolean) : [];
     if (items.length === 0) return res.json({ ok: true, translations: [] });
+
+    const model = enforceModelPolicy(requestedModel, "/api/batch-translate-incoming");
+    const upgradeModel = requestedUpgradeModel
+      ? enforceModelPolicy(requestedUpgradeModel, "/api/batch-translate-incoming.upgrade")
+      : null;
+    const modelDowngraded = model !== requestedModel || (requestedUpgradeModel && upgradeModel !== requestedUpgradeModel);
 
     const mode = (String(reqMode || DEFAULT_TRANSLATE_MODE).toLowerCase() === "expert") ? "expert" : "slim";
     const batchInstructions = mode === "expert"
@@ -889,7 +976,10 @@ ${subLines.join("\n\n---\n\n")}`;
       upgradedIds,
       model,
       upgradeModel: canUpgrade ? upgradeModel : null,
-      mode
+      mode,
+      requestedModel,
+      requestedUpgradeModel,
+      modelDowngraded
     });
   } catch (err) {
     console.error("[/api/batch-translate-incoming]", err);
@@ -1040,11 +1130,14 @@ app.post("/quote", requireUser, async (req, res) => {
       text,
       targetLanguage = null,
       customerMessages = [],
-      model = "gpt-4o-mini"
+      model: requestedModel = FALLBACK_MODEL
     } = req.body || {};
 
     const t = String(text || "").trim();
     if (!t) return res.status(400).json({ ok: false, error: "EMPTY_TEXT" });
+
+    const model = enforceModelPolicy(requestedModel, "/quote");
+    const modelDowngraded = model !== requestedModel;
 
     const matches = searchProducts(t, 5);
     const history = clampHistory(customerMessages);
@@ -1122,7 +1215,9 @@ ${t}`;
       reply: data?.choices?.[0]?.message?.content || "",
       matchedProducts: matches.map((p) => ({ code: p.code, name: p.name })),
       usage: data?.usage,
-      model
+      model,
+      requestedModel,
+      modelDowngraded
     });
   } catch (err) {
     console.error("[/quote]", err);
