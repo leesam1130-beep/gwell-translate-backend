@@ -214,14 +214,39 @@ function findGlossaryMatches(text) {
   return matches;
 }
 
-function buildGlossaryBlock(matches) {
+// 词典块按翻译方向单向化（双向格式 ↔ 会让模型分不清"该输出哪一侧"，
+// 实测出现过把 "价格表" "箱数量" 等中文照抄进 Swahili 输出的情况）。
+//   direction = "cn-to-foreign" : 中→外（用于 /api/translate），左侧中文，右侧外文
+//   direction = "foreign-to-cn" : 外→中（用于 /api/batch-translate-incoming），左侧外文，右侧中文
+function buildGlossaryBlock(matches, direction) {
   if (!matches || matches.length === 0) return "";
+  const splitSides = (m) => {
+    const all = Array.isArray(m.patterns) ? m.patterns : [];
+    const cn = all.filter((p) => /[\u4e00-\u9fff]/.test(p));
+    const fn = all.filter((p) => !/[\u4e00-\u9fff]/.test(p));
+    return { cn, fn };
+  };
+
+  if (direction === "cn-to-foreign") {
+    const lines = matches.map((m) => {
+      const { cn, fn } = splitSides(m);
+      const left = (cn[0] || m.zh).trim();
+      const right = fn.length ? fn.join(" / ") : (m.en || m.zh);
+      const note = m.note ? ` (${m.note})` : "";
+      return `- ${left} → ${right}${note}`;
+    });
+    return `## Glossary (Chinese → target language)\nWhen these Chinese terms appear in the source, translate them as shown. Do NOT leave them in Chinese.\n${lines.join("\n")}\n\n`;
+  }
+
+  // foreign-to-cn (default for batch route)
   const lines = matches.map((m) => {
-    const en = m.en || (Array.isArray(m.patterns) ? m.patterns[0] : "");
-    const note = m.note ? ` — ${m.note}` : "";
-    return `- ${en} ↔ ${m.zh}${note}`;
+    const { fn } = splitSides(m);
+    const left = fn.length ? fn.join(" / ") : (m.en || m.zh);
+    const right = m.zh;
+    const note = m.note ? ` (${m.note})` : "";
+    return `- ${left} → ${right}${note}`;
   });
-  return `## Local-knowledge terms found in this conversation (use these mappings exactly, both directions)\n${lines.join("\n")}\n\n`;
+  return `## Glossary (foreign → Chinese)\nWhen these foreign-language terms appear in the source, translate them exactly as shown.\n${lines.join("\n")}\n\n`;
 }
 
 function searchProducts(text, max = 5) {
@@ -648,6 +673,11 @@ PRESERVE EXACTLY
 - Product codes / models (A60, A70, T8, E27, B22, GL-xxxx, etc.)
 - URLs, phone numbers, emojis, line breaks
 
+HARD RULE — NO CHINESE IN OUTPUT
+- The translated message must contain ZERO Chinese characters (no Hanzi at all).
+- Translate every Chinese word, including compounds like 价格表, 箱数量, 批发价, 现货, 库存, 报价单, 起订量 — render them in the target language, never copy them as-is.
+- If a Chinese word is also in the Glossary block, use the glossary mapping.
+
 OUTPUT
 - Translation only — no quotes, no "Translation:" prefix, no markdown.
 
@@ -792,7 +822,7 @@ function buildOutboundInput({ customerMessages, sourceText }) {
     sourceText,
     ...clamped.map((m) => (typeof m === "string" ? m : String(m.text || "")))
   ].filter(Boolean).join("\n");
-  const glossaryBlock = buildGlossaryBlock(findGlossaryMatches(combined));
+  const glossaryBlock = buildGlossaryBlock(findGlossaryMatches(combined), "cn-to-foreign");
 
   const lines = [];
   if (glossaryBlock) lines.push(glossaryBlock);
@@ -972,7 +1002,7 @@ ${ctxLines}
         ...subItems.map((it) => String(it.text || "")),
         ...recentContext
       ].join("\n");
-      const glossaryBlock = buildGlossaryBlock(findGlossaryMatches(glossarySource));
+      const glossaryBlock = buildGlossaryBlock(findGlossaryMatches(glossarySource), "foreign-to-cn");
       const subInput =
 `${glossaryBlock}${contextBlock}Translate the following ${subItems.length} foreign-language customer message(s) into Simplified Chinese.
 

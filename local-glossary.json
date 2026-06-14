@@ -9,9 +9,7 @@
   },
   {
     "patterns": [
-      "acha",
-      "算了",
-      "停止"
+      "acha"
     ],
     "zh": "算了/停止",
     "en": "acha"
@@ -59,9 +57,7 @@
   },
   {
     "patterns": [
-      "agiza",
-      "订购",
-      "订货"
+      "agiza"
     ],
     "zh": "订货/订购",
     "en": "agiza"
@@ -76,9 +72,7 @@
   },
   {
     "patterns": [
-      "aina",
-      "型号",
-      "种类"
+      "aina"
     ],
     "zh": "种类/型号",
     "en": "aina"
@@ -109,9 +103,7 @@
   },
   {
     "patterns": [
-      "aise",
-      "哎",
-      "兄弟"
+      "aise"
     ],
     "zh": "哎/兄弟",
     "en": "aise",
@@ -136,8 +128,7 @@
   },
   {
     "patterns": [
-      "andika",
-      "写"
+      "andika"
     ],
     "zh": "写",
     "en": "andika"
@@ -289,18 +280,14 @@
   },
   {
     "patterns": [
-      "baadae",
-      "晚点",
-      "之后"
+      "baadae"
     ],
     "zh": "晚点/之后",
     "en": "baadae"
   },
   {
     "patterns": [
-      "baba",
-      "男士",
-      "叔叔"
+      "baba"
     ],
     "zh": "男士/叔叔",
     "en": "baba"
@@ -388,9 +375,7 @@
   },
   {
     "patterns": [
-      "baki yako",
-      "你的余额",
-      "找零"
+      "baki yako"
     ],
     "zh": "你的余额/找零",
     "en": "baki yako"
@@ -405,9 +390,7 @@
   },
   {
     "patterns": [
-      "balance",
-      "尾款",
-      "余额"
+      "balance"
     ],
     "zh": "余额/尾款",
     "en": "balance"
@@ -465,8 +448,7 @@
   {
     "patterns": [
       "barabara",
-      "njia",
-      "路"
+      "njia"
     ],
     "zh": "路",
     "en": "barabara / njia"
@@ -481,9 +463,7 @@
   },
   {
     "patterns": [
-      "basi",
-      "巴士",
-      "那好吧"
+      "basi"
     ],
     "zh": "那好吧/巴士",
     "en": "basi"
@@ -836,9 +816,7 @@
   },
   {
     "patterns": [
-      "bidhaa",
-      "产品",
-      "商品"
+      "bidhaa"
     ],
     "zh": "商品/产品",
     "en": "bidhaa"
@@ -853,9 +831,7 @@
   },
   {
     "patterns": [
-      "bila waya",
-      "不带线",
-      "无线"
+      "bila waya"
     ],
     "zh": "无线/不带线",
     "en": "bila waya"
@@ -870,8 +846,7 @@
   },
   {
     "patterns": [
-      "bize",
-      "忙"
+      "bize"
     ],
     "zh": "忙",
     "en": "bize",
@@ -924,8 +899,7 @@
       "box",
       "carton",
       "ctn",
-      "katoni",
-      "箱"
+      "katoni"
     ],
     "zh": "箱",
     "en": "box / carton / ctn / katoni"
@@ -941,9 +915,7 @@
   },
   {
     "patterns": [
-      "branch",
-      "分部",
-      "分店"
+      "branch"
     ],
     "zh": "分店/分部",
     "en": "branch"
@@ -959,8 +931,7 @@
   },
   {
     "patterns": [
-      "bright",
-      "亮"
+      "bright"
     ],
     "zh": "亮",
     "en": "bright"
@@ -1015,9 +986,7 @@
   },
   {
     "patterns": [
-      "bundle",
-      "捆",
-      "套"
+      "bundle"
     ],
     "zh": "捆/套",
     "en": "bundle"
@@ -1049,8 +1018,7 @@
   },
   {
     "patterns": [
-      "cable",
-      "线"
+      "cable"
     ],
     "zh": "线",
     "en": "cable"
@@ -1102,9 +1070,7 @@
   },
   {
     "patterns": [
-      "cash only",
-      "现款",
-      "只收现金"
+      "cash only"
     ],
     "zh": "只收现金/现款",
     "en": "cash only"
@@ -1219,18 +1185,14 @@
   },
   {
     "patterns": [
-      "cheki",
-      "检查",
-      "看一下"
+      "cheki"
     ],
     "zh": "看一下/检查",
     "en": "cheki"
   },
   {
     "patterns": [
-      "chelewa",
-      "迟到",
-      "延误"
+      "chelewa"
     ],
     "zh": "迟到/延误",
     "en": "chelewa"
@@ -1245,9 +1207,7 @@
   },
   {
     "patterns": [
-      "chukua",
-      "拿",
-      "取"
+      "chukua"
     ],
     "zh": "拿/取",
     "en": "chukua"
@@ -1374,9 +1334,7 @@
   },
   {
     "patterns": [
-      "control number",
-      "缴费号",
-      "控制号码"
+      "control number"
     ],
     "zh": "控制号码/缴费号",
     "en": "control number"
@@ -1447,18 +1405,14 @@
   },
   {
     "patterns": [
-      "dada",
-      "姐姐",
-      "女士"
+      "dada"
     ],
     "zh": "姐姐/女士",
     "en": "dada"
   },
   {
     "patterns": [
-      "dah",
-      "哎呀",
-      "天啊"
+      "dah"
     ],
     "zh": "哎呀/天啊",
     "en": "dah"
@@ -1508,8 +1462,7 @@
   {
     "patterns": [
       "dazeni",
-      "dozen",
-      "打"
+      "dozen"
     ],
     "zh": "打",
     "en": "dazeni / dozen"
@@ -1605,9 +1558,7 @@
   },
   {
     "patterns": [
-      "dhamana",
-      "保修",
-      "担保"
+      "dhamana"
     ],
     "zh": "保修/担保",
     "en": "dhamana"
@@ -1687,9 +1638,7 @@
   {
     "patterns": [
       "ebu",
-      "hebu",
-      "麻烦",
-      "请"
+      "hebu"
     ],
     "zh": "请/麻烦",
     "en": "ebu / hebu",
@@ -1715,8 +1664,7 @@
     "patterns": [
       "ela",
       "hela",
-      "pesa",
-      "钱"
+      "pesa"
     ],
     "zh": "钱",
     "en": "ela / hela / pesa",
@@ -1741,8 +1689,7 @@
   },
   {
     "patterns": [
-      "elfu",
-      "千"
+      "elfu"
     ],
     "zh": "千",
     "en": "elfu"
@@ -1953,9 +1900,7 @@
   },
   {
     "patterns": [
-      "freshi",
-      "不错",
-      "好的"
+      "freshi"
     ],
     "zh": "好的/不错",
     "en": "freshi"
@@ -1970,19 +1915,14 @@
   },
   {
     "patterns": [
-      "fundi",
-      "安装工",
-      "师傅",
-      "维修工"
+      "fundi"
     ],
     "zh": "师傅/安装工/维修工",
     "en": "fundi"
   },
   {
     "patterns": [
-      "funga",
-      "安装",
-      "关闭"
+      "funga"
     ],
     "zh": "关闭/安装",
     "en": "funga"
@@ -2005,17 +1945,14 @@
   },
   {
     "patterns": [
-      "fupi",
-      "短"
+      "fupi"
     ],
     "zh": "短",
     "en": "fupi"
   },
   {
     "patterns": [
-      "gani",
-      "哪个",
-      "什么样"
+      "gani"
     ],
     "zh": "哪个/什么样",
     "en": "gani"
@@ -2030,8 +1967,7 @@
   },
   {
     "patterns": [
-      "gari",
-      "车"
+      "gari"
     ],
     "zh": "车",
     "en": "gari"
@@ -2071,17 +2007,14 @@
   },
   {
     "patterns": [
-      "ghali",
-      "贵"
+      "ghali"
     ],
     "zh": "贵",
     "en": "ghali"
   },
   {
     "patterns": [
-      "gharama",
-      "成本",
-      "费用"
+      "gharama"
     ],
     "zh": "成本/费用",
     "en": "gharama"
@@ -2121,8 +2054,7 @@
   },
   {
     "patterns": [
-      "gl",
-      "品牌型号"
+      "gl"
     ],
     "zh": "GL型号/品牌型号",
     "en": "gl"
@@ -2145,8 +2077,7 @@
   },
   {
     "patterns": [
-      "good life",
-      "好生活"
+      "good life"
     ],
     "zh": "好生活/Good Life品牌语",
     "en": "good life"
@@ -2177,9 +2108,7 @@
   },
   {
     "patterns": [
-      "gunia",
-      "编织袋",
-      "麻袋"
+      "gunia"
     ],
     "zh": "编织袋/麻袋",
     "en": "gunia"
@@ -2193,9 +2122,7 @@
   },
   {
     "patterns": [
-      "habari",
-      "你好",
-      "消息"
+      "habari"
     ],
     "zh": "你好/消息",
     "en": "habari"
@@ -2285,9 +2212,7 @@
   },
   {
     "patterns": [
-      "hakikisha",
-      "确保",
-      "确认"
+      "hakikisha"
     ],
     "zh": "确认/确保",
     "en": "hakikisha"
@@ -2369,17 +2294,14 @@
   },
   {
     "patterns": [
-      "hapana",
-      "不"
+      "hapana"
     ],
     "zh": "不",
     "en": "hapana"
   },
   {
     "patterns": [
-      "hapo",
-      "那里",
-      "这里"
+      "hapo"
     ],
     "zh": "那里/这里",
     "en": "hapo"
@@ -2410,8 +2332,7 @@
   },
   {
     "patterns": [
-      "haribika",
-      "坏"
+      "haribika"
     ],
     "zh": "坏",
     "en": "haribika"
@@ -2483,9 +2404,7 @@
   },
   {
     "patterns": [
-      "hesabu",
-      "计算",
-      "账目"
+      "hesabu"
     ],
     "zh": "计算/账目",
     "en": "hesabu"
@@ -2590,9 +2509,7 @@
   },
   {
     "patterns": [
-      "holder",
-      "灯头",
-      "支架"
+      "holder"
     ],
     "zh": "灯头/支架",
     "en": "holder"
@@ -2711,18 +2628,14 @@
   },
   {
     "patterns": [
-      "imeisha",
-      "卖完了",
-      "用完了"
+      "imeisha"
     ],
     "zh": "卖完了/用完了",
     "en": "imeisha"
   },
   {
     "patterns": [
-      "imekufa",
-      "不能用了",
-      "坏死了"
+      "imekufa"
     ],
     "zh": "坏死了/不能用了",
     "en": "imekufa"
@@ -2753,9 +2666,7 @@
   },
   {
     "patterns": [
-      "imevunjika",
-      "断了",
-      "破了"
+      "imevunjika"
     ],
     "zh": "破了/断了",
     "en": "imevunjika"
@@ -2840,9 +2751,7 @@
   },
   {
     "patterns": [
-      "inachaji",
-      "可以充电",
-      "正在充电"
+      "inachaji"
     ],
     "zh": "正在充电/可以充电",
     "en": "inachaji"
@@ -2857,9 +2766,7 @@
   },
   {
     "patterns": [
-      "inafaa",
-      "合适",
-      "可以用"
+      "inafaa"
     ],
     "zh": "合适/可以用",
     "en": "inafaa"
@@ -2964,8 +2871,7 @@
   {
     "patterns": [
       "ipo",
-      "zipo",
-      "有"
+      "zipo"
     ],
     "zh": "有",
     "en": "ipo / zipo"
@@ -3149,9 +3055,7 @@
   },
   {
     "patterns": [
-      "kaka",
-      "哥哥",
-      "兄弟"
+      "kaka"
     ],
     "zh": "哥哥/兄弟",
     "en": "kaka"
@@ -3197,9 +3101,7 @@
   },
   {
     "patterns": [
-      "karibu",
-      "欢迎",
-      "近"
+      "karibu"
     ],
     "zh": "近/欢迎",
     "en": "karibu"
@@ -3351,9 +3253,7 @@
   },
   {
     "patterns": [
-      "kichina",
-      "中国的",
-      "中文"
+      "kichina"
     ],
     "zh": "中文/中国的",
     "en": "kichina"
@@ -3444,9 +3344,7 @@
   {
     "patterns": [
       "kipande",
-      "vipande",
-      "个",
-      "件"
+      "vipande"
     ],
     "zh": "件/个",
     "en": "kipande / vipande"
@@ -3493,18 +3391,14 @@
   },
   {
     "patterns": [
-      "kiwandani",
-      "工厂价",
-      "工厂里"
+      "kiwandani"
     ],
     "zh": "工厂里/工厂价",
     "en": "kiwandani"
   },
   {
     "patterns": [
-      "kiwango",
-      "标准",
-      "等级"
+      "kiwango"
     ],
     "zh": "标准/等级",
     "en": "kiwango"
@@ -3519,9 +3413,7 @@
   },
   {
     "patterns": [
-      "kuagiza",
-      "进口",
-      "下单"
+      "kuagiza"
     ],
     "zh": "下单/进口",
     "en": "kuagiza"
@@ -3545,25 +3437,21 @@
   },
   {
     "patterns": [
-      "kubwa",
-      "大"
+      "kubwa"
     ],
     "zh": "大",
     "en": "kubwa"
   },
   {
     "patterns": [
-      "kuchukua",
-      "取"
+      "kuchukua"
     ],
     "zh": "取",
     "en": "kuchukua"
   },
   {
     "patterns": [
-      "kufunga",
-      "安装",
-      "关闭"
+      "kufunga"
     ],
     "zh": "安装/关闭",
     "en": "kufunga"
@@ -3587,8 +3475,7 @@
   },
   {
     "patterns": [
-      "kumi",
-      "十"
+      "kumi"
     ],
     "zh": "十",
     "en": "kumi"
@@ -3629,9 +3516,7 @@
   },
   {
     "patterns": [
-      "kusafirisha",
-      "发货",
-      "运输"
+      "kusafirisha"
     ],
     "zh": "发货/运输",
     "en": "kusafirisha"
@@ -3673,9 +3558,7 @@
   },
   {
     "patterns": [
-      "kwani",
-      "难道",
-      "因为啥"
+      "kwani"
     ],
     "zh": "难道/因为啥",
     "en": "kwani"
@@ -3802,9 +3685,7 @@
   },
   {
     "patterns": [
-      "lete",
-      "带来",
-      "拿来"
+      "lete"
     ],
     "zh": "带来/拿来",
     "en": "lete"
@@ -3961,9 +3842,7 @@
   },
   {
     "patterns": [
-      "maelezo",
-      "说明",
-      "详情"
+      "maelezo"
     ],
     "zh": "说明/详情",
     "en": "maelezo"
@@ -4074,9 +3953,7 @@
   },
   {
     "patterns": [
-      "mama",
-      "阿姨",
-      "女士"
+      "mama"
     ],
     "zh": "女士/阿姨",
     "en": "mama"
@@ -4148,17 +4025,14 @@
   },
   {
     "patterns": [
-      "mbali",
-      "远"
+      "mbali"
     ],
     "zh": "远",
     "en": "mbali"
   },
   {
     "patterns": [
-      "mbaya",
-      "不好",
-      "差"
+      "mbaya"
     ],
     "zh": "差/不好",
     "en": "mbaya"
@@ -4205,8 +4079,7 @@
   },
   {
     "patterns": [
-      "mbili",
-      "二"
+      "mbili"
     ],
     "zh": "二",
     "en": "mbili"
@@ -4221,9 +4094,7 @@
   },
   {
     "patterns": [
-      "mchana",
-      "白天",
-      "中午"
+      "mchana"
     ],
     "zh": "中午/白天",
     "en": "mchana"
@@ -4254,8 +4125,7 @@
   },
   {
     "patterns": [
-      "mia",
-      "百"
+      "mia"
     ],
     "zh": "百",
     "en": "mia"
@@ -4294,9 +4164,7 @@
   },
   {
     "patterns": [
-      "mikoani",
-      "地方城市",
-      "外省"
+      "mikoani"
     ],
     "zh": "外省/地方城市",
     "en": "mikoani"
@@ -4383,9 +4251,7 @@
   },
   {
     "patterns": [
-      "mkopo",
-      "贷款",
-      "赊账"
+      "mkopo"
     ],
     "zh": "赊账/贷款",
     "en": "mkopo"
@@ -4400,9 +4266,7 @@
   },
   {
     "patterns": [
-      "mkuu",
-      "大哥",
-      "老板"
+      "mkuu"
     ],
     "zh": "老板/大哥",
     "en": "mkuu"
@@ -4524,8 +4388,7 @@
   },
   {
     "patterns": [
-      "moja",
-      "一"
+      "moja"
     ],
     "zh": "一",
     "en": "moja"
@@ -4556,9 +4419,7 @@
   },
   {
     "patterns": [
-      "mosquito killer",
-      "电蚊拍",
-      "灭蚊灯"
+      "mosquito killer"
     ],
     "zh": "灭蚊灯/电蚊拍",
     "en": "mosquito killer"
@@ -4761,17 +4622,14 @@
   },
   {
     "patterns": [
-      "muuzaji",
-      "卖家",
-      "销售员"
+      "muuzaji"
     ],
     "zh": "销售员/卖家",
     "en": "muuzaji"
   },
   {
     "patterns": [
-      "mwaka",
-      "年"
+      "mwaka"
     ],
     "zh": "年",
     "en": "mwaka"
@@ -4786,9 +4644,7 @@
   },
   {
     "patterns": [
-      "mwanga",
-      "光",
-      "亮度"
+      "mwanga"
     ],
     "zh": "光/亮度",
     "en": "mwanga"
@@ -4819,9 +4675,7 @@
   },
   {
     "patterns": [
-      "mwangaza",
-      "亮度",
-      "照明"
+      "mwangaza"
     ],
     "zh": "亮度/照明",
     "en": "mwangaza"
@@ -4844,8 +4698,7 @@
   },
   {
     "patterns": [
-      "mwezi",
-      "月"
+      "mwezi"
     ],
     "zh": "月",
     "en": "mwezi"
@@ -4868,8 +4721,7 @@
   },
   {
     "patterns": [
-      "mzigo",
-      "货"
+      "mzigo"
     ],
     "zh": "货",
     "en": "mzigo"
@@ -5012,9 +4864,7 @@
   },
   {
     "patterns": [
-      "nafuu",
-      "便宜",
-      "划算"
+      "nafuu"
     ],
     "zh": "便宜/划算",
     "en": "nafuu"
@@ -5111,16 +4961,14 @@
   },
   {
     "patterns": [
-      "nane",
-      "八"
+      "nane"
     ],
     "zh": "八",
     "en": "nane"
   },
   {
     "patterns": [
-      "nani",
-      "谁"
+      "nani"
     ],
     "zh": "谁",
     "en": "nani"
@@ -5135,9 +4983,7 @@
   },
   {
     "patterns": [
-      "naomba",
-      "请给我",
-      "我请求"
+      "naomba"
     ],
     "zh": "请给我/我请求",
     "en": "naomba"
@@ -5241,9 +5087,7 @@
   },
   {
     "patterns": [
-      "nauli",
-      "车费",
-      "运费"
+      "nauli"
     ],
     "zh": "车费/运费",
     "en": "nauli"
@@ -5282,8 +5126,7 @@
   },
   {
     "patterns": [
-      "ndefu",
-      "长"
+      "ndefu"
     ],
     "zh": "长",
     "en": "ndefu"
@@ -5291,16 +5134,14 @@
   {
     "patterns": [
       "ndio",
-      "ndiyo",
-      "是"
+      "ndiyo"
     ],
     "zh": "是",
     "en": "ndio / ndiyo"
   },
   {
     "patterns": [
-      "ndogo",
-      "小"
+      "ndogo"
     ],
     "zh": "小",
     "en": "ndogo"
@@ -5315,8 +5156,7 @@
   },
   {
     "patterns": [
-      "nenda",
-      "去"
+      "nenda"
     ],
     "zh": "去",
     "en": "nenda"
@@ -5808,8 +5648,7 @@
   },
   {
     "patterns": [
-      "njoo",
-      "来"
+      "njoo"
     ],
     "zh": "来",
     "en": "njoo"
@@ -5823,16 +5662,14 @@
   },
   {
     "patterns": [
-      "nne",
-      "四"
+      "nne"
     ],
     "zh": "四",
     "en": "nne"
   },
   {
     "patterns": [
-      "nunua",
-      "买"
+      "nunua"
     ],
     "zh": "买",
     "en": "nunua"
@@ -5871,8 +5708,7 @@
   },
   {
     "patterns": [
-      "nyepesi",
-      "轻"
+      "nyepesi"
     ],
     "zh": "轻",
     "en": "nyepesi"
@@ -5904,16 +5740,14 @@
   },
   {
     "patterns": [
-      "nzito",
-      "重"
+      "nzito"
     ],
     "zh": "重",
     "en": "nzito"
   },
   {
     "patterns": [
-      "nzuri",
-      "好"
+      "nzuri"
     ],
     "zh": "好",
     "en": "nzuri"
@@ -6089,9 +5923,7 @@
   },
   {
     "patterns": [
-      "original",
-      "原装",
-      "正品"
+      "original"
     ],
     "zh": "原装/正品",
     "en": "original"
@@ -6114,9 +5946,7 @@
   },
   {
     "patterns": [
-      "oya",
-      "嘿",
-      "喂"
+      "oya"
     ],
     "zh": "喂/嘿",
     "en": "oya",
@@ -6149,8 +5979,7 @@
   },
   {
     "patterns": [
-      "pakiti",
-      "包"
+      "pakiti"
     ],
     "zh": "包",
     "en": "pakiti"
@@ -6173,9 +6002,7 @@
   },
   {
     "patterns": [
-      "panel iko ndani",
-      "包含",
-      "太阳能板在里面"
+      "panel iko ndani"
     ],
     "zh": "太阳能板在里面/包含",
     "en": "panel iko ndani"
@@ -6198,9 +6025,7 @@
   },
   {
     "patterns": [
-      "pata",
-      "得到",
-      "收到"
+      "pata"
     ],
     "zh": "得到/收到",
     "en": "pata"
@@ -6224,9 +6049,7 @@
   {
     "patterns": [
       "pcs",
-      "piece",
-      "个",
-      "件"
+      "piece"
     ],
     "zh": "个/件",
     "en": "pcs / piece"
@@ -6346,9 +6169,7 @@
   },
   {
     "patterns": [
-      "pima",
-      "测量",
-      "测试"
+      "pima"
     ],
     "zh": "测试/测量",
     "en": "pima"
@@ -6373,9 +6194,7 @@
   },
   {
     "patterns": [
-      "poa",
-      "好的",
-      "酷"
+      "poa"
     ],
     "zh": "好的/酷",
     "en": "poa"
@@ -6398,18 +6217,14 @@
   },
   {
     "patterns": [
-      "pole",
-      "抱歉",
-      "辛苦了"
+      "pole"
     ],
     "zh": "抱歉/辛苦了",
     "en": "pole"
   },
   {
     "patterns": [
-      "pole sana",
-      "很抱歉",
-      "辛苦了"
+      "pole sana"
     ],
     "zh": "很抱歉/辛苦了",
     "en": "pole sana"
@@ -6424,9 +6239,7 @@
   },
   {
     "patterns": [
-      "posta",
-      "市中心",
-      "邮局区"
+      "posta"
     ],
     "zh": "市中心/邮局区",
     "en": "posta"
@@ -6483,9 +6296,7 @@
   },
   {
     "patterns": [
-      "punguza",
-      "减少",
-      "降价"
+      "punguza"
     ],
     "zh": "减少/降价",
     "en": "punguza"
@@ -6581,9 +6392,7 @@
   },
   {
     "patterns": [
-      "rangi ya njano",
-      "黄色",
-      "暖黄"
+      "rangi ya njano"
     ],
     "zh": "黄色/暖黄",
     "en": "rangi ya njano"
@@ -6712,9 +6521,7 @@
   },
   {
     "patterns": [
-      "rudisha",
-      "还回来",
-      "退回"
+      "rudisha"
     ],
     "zh": "退回/还回来",
     "en": "rudisha"
@@ -6745,18 +6552,14 @@
   },
   {
     "patterns": [
-      "saa",
-      "时间",
-      "小时"
+      "saa"
     ],
     "zh": "小时/时间",
     "en": "saa"
   },
   {
     "patterns": [
-      "saa moja",
-      "七点",
-      "一点"
+      "saa moja"
     ],
     "zh": "一点/七点",
     "en": "saa moja",
@@ -6772,8 +6575,7 @@
   },
   {
     "patterns": [
-      "saba",
-      "七"
+      "saba"
     ],
     "zh": "七",
     "en": "saba"
@@ -6821,9 +6623,7 @@
   },
   {
     "patterns": [
-      "samahani",
-      "抱歉",
-      "不好意思"
+      "samahani"
     ],
     "zh": "不好意思/抱歉",
     "en": "samahani"
@@ -6879,18 +6679,14 @@
   },
   {
     "patterns": [
-      "sawa",
-      "好",
-      "可以"
+      "sawa"
     ],
     "zh": "好/可以",
     "en": "sawa"
   },
   {
     "patterns": [
-      "sawa sawa",
-      "好的",
-      "没问题"
+      "sawa sawa"
     ],
     "zh": "好的/没问题",
     "en": "sawa sawa"
@@ -6945,17 +6741,14 @@
   },
   {
     "patterns": [
-      "serious",
-      "认真",
-      "真的"
+      "serious"
     ],
     "zh": "认真/真的",
     "en": "serious"
   },
   {
     "patterns": [
-      "set",
-      "套"
+      "set"
     ],
     "zh": "套",
     "en": "set"
@@ -7028,9 +6821,7 @@
   },
   {
     "patterns": [
-      "shwari",
-      "没问题",
-      "平稳"
+      "shwari"
     ],
     "zh": "没问题/平稳",
     "en": "shwari"
@@ -7102,8 +6893,7 @@
   },
   {
     "patterns": [
-      "siku",
-      "天"
+      "siku"
     ],
     "zh": "天",
     "en": "siku"
@@ -7150,9 +6940,7 @@
   },
   {
     "patterns": [
-      "simu",
-      "电话",
-      "手机"
+      "simu"
     ],
     "zh": "电话/手机",
     "en": "simu"
@@ -7191,8 +6979,7 @@
   },
   {
     "patterns": [
-      "sita",
-      "六"
+      "sita"
     ],
     "zh": "六",
     "en": "sita"
@@ -7301,9 +7088,7 @@
   },
   {
     "patterns": [
-      "stand",
-      "车站",
-      "摊位"
+      "stand"
     ],
     "zh": "车站/摊位",
     "en": "stand"
@@ -7391,9 +7176,7 @@
   },
   {
     "patterns": [
-      "stoo",
-      "仓库",
-      "库存"
+      "stoo"
     ],
     "zh": "仓库/库存",
     "en": "stoo"
@@ -7433,8 +7216,7 @@
   },
   {
     "patterns": [
-      "sufuria",
-      "锅"
+      "sufuria"
     ],
     "zh": "锅",
     "en": "sufuria"
@@ -7473,8 +7255,7 @@
   },
   {
     "patterns": [
-      "taa",
-      "灯"
+      "taa"
     ],
     "zh": "灯",
     "en": "taa"
@@ -7576,8 +7357,7 @@
   },
   {
     "patterns": [
-      "tafadhali",
-      "请"
+      "tafadhali"
     ],
     "zh": "请",
     "en": "tafadhali"
@@ -7593,8 +7373,7 @@
   },
   {
     "patterns": [
-      "tafuta",
-      "找"
+      "tafuta"
     ],
     "zh": "找",
     "en": "tafuta"
@@ -7617,8 +7396,7 @@
   },
   {
     "patterns": [
-      "tano",
-      "五"
+      "tano"
     ],
     "zh": "五",
     "en": "tano"
@@ -7633,16 +7411,14 @@
   },
   {
     "patterns": [
-      "tatu",
-      "三"
+      "tatu"
     ],
     "zh": "三",
     "en": "tatu"
   },
   {
     "patterns": [
-      "tax",
-      "税"
+      "tax"
     ],
     "zh": "税",
     "en": "tax"
@@ -7681,9 +7457,7 @@
   },
   {
     "patterns": [
-      "tengeneza",
-      "修理",
-      "制作"
+      "tengeneza"
     ],
     "zh": "修理/制作",
     "en": "tengeneza"
@@ -7745,8 +7519,7 @@
   },
   {
     "patterns": [
-      "tisa",
-      "九"
+      "tisa"
     ],
     "zh": "九",
     "en": "tisa"
@@ -7761,9 +7534,7 @@
   },
   {
     "patterns": [
-      "toa",
-      "拿出",
-      "去掉"
+      "toa"
     ],
     "zh": "拿出/去掉",
     "en": "toa"
@@ -7907,9 +7678,7 @@
   },
   {
     "patterns": [
-      "tuma pesa",
-      "发钱",
-      "转账"
+      "tuma pesa"
     ],
     "zh": "发钱/转账",
     "en": "tuma pesa"
@@ -8178,8 +7947,7 @@
   },
   {
     "patterns": [
-      "uliza",
-      "问"
+      "uliza"
     ],
     "zh": "问",
     "en": "uliza"
@@ -8194,9 +7962,7 @@
   },
   {
     "patterns": [
-      "umebakiza",
-      "你还剩",
-      "你欠"
+      "umebakiza"
     ],
     "zh": "你还剩/你欠",
     "en": "umebakiza"
@@ -8227,8 +7993,7 @@
   },
   {
     "patterns": [
-      "umeme",
-      "电"
+      "umeme"
     ],
     "zh": "电",
     "en": "umeme"
@@ -8268,9 +8033,7 @@
   },
   {
     "patterns": [
-      "unapatikana wapi",
-      "你们在哪里",
-      "你在哪里"
+      "unapatikana wapi"
     ],
     "zh": "你在哪里/你们在哪里",
     "en": "unapatikana wapi"
@@ -8284,9 +8047,7 @@
   },
   {
     "patterns": [
-      "unaweza",
-      "可以吗",
-      "你可以"
+      "unaweza"
     ],
     "zh": "可以吗/你可以",
     "en": "unaweza"
@@ -8382,9 +8143,7 @@
   },
   {
     "patterns": [
-      "usafiri",
-      "交通",
-      "运输"
+      "usafiri"
     ],
     "zh": "交通/运输",
     "en": "usafiri"
@@ -8406,18 +8165,14 @@
   },
   {
     "patterns": [
-      "used",
-      "二手",
-      "用过"
+      "used"
     ],
     "zh": "二手/用过",
     "en": "used"
   },
   {
     "patterns": [
-      "ushuru",
-      "关税",
-      "税"
+      "ushuru"
     ],
     "zh": "税/关税",
     "en": "ushuru"
@@ -8440,9 +8195,7 @@
   },
   {
     "patterns": [
-      "usiku",
-      "晚上",
-      "夜里"
+      "usiku"
     ],
     "zh": "晚上/夜里",
     "en": "usiku"
@@ -8481,8 +8234,7 @@
   },
   {
     "patterns": [
-      "uza",
-      "卖"
+      "uza"
     ],
     "zh": "卖",
     "en": "uza"
@@ -8534,9 +8286,7 @@
   },
   {
     "patterns": [
-      "vipimo",
-      "参数",
-      "尺寸"
+      "vipimo"
     ],
     "zh": "参数/尺寸",
     "en": "vipimo"
@@ -8551,8 +8301,7 @@
   },
   {
     "patterns": [
-      "volt",
-      "伏"
+      "volt"
     ],
     "zh": "伏",
     "en": "volt"
@@ -8591,9 +8340,7 @@
   },
   {
     "patterns": [
-      "wakala",
-      "代理",
-      "网点"
+      "wakala"
     ],
     "zh": "代理/网点",
     "en": "wakala"
@@ -8657,8 +8404,7 @@
   {
     "patterns": [
       "watt",
-      "watts",
-      "瓦"
+      "watts"
     ],
     "zh": "瓦",
     "en": "watt / watts"
@@ -8690,8 +8436,7 @@
   },
   {
     "patterns": [
-      "weka",
-      "放"
+      "weka"
     ],
     "zh": "放",
     "en": "weka"
@@ -8713,8 +8458,7 @@
   },
   {
     "patterns": [
-      "wiki",
-      "周"
+      "wiki"
     ],
     "zh": "周",
     "en": "wiki"

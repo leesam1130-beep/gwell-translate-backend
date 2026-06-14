@@ -83,11 +83,24 @@ for (const t of tentative) {
   if (t.note && !e.note) e.note = t.note;
 }
 
-// 把 zh 中以 / 分隔的纯 CJK 部分也加入 patterns，让 Chinese-side 也能命中
+// 自动把 canonical zh 加入 CJK patterns（让从中文方向也能命中），但有 4 个收紧条件，
+// 否则会出现误注入（如 "太阳能板在里面/包含" → "包含" 被错误绑定到 "panel iko ndani"）：
+//   1. 必须是干净单一形式（不含 / 分隔的备选）
+//   2. 必须是纯中文（不混 Latin）
+//   3. 长度 ≥ 2（避免 1 字误匹配高频字）
+//   4. 不在常见单字黑名单（如 "是"="ndio" 在「这是」里会误触发）
+const COMMON_CN_BLACKLIST = new Set(["是", "的", "了", "在", "和", "包", "货", "钱", "好", "对", "用", "做"]);
 for (const [zh, entry] of byZh) {
-  const parts = zh.split(/[/／]/g).map((s) => s.trim()).filter(Boolean);
-  for (const p of parts) {
-    if (isCJK(p) && !hasLatin(p)) entry.patterns.add(p);
+  const t = zh.trim();
+  if (
+    isCJK(t) &&
+    !hasLatin(t) &&
+    !t.includes("/") &&
+    !t.includes("／") &&
+    t.length >= 2 &&
+    !COMMON_CN_BLACKLIST.has(t)
+  ) {
+    entry.patterns.add(t);
   }
 }
 
