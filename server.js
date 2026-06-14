@@ -895,13 +895,15 @@ app.post("/api/translate", requireUser, async (req, res) => {
       : buildOutboundInstructionsSlim({ overrideLanguage, contextHint });
     const input = buildOutboundInput({ customerMessages, sourceText: src });
 
+    // 600 token 足够覆盖 ~250-350 字 Swahili/English 翻译 + 4 字段的 JSON 包裹；
+    // 之前的 300 在长报价/长公告下偶尔会被截断 → JSON 解析失败 fallback。
     const { text, usage } = await callOpenAIResponses({
       model,
       instructions,
       input,
       jsonSchema: TRANSLATE_SCHEMA,
       temperature: 0.3,
-      maxOutputTokens: 300
+      maxOutputTokens: 600
     });
 
     logUsage({
@@ -917,7 +919,11 @@ app.post("/api/translate", requireUser, async (req, res) => {
     let parsed;
     try {
       parsed = JSON.parse(text);
-    } catch {
+    } catch (err) {
+      console.warn(
+        `[/api/translate] non-JSON output: model=${model} outputLen=${(text || "").length} ` +
+        `usage=${JSON.stringify(usage || {})} preview=${JSON.stringify((text || "").slice(0, 400))}`
+      );
       parsed = {
         detectedLanguage: overrideLanguage || "Unknown",
         detectedLanguageConfidence: "low",
@@ -989,9 +995,11 @@ ${ctxLines}
 `;
     }
 
-    // 输出 token 上限：每条 ~80 token，最少 200，最多 1500
-    const perItemOutput = 80;
-    const maxOutputTokens = Math.min(Math.max(items.length * perItemOutput, 200), 1500);
+    // 输出 token 上限：每条 ~220 token，最少 350，最多 2000
+    // （之前 80/200 在单条超 100 字符的长 Swahili 消息下会被 JSON 结构挤爆 → 截断 →
+    //  "Unexpected end of JSON input"。220 足够覆盖 ~120 中文字 + JSON 包裹。）
+    const perItemOutput = 220;
+    const maxOutputTokens = Math.min(Math.max(items.length * perItemOutput, 350), 2000);
 
     async function callBatchOnce({ model: m, items: subItems }) {
       const subLines = subItems.map((it, idx) => {
@@ -1014,7 +1022,7 @@ ${subLines.join("\n\n---\n\n")}`;
         jsonSchema: BATCH_TRANSLATE_SCHEMA,
         temperature: 0.2,
         timeoutMs: 60000,
-        maxOutputTokens: Math.min(Math.max(subItems.length * perItemOutput, 200), 1500)
+        maxOutputTokens: Math.min(Math.max(subItems.length * perItemOutput, 350), 2000)
       });
       logUsage({
         route: "/api/batch-translate-incoming",
@@ -1029,6 +1037,15 @@ ${subLines.join("\n\n---\n\n")}`;
       try {
         parsed = JSON.parse(text);
       } catch (err) {
+        // 关键诊断信息：把模型的原始返回打到 Railway log，方便下次定位
+        // （限 800 char 防止日志爆炸；通常截断只在末尾几十字节）
+        const preview = (text || "").slice(0, 800);
+        console.error(
+          `[batch] BAD_JSON_FROM_MODEL: model=${m} outputLen=${(text || "").length} ` +
+          `maxOutputTokens=${Math.min(Math.max(subItems.length * perItemOutput, 350), 2000)} ` +
+          `usage=${JSON.stringify(usage || {})}`
+        );
+        console.error(`[batch] BAD_JSON_FROM_MODEL preview: ${JSON.stringify(preview)}`);
         throw new Error("BAD_JSON_FROM_MODEL: " + (err?.message || String(err)));
       }
       return { items: Array.isArray(parsed?.items) ? parsed.items : [], usage };
