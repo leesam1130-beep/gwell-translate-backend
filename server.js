@@ -235,7 +235,7 @@ function buildGlossaryBlock(matches, direction) {
       const note = m.note ? ` (${m.note})` : "";
       return `- ${left} → ${right}${note}`;
     });
-    return `## Glossary (Chinese → target language)\nWhen these Chinese terms appear in the source, translate them as shown. Do NOT leave them in Chinese.\n${lines.join("\n")}\n\n`;
+    return `## Glossary (Chinese → foreign variants; advisory)\nVariants may be Swahili-only, English-only, or both. ONLY use a variant that matches your chosen target language. If no variant matches the target, IGNORE the entry and translate the Chinese term fresh — never mix languages in the output.\n${lines.join("\n")}\n\n`;
   }
 
   // foreign-to-cn (default for batch route)
@@ -673,10 +673,21 @@ PRESERVE EXACTLY
 - Product codes / models (A60, A70, T8, E27, B22, GL-xxxx, etc.)
 - URLs, phone numbers, emojis, line breaks
 
-HARD RULE — NO CHINESE IN OUTPUT
-- The translated message must contain ZERO Chinese characters (no Hanzi at all).
-- Translate every Chinese word, including compounds like 价格表, 箱数量, 批发价, 现货, 库存, 报价单, 起订量 — render them in the target language, never copy them as-is.
-- If a Chinese word is also in the Glossary block, use the glossary mapping.
+HARD RULE A — NO CHINESE IN OUTPUT
+- Output must contain ZERO Chinese characters (no Hanzi at all).
+- Translate every Chinese word and compound (价格表, 箱数量, 批发价, 现货, 库存, 报价单, 起订量, 老板, 今天, 订单, 货物, 客户...) — never copy them as-is.
+
+HARD RULE B — SINGLE-LANGUAGE OUTPUT (no language mixing)
+- Decide ONE target language first (Swahili / English / French), then write the entire reply in THAT language.
+- Do NOT mix languages. If target=English, do NOT insert Swahili tokens like "bosi", "leo", "oda", "mzigo", "kesho", "asante". If target=Swahili, write Swahili (English business loanwords like price/MOQ/USD/sample/warranty/CTN/PCS are fine — they ARE used in Swahili WhatsApp).
+- Mixed output (e.g., "Hello bosi, leo we order oda") is FORBIDDEN.
+
+GLOSSARY USAGE (advisory, not mandatory)
+- Glossary entries take the form "Chinese → variant1 / variant2 ...". Variants may be Swahili-only, English-only, or both.
+- ONLY use a glossary variant if it matches your chosen target language. If none of the variants match the target, IGNORE that glossary line and translate the Chinese term fresh from your own knowledge.
+- Example: target=English, glossary "老板 → bosi / boss" → use "boss".
+- Example: target=English, glossary "今天 → leo" (Swahili only) → IGNORE, write "today".
+- Example: target=Swahili, glossary "桑给巴尔 → unguja / zanzibar / znz" → use "Zanzibar" (or "Unguja" depending on register).
 
 OUTPUT
 - Translation only — no quotes, no "Translation:" prefix, no markdown.
