@@ -114,8 +114,12 @@ function enforceModelPolicy(requested, route) {
 
 console.log(`[gwell-backend] premium model policy: ${ALLOW_PREMIUM_MODELS ? "ALLOWED (GWELL_ALLOW_PREMIUM_MODELS=true)" : "BLOCKED → fallback to " + FALLBACK_MODEL}`);
 
-// 历史消息上限（用于 /api/translate、/api/batch-translate-incoming）
-const HISTORY_MAX_ITEMS = 3;
+// 历史消息上限
+// - outbound (/api/translate)：历史只用于"语言检测"，2 条足够，更短的字符限避免长消息冲淡
+// - inbound batch：历史是消解 "Vp"/"Bei"/"30W" 等省略式所必需，保持 3×100
+const OUTBOUND_HISTORY_MAX_ITEMS = 2;
+const OUTBOUND_HISTORY_MAX_CHARS = 80;
+const HISTORY_MAX_ITEMS = 3;     // 默认值；batch 路由用
 const HISTORY_MAX_CHARS = 100;
 
 function clampHistory(messages, maxItems = HISTORY_MAX_ITEMS, maxChars = HISTORY_MAX_CHARS) {
@@ -197,21 +201,29 @@ try {
   console.warn(`[gwell-backend] local-glossary.json not loaded (${err.code || err.message}); local term injection disabled.`);
 }
 
+// TOP-N cap：词典命中过多时（一次中文回复可能命中 15+ 条，含 价格/箱/货 这种短而通用的），
+// 按"被命中的 pattern 长度"降序保留前 N 条 —— 长 pattern 更具体（"价格表" > "价格"），
+// 携带的信息密度更高，模型也更需要它们。N=6 足够覆盖常见业务场景。
+const GLOSSARY_MATCH_CAP = 6;
+
 function findGlossaryMatches(text) {
   if (!GLOSSARY.length || !text) return [];
   const lower = String(text).toLowerCase();
-  const matches = [];
+  const scored = [];
   for (const entry of GLOSSARY) {
     const compiled = entry._compiled || [];
+    let matchedLen = 0;
     for (const c of compiled) {
       const hit = c.type === "cjk" ? lower.includes(c.needle) : c.re.test(lower);
       if (hit) {
-        matches.push(entry);
-        break;
+        const l = c.type === "cjk" ? c.needle.length : c.re.source.length;
+        if (l > matchedLen) matchedLen = l;
       }
     }
+    if (matchedLen > 0) scored.push({ entry, matchedLen });
   }
-  return matches;
+  scored.sort((a, b) => b.matchedLen - a.matchedLen);
+  return scored.slice(0, GLOSSARY_MATCH_CAP).map((s) => s.entry);
 }
 
 // 词典块按翻译方向单向化（双向格式 ↔ 会让模型分不清"该输出哪一侧"，
@@ -541,41 +553,24 @@ const BATCH_TRANSLATE_SCHEMA = {
   }
 };
 
-// === SLIM 默认 prompt（~450 tokens）===
-const BATCH_TRANSLATE_INSTRUCTIONS_SLIM = `You are a WhatsApp translator + intent classifier for GWELL, a lighting wholesaler in Dar es Salaam, Tanzania (Kariakoo office, Kigamboni factory). Customers write Swahili / English / French / mixed, often short with typos.
+// === SLIM 默认 prompt（~370 tokens）===
+// 实测精简版：12 意图描述压成单行清单，PRIORITY/Confidence 简化，
+// 浓缩 GWELL 业务背景。比早期 ~450 token 版再降 ~17%。
+const BATCH_TRANSLATE_INSTRUCTIONS_SLIM = `WhatsApp translator + intent classifier for GWELL (lighting wholesaler in Dar es Salaam — Kariakoo office, Kigamboni factory). Customers write Swahili/English/French/mixed, short, typos.
 
-Input MAY start with a "== CONVERSATION CONTEXT ==" block — REFERENCE ONLY (the customer's recent prior messages). Do NOT translate it. Use it to resolve short cryptic items like "Vp", "Bei", "30W".
+Input may start with "== CONVERSATION CONTEXT ==" — REFERENCE ONLY (do NOT translate). Use it to resolve cryptic items ("Vp"/"Bei"/"30W").
 
 For each item:
-1. translation_cn — Simplified Chinese.
-   - Already Chinese / pure URL / pure emoji → "" (empty).
-   - Cryptic short ("Vp","Hii","Ngp","Bei","30W") → use context to produce a COMPLETE Chinese sentence including the topic. NEVER output 2-char literals like "价"/"怎样".
-   - If context empty AND item is a poke ("Vp") → "怎么样？/在吗？" with confidence=low.
-2. intent (primary, one of the enum) + secondary_intents (others, max 3, [] if only one) + confidence.
+1. translation_cn = Simplified Chinese. If already Chinese / pure URL / pure emoji → "". Cryptic short → use context to produce COMPLETE sentence (never 2-char literals like "价"/"怎样"). Empty-context poke ("Vp") → "怎么样？/在吗？", confidence=low.
+2. intent (primary) + secondary_intents (others, max 3, [] if none) + confidence (high/medium/low).
 
-INTENT ENUM (pick the closest)
-- ask_location: where/address/street (wapi, mtaa, Kariakoo, Kigamboni)
-- ask_price: bei, ngapi, jumla, qty, carton, wholesale, MOQ, promo
-- ask_stock: in stock? (mna, ipo, available)
-- ask_product_info: model/spec/feature (watts, taa, tochi, sola, sensor, battery, warranty)
-- ask_catalog_media: picha, video, catalog, list
-- ask_delivery: shipping incl. cross-border (mnatuma, mikoani, cargo, Congo/DRC/Zambia)
-- ask_payment: Mpesa, TigoPesa, NMB, bank, cash
-- ask_visit_or_business: kuja, sample, dealer, invoice, hours
-- after_sales_complaint: imeharibika, haifanyi, return
-- customer_interested: sawa, ndio, nataka, nachukua
-- customer_not_interested: hapana, ghali, baadaye
-- other: greetings, asante, emoji-only, unresolvable
+INTENTS: ask_location (wapi/mtaa/Kariakoo) | ask_price (bei/ngapi/jumla/MOQ) | ask_stock (mna/ipo) | ask_product_info (watts/taa/tochi/sola/sensor/battery/warranty) | ask_catalog_media (picha/video/list) | ask_delivery (mnatuma/mikoani/Congo/DRC/Zambia) | ask_payment (Mpesa/TigoPesa/NMB/cash) | ask_visit_or_business (kuja/sample/dealer/invoice/hours) | after_sales_complaint (imeharibika/haifanyi/return) | customer_interested (sawa/ndio/nataka) | customer_not_interested (hapana/ghali/baadaye) | other.
 
-PRIORITY when multiple match: complaint > location > price > stock > delivery > payment > product_info > catalog_media > visit > interested/not > other.
+PRIORITY: complaint > location > price > stock > delivery > payment > product_info > catalog_media > visit > interested/not > other.
 
-Confidence: high (clear) | medium (typos / 2 plausible intents) | low (too short / no context / garbled).
+Hints: ngp=ngapi, vp=vipi, nahii=this one. Example: ctx=["Mna A60 LED?"] item="Ngp" → "A60 LED 球泡多少钱？" intent=ask_price.
 
-GWELL hints: Kariakoo=达市批发区, Kigamboni=GWELL 工厂区, ngp=ngapi, vp=vipi, nahii=na hii=这个呢.
-
-Example: ctx=["Mna A60 LED bulb?"] item="Ngp" → translation_cn="A60 LED 球泡多少钱？" intent=ask_price.
-
-Respond strictly with the JSON schema.`;
+Strict JSON per schema.`;
 
 // === EXPERT 长 prompt（~1100 tokens；可通过 mode:"expert" 或 env 回退）===
 const BATCH_TRANSLATE_INSTRUCTIONS_EXPERT = `You are a WhatsApp translator + intent classifier for GWELL, a Chinese lighting factory with office at Kariakoo (Dar es Salaam) and factory at Kigamboni. Customers are East-African buyers writing Swahili / English / Mixed, with typos, abbreviations and short messages.
@@ -631,6 +626,8 @@ Kariakoo=达市批发区, Kigamboni=GWELL 工厂区, ngp=ngapi, vp=vipi, nahii=n
 Respond strictly with the provided JSON schema.`;
 
 // === 中→客户语言 schema ===
+// 移除 detectionReason 字段：之前每次响应都会让模型写一段"为什么判定这个语言"的解释，
+// 这部分纯属内部诊断信息但增加 ~30-60 output tokens，且会让模型多做无用推理。
 const TRANSLATE_SCHEMA = {
   name: "translation_result",
   strict: true,
@@ -639,60 +636,39 @@ const TRANSLATE_SCHEMA = {
     properties: {
       detectedLanguage: { type: "string" },
       detectedLanguageConfidence: { type: "string", enum: ["high", "medium", "low"] },
-      detectionReason: { type: "string" },
       translation: { type: "string" }
     },
-    required: ["detectedLanguage", "detectedLanguageConfidence", "detectionReason", "translation"],
+    required: ["detectedLanguage", "detectedLanguageConfidence", "translation"],
     additionalProperties: false
   }
 };
 
-// === SLIM 默认 outbound prompt（~220 tokens）===
-// 保留：GWELL 身份(Kariakoo/Kigamboni)、数字/型号/单位保留规则、自然 WhatsApp 口吻、JSON 输出
-// 删除：完整产品线列举、整张中→斯语术语表、客户档案
+// === SLIM 默认 outbound prompt（~280 tokens）===
+// 包含 4 个硬规则：身份、保留原样字段、零汉字输出、单语输出 + 词典 advisory。
+// 优化痕迹：先前为修 bug 写了 ~684 token 的长版，实测过肿（占整次 input ~50%），
+// 现已浓缩到核心约束，占用降低 ~58%。
 function buildOutboundInstructionsSlim({ overrideLanguage, contextHint }) {
   const phoneHint = contextHint && contextHint.phoneLangHint
-    ? ` Phone-country hint suggests ${contextHint.phoneLangHint}.`
+    ? ` Phone hint: ${contextHint.phoneLangHint}.`
     : "";
   const detect = overrideLanguage
-    ? `Target language is FORCED to "${overrideLanguage}". Use it as detectedLanguage with confidence "high" and detectionReason "manual override".`
-    : `Detect the customer's primary language from their recent messages (Swahili / English / French / mixed). If unclear / emoji-only / empty → fall back to English.${phoneHint}`;
+    ? `Target FORCED to "${overrideLanguage}", confidence=high.`
+    : `Detect target from customer messages (Swahili/English/French). Unclear/emoji → English.${phoneHint}`;
 
-  return `You are a WhatsApp business translator for GWELL — a Chinese-owned lighting company with REAL local presence in Dar es Salaam, Tanzania (Office: Kariakoo, Factory: Kigamboni). Never imply "we are only in China / we ship from China" — we are physically in DAR.
+  return `You are a WhatsApp translator for GWELL — Chinese-owned lighting wholesaler PHYSICALLY in Dar es Salaam (Office: Kariakoo, Factory: Kigamboni). Never imply "we ship from China".
 
-INPUT
-- A few recent customer messages (for language detection only — do NOT translate them).
-- The salesperson's Chinese reply that needs translating.
+TASK: Translate the salesperson's Chinese reply into the customer's language. Customer messages are for language detection ONLY (do not translate them).
 
-TASKS
 1. ${detect}
-2. Translate the Chinese reply into that language naturally — like a real WhatsApp export salesperson, not stiff. For Swahili buyers, mixing common English business words (price, MOQ, container, sample, warranty, USD, TZS) is normal and PREFERRED.
+2. Translate naturally, WhatsApp-style. Swahili buyers tolerate English business loanwords (price/MOQ/CTN/USD/TZS/sample/warranty).
 
-PRESERVE EXACTLY
-- Numbers and units (W, V, K, lm, mAh, USD, TZS, %, mm, kg)
-- Product codes / models (A60, A70, T8, E27, B22, GL-xxxx, etc.)
-- URLs, phone numbers, emojis, line breaks
+RULES
+- PRESERVE numbers, units (W/V/lm/mAh/%/USD/TZS/mm/kg), product codes (A60/T8/E27/GL-xxxx), URLs, phones, emojis.
+- ZERO Chinese characters in output. Translate compounds too: 价格表/箱数量/批发价/现货/库存/报价单/老板/订单/货物.
+- SINGLE language output. If target=English, do NOT use Swahili words (bosi/leo/oda/mzigo/kesho). If target=Swahili, write Swahili.
+- Glossary block (if present) is ADVISORY: only use variants matching the target language; ignore mismatched variants and translate fresh.
 
-HARD RULE A — NO CHINESE IN OUTPUT
-- Output must contain ZERO Chinese characters (no Hanzi at all).
-- Translate every Chinese word and compound (价格表, 箱数量, 批发价, 现货, 库存, 报价单, 起订量, 老板, 今天, 订单, 货物, 客户...) — never copy them as-is.
-
-HARD RULE B — SINGLE-LANGUAGE OUTPUT (no language mixing)
-- Decide ONE target language first (Swahili / English / French), then write the entire reply in THAT language.
-- Do NOT mix languages. If target=English, do NOT insert Swahili tokens like "bosi", "leo", "oda", "mzigo", "kesho", "asante". If target=Swahili, write Swahili (English business loanwords like price/MOQ/USD/sample/warranty/CTN/PCS are fine — they ARE used in Swahili WhatsApp).
-- Mixed output (e.g., "Hello bosi, leo we order oda") is FORBIDDEN.
-
-GLOSSARY USAGE (advisory, not mandatory)
-- Glossary entries take the form "Chinese → variant1 / variant2 ...". Variants may be Swahili-only, English-only, or both.
-- ONLY use a glossary variant if it matches your chosen target language. If none of the variants match the target, IGNORE that glossary line and translate the Chinese term fresh from your own knowledge.
-- Example: target=English, glossary "老板 → bosi / boss" → use "boss".
-- Example: target=English, glossary "今天 → leo" (Swahili only) → IGNORE, write "today".
-- Example: target=Swahili, glossary "桑给巴尔 → unguja / zanzibar / znz" → use "Zanzibar" (or "Unguja" depending on register).
-
-OUTPUT
-- Translation only — no quotes, no "Translation:" prefix, no markdown.
-
-Respond strictly with the JSON schema provided.`;
+Output: translation text only — no quotes, no prefix, no markdown. Strict JSON per schema.`;
 }
 
 // === EXPERT 长 prompt（~2700 tokens；保留作 mode:"expert" 后备 / 质量回退）===
@@ -713,7 +689,7 @@ You will receive:
 Tasks:
 1. ${
     overrideLanguage
-      ? `The target language is FORCED to be "${overrideLanguage}". Use this as detectedLanguage with confidence "high" and detectionReason "manual override".`
+      ? `The target language is FORCED to be "${overrideLanguage}". Use this as detectedLanguage with confidence "high".`
       : `Detect the customer's primary language from their recent messages. If they only sent emojis / very short text / no messages, use the phone country hint (if provided), otherwise fall back to English. Pick the dominant language if mixed.`
   }
 2. Translate the Chinese reply into that language.
@@ -828,7 +804,7 @@ Respond strictly with the JSON schema provided.`;
 }
 
 function buildOutboundInput({ customerMessages, sourceText }) {
-  const clamped = clampHistory(customerMessages);
+  const clamped = clampHistory(customerMessages, OUTBOUND_HISTORY_MAX_ITEMS, OUTBOUND_HISTORY_MAX_CHARS);
   const combined = [
     sourceText,
     ...clamped.map((m) => (typeof m === "string" ? m : String(m.text || "")))
@@ -837,17 +813,15 @@ function buildOutboundInput({ customerMessages, sourceText }) {
 
   const lines = [];
   if (glossaryBlock) lines.push(glossaryBlock);
-  lines.push(`## Customer recent messages (oldest → newest, max ${HISTORY_MAX_ITEMS} × ${HISTORY_MAX_CHARS} chars)`);
-  if (clamped.length === 0) {
-    lines.push("(none — no incoming messages were readable from the current chat)");
-  } else {
+  if (clamped.length > 0) {
+    lines.push(`## Customer recent messages (for language detection only)`);
     clamped.forEach((m, i) => {
       const t = m.time ? ` [${m.time}]` : "";
       lines.push(`${i + 1}.${t} ${m.text}`);
     });
+    lines.push("");
   }
-  lines.push("");
-  lines.push("## Salesperson Chinese reply (translate this)");
+  lines.push("## Chinese reply to translate");
   lines.push(sourceText);
   return lines.join("\n");
 }
@@ -938,7 +912,6 @@ app.post("/api/translate", requireUser, async (req, res) => {
       parsed = {
         detectedLanguage: overrideLanguage || "Unknown",
         detectedLanguageConfidence: "low",
-        detectionReason: "Model returned non-JSON; treated raw text as translation.",
         translation: text
       };
     }
