@@ -535,15 +535,9 @@ const BATCH_TRANSLATE_SCHEMA = {
           type: "object",
           properties: {
             id: { type: "string" },
-            translation_cn: { type: "string" },
-            intent: { type: "string", enum: INTENT_ENUM },
-            secondary_intents: {
-              type: "array",
-              items: { type: "string", enum: INTENT_ENUM }
-            },
-            confidence: { type: "string", enum: ["high", "medium", "low"] }
+            translation_cn: { type: "string" }
           },
-          required: ["id", "translation_cn", "intent", "secondary_intents", "confidence"],
+          required: ["id", "translation_cn"],
           additionalProperties: false
         }
       }
@@ -553,75 +547,43 @@ const BATCH_TRANSLATE_SCHEMA = {
   }
 };
 
-// === SLIM 默认 prompt（~370 tokens）===
-// 实测精简版：12 意图描述压成单行清单，PRIORITY/Confidence 简化，
-// 浓缩 GWELL 业务背景。比早期 ~450 token 版再降 ~17%。
-const BATCH_TRANSLATE_INSTRUCTIONS_SLIM = `WhatsApp translator + intent classifier for GWELL (lighting wholesaler in Dar es Salaam — Kariakoo office, Kigamboni factory). Customers write Swahili/English/French/mixed, short, typos.
+// === SLIM 默认 prompt（~180 tokens）===
+// 用户决定意图自己分析，prompt 砍掉 12-intent 分类、PRIORITY、confidence 等，
+// 只负责把 foreign 翻成中文。
+const BATCH_TRANSLATE_INSTRUCTIONS_SLIM = `WhatsApp translator for GWELL (lighting wholesaler in Dar es Salaam — Kariakoo office, Kigamboni factory). Customers write Swahili/English/French/mixed, short, typos.
 
 Input may start with "== CONVERSATION CONTEXT ==" — REFERENCE ONLY (do NOT translate). Use it to resolve cryptic items ("Vp"/"Bei"/"30W").
 
-For each item:
-1. translation_cn = Simplified Chinese. If already Chinese / pure URL / pure emoji → "". Cryptic short → use context to produce COMPLETE sentence (never 2-char literals like "价"/"怎样"). Empty-context poke ("Vp") → "怎么样？/在吗？", confidence=low.
-2. intent (primary) + secondary_intents (others, max 3, [] if none) + confidence (high/medium/low).
+For each item, output translation_cn in Simplified Chinese:
+- Already Chinese / pure URL / pure emoji → ""
+- Cryptic short ("Vp", "Bei", "30W") → use context to produce a COMPLETE Chinese sentence (never 2-char literals like "价"/"怎样")
+- Empty-context poke ("Vp") → "怎么样？/在吗？"
 
-INTENTS: ask_location (wapi/mtaa/Kariakoo) | ask_price (bei/ngapi/jumla/MOQ) | ask_stock (mna/ipo) | ask_product_info (watts/taa/tochi/sola/sensor/battery/warranty) | ask_catalog_media (picha/video/list) | ask_delivery (mnatuma/mikoani/Congo/DRC/Zambia) | ask_payment (Mpesa/TigoPesa/NMB/cash) | ask_visit_or_business (kuja/sample/dealer/invoice/hours) | after_sales_complaint (imeharibika/haifanyi/return) | customer_interested (sawa/ndio/nataka) | customer_not_interested (hapana/ghali/baadaye) | other.
-
-PRIORITY: complaint > location > price > stock > delivery > payment > product_info > catalog_media > visit > interested/not > other.
-
-Hints: ngp=ngapi, vp=vipi, nahii=this one. Example: ctx=["Mna A60 LED?"] item="Ngp" → "A60 LED 球泡多少钱？" intent=ask_price.
+Hints: ngp=ngapi, vp=vipi, nahii=this one. Example: ctx=["Mna A60 LED?"] item="Ngp" → "A60 LED 球泡多少钱？"
 
 Strict JSON per schema.`;
 
-// === EXPERT 长 prompt（~1100 tokens；可通过 mode:"expert" 或 env 回退）===
-const BATCH_TRANSLATE_INSTRUCTIONS_EXPERT = `You are a WhatsApp translator + intent classifier for GWELL, a Chinese lighting factory with office at Kariakoo (Dar es Salaam) and factory at Kigamboni. Customers are East-African buyers writing Swahili / English / Mixed, with typos, abbreviations and short messages.
+// === EXPERT 长 prompt（~290 tokens；可通过 mode:"expert" 或 env 回退）===
+// 已与 SLIM 对齐：只翻译，不分类。Expert 比 SLIM 多保留几条上下文消解的规范例子。
+const BATCH_TRANSLATE_INSTRUCTIONS_EXPERT = `You are a WhatsApp translator for GWELL, a Chinese lighting factory with office at Kariakoo (Dar es Salaam) and factory at Kigamboni. Customers are East-African buyers writing Swahili / English / Mixed, with typos, abbreviations and short messages.
 
 == INPUT FORMAT ==
-Input MAY start with an "== CONVERSATION CONTEXT ==" block: customer's recent prior messages, oldest → newest. REFERENCE ONLY — do NOT translate them, do NOT include in output. Use them to resolve abbreviations & pointing words in the actual items.
+Input MAY start with "== CONVERSATION CONTEXT ==": customer's recent prior messages, oldest → newest. REFERENCE ONLY — do NOT translate them. Use them to resolve abbreviations & pointing words in the items.
 
-== TASKS PER ITEM ==
-1. translation_cn — Simplified Chinese translation.
-   - Already Chinese / pure URL / pure emoji → "" (empty).
-   - Short cryptic message ("Vp", "Hii", "Ngp", "30W", "Bei") → MUST resolve via CONTEXT and produce a COMPLETE Chinese sentence including the topic. NEVER output 2-char literals like "价" / "怎样" / "多少".
-   - If context is empty AND the item is genuinely a poke ("Vp"), translate to "怎么样？/在吗？" with confidence=low.
-2. intent (primary) + secondary_intents (others that also match, or []) + confidence.
+== TASK PER ITEM ==
+Output translation_cn — Simplified Chinese translation.
+- Already Chinese / pure URL / pure emoji → "" (empty).
+- Short cryptic ("Vp","Hii","Ngp","30W","Bei") → MUST resolve via CONTEXT and produce a COMPLETE Chinese sentence including the topic. NEVER output 2-char literals like "价"/"怎样"/"多少".
+- If context is empty AND item is a genuine poke ("Vp"), translate to "怎么样？/在吗？".
 
-== CONTEXT-RESOLVED EXAMPLES (study these patterns) ==
-ctx=["Mna A60 LED bulb?"]  item="Ngp"  → translation_cn="A60 LED 球泡多少钱？" intent=ask_price
-ctx=["Mna taa za solar?"]  item="Bei"  → translation_cn="太阳能灯多少钱？"     intent=ask_price
-ctx=["nahii","30W"]        item="Vp"   → translation_cn="30W 这款怎么样？有货吗？" intent=ask_stock
-ctx=[]                     item="Vp"   → translation_cn="怎么样？/在吗？"      intent=other confidence=low
+== CONTEXT-RESOLVED EXAMPLES ==
+ctx=["Mna A60 LED bulb?"]  item="Ngp"  → "A60 LED 球泡多少钱？"
+ctx=["Mna taa za solar?"]  item="Bei"  → "太阳能灯多少钱？"
+ctx=["nahii","30W"]        item="Vp"   → "30W 这款怎么样？有货吗？"
+ctx=[]                     item="Vp"   → "怎么样？/在吗？"
 
-== 12 INTENTS (you know Swahili; pick the closest) ==
-ask_location: address/street/where (wapi, mtaa, Kariakoo, Kigamboni)
-ask_price: price/wholesale/retail/bargain/quantity/carton-pack/promotion (bei, ngapi, jumla, punguza, qty)
-ask_stock: in stock? (mna, ipo, available)
-ask_product_info: model/spec/category/feature/battery/warranty (watts, taa, tochi, sola, sensor, battery, warranty)
-ask_catalog_media: photos/videos/catalog/price-list (picha, video, list)
-ask_delivery: shipping incl. cross-border (mnatuma, mikoani, cargo, Congo/DRC/Zambia)
-ask_payment: payment methods (Mpesa, TigoPesa, NMB, bank, cash)
-ask_visit_or_business: visit/inspect/business-hours/invoice/dealer (kuja, sample, open, invoice, dealer)
-after_sales_complaint: broken/not working/return (imeharibika, haifanyi, return)
-customer_interested: yes/ok/want it (sawa, ndio, nataka, nachukua)
-customer_not_interested: no/too expensive/later (hapana, ghali, baadaye)
-other: greetings, Asante, emoji-only, unresolvable abbreviations.
-
-== PRIORITY (pick PRIMARY in this order when multiple match) ==
-after_sales_complaint > ask_location > ask_price > ask_stock > ask_delivery > ask_payment > ask_product_info > ask_catalog_media > ask_visit_or_business > customer_interested/not_interested > other.
-secondary_intents[]: other matched intents (max 3), empty [] if only one.
-Ambiguous short ("Vp", "Hii", "Ngp", bare wattages): if context resolves → use resolved intent; else "other" + confidence=low.
-
-confidence: high (clear) | medium (typos or 2 plausible intents) | low (too short / garbled / no context).
-
-== GWELL CONTEXT (model doesn't know) ==
+== GWELL CONTEXT (model may not know) ==
 Kariakoo=达市批发区, Kigamboni=GWELL 工厂区, ngp=ngapi, vp=vipi, nahii=na hii=这个呢
-
-== GOLDEN EXAMPLES ==
-
-1) item="Kariakoo mpo mtaa gani"
-{"translation_cn":"你们在 Kariakoo 哪条街？","intent":"ask_location","secondary_intents":[],"confidence":"high"}
-
-2) item="Mna tochi Kariakoo wapi?"   (multi-intent)
-{"translation_cn":"你们的手电筒在 Kariakoo 哪里？","intent":"ask_location","secondary_intents":["ask_product_info","ask_stock"],"confidence":"high"}
 
 Respond strictly with the provided JSON schema.`;
 
@@ -935,7 +897,8 @@ app.post("/api/translate", requireUser, async (req, res) => {
   }
 });
 
-// === 主路由 2：批量来信 → 中文 + 意图 + auto-upgrade ===
+// === 主路由 2：批量来信 → 中文（仅翻译；意图分类已移除） ===
+// upgradeModel 字段保留向后兼容（前端可能仍在传），但不再触发升级。
 app.post("/api/batch-translate-incoming", requireUser, async (req, res) => {
   try {
     const {
@@ -950,10 +913,7 @@ app.post("/api/batch-translate-incoming", requireUser, async (req, res) => {
     if (items.length === 0) return res.json({ ok: true, translations: [] });
 
     const model = enforceModelPolicy(requestedModel, "/api/batch-translate-incoming");
-    const upgradeModel = requestedUpgradeModel
-      ? enforceModelPolicy(requestedUpgradeModel, "/api/batch-translate-incoming.upgrade")
-      : null;
-    const modelDowngraded = model !== requestedModel || (requestedUpgradeModel && upgradeModel !== requestedUpgradeModel);
+    const modelDowngraded = model !== requestedModel;
 
     const mode = (String(reqMode || DEFAULT_TRANSLATE_MODE).toLowerCase() === "expert") ? "expert" : "slim";
     const batchInstructions = mode === "expert"
@@ -1035,46 +995,26 @@ ${subLines.join("\n\n---\n\n")}`;
       return { items: Array.isArray(parsed?.items) ? parsed.items : [], usage };
     }
 
-    const { items: translations, usage } = await callBatchOnce({ model, items });
+    const { items: rawTranslations, usage } = await callBatchOnce({ model, items });
 
-    // 自动升级：把 confidence=low 的条目用更强模型重译
-    const canUpgrade = upgradeModel && upgradeModel !== model && translations.length > 0;
-    let upgradedIds = [];
-    let upgradeUsage = null;
-
-    if (canUpgrade) {
-      const lowIds = new Set(
-        translations.filter((t) => t && t.confidence === "low").map((t) => t.id)
-      );
-      if (lowIds.size > 0) {
-        const retryItems = items.filter((it) => lowIds.has(it.id));
-        try {
-          console.log(`[batch] auto-upgrade: ${retryItems.length} low-conf items: ${model} → ${upgradeModel}`);
-          const retry = await callBatchOnce({ model: upgradeModel, items: retryItems });
-          const retryMap = new Map(retry.items.map((t) => [t.id, t]));
-          for (let i = 0; i < translations.length; i++) {
-            const t = translations[i];
-            if (t && retryMap.has(t.id)) {
-              const better = retryMap.get(t.id);
-              translations[i] = { ...better, upgraded: true, upgradedFrom: model };
-              upgradedIds.push(t.id);
-            }
-          }
-          upgradeUsage = retry.usage;
-        } catch (err) {
-          console.warn("[batch] auto-upgrade failed (keep base result):", err?.message || err);
-        }
-      }
-    }
+    // 移除 confidence-based 自动升级（用户决定意图自己分析，模型不再产出 confidence 信号）。
+    // 为兼容现有 Chrome 插件可能读取这些字段，路由层默认补齐 intent/secondary_intents/confidence。
+    const translations = rawTranslations.map((t) => ({
+      id: t.id,
+      translation_cn: t.translation_cn,
+      intent: "other",
+      secondary_intents: [],
+      confidence: "medium"
+    }));
 
     res.json({
       ok: true,
       translations,
       usage,
-      upgradeUsage,
-      upgradedIds,
+      upgradeUsage: null,
+      upgradedIds: [],
       model,
-      upgradeModel: canUpgrade ? upgradeModel : null,
+      upgradeModel: null,
       mode,
       requestedModel,
       requestedUpgradeModel,
