@@ -606,7 +606,8 @@ async function callGeminiResponses({
   jsonSchema,
   temperature = 0.3,
   timeoutMs = 60000,
-  maxOutputTokens = null
+  maxOutputTokens = null,
+  thinkingBudget = undefined  // undefined = let Gemini default; 0 = disable; N = cap at N tokens
 }) {
   if (!GEMINI_API_KEY) throw new Error("Server missing GEMINI_API_KEY");
   if (!model) throw new Error("Missing model");
@@ -619,11 +620,17 @@ async function callGeminiResponses({
     generationConfig.responseMimeType = "application/json";
     generationConfig.responseSchema = convertSchemaForGemini(jsonSchema);
   }
-  // Gemini 2.5-flash 默认开启 "thinking"，思考 token 会被算进 output 预算
-  // 翻译这种简单任务不需要 reasoning，关掉以避免 max_output_tokens 被吃光导致 JSON 截断。
-  // 关掉后：响应快 ~50%、输出 token 直接砍半、JSON 不再被腰斩。
-  // （仅 2.5-flash / 2.5-flash-lite 支持；2.5-pro 强制开 thinking 会忽略此设置）
-  generationConfig.thinkingConfig = { thinkingBudget: 0 };
+  // Thinking budget 策略（2026-06 实测）：
+  //   • thinkingBudget = 0 → 完全关掉思考。最快、最便宜。
+  //                          适用于 BATCH 那种"翻译一段就完事"的扁平任务。
+  //   • thinkingBudget = N → 给 N token 思考空间。
+  //                          适用于 OUTBOUND（需要先 detect 语言、再翻译、再产 JSON 三字段）
+  //                          这种结构化任务。N=0 时模型会乱答（实测 sourceText 被无视、
+  //                          回答客户消息里的问题；或输出 ????????）。
+  //   • undefined → 不传 thinkingConfig，模型默认（一般 1024 token），够用但偶尔超 max_output。
+  if (typeof thinkingBudget === "number" && thinkingBudget >= 0) {
+    generationConfig.thinkingConfig = { thinkingBudget };
+  }
 
   const body = {
     contents: [{ role: "user", parts: [{ text: input }] }],
@@ -1120,11 +1127,12 @@ app.post("/api/translate", requireUser, async (req, res) => {
       : buildOutboundInstructionsSlim({ overrideLanguage, contextHint });
     const input = buildOutboundInput({ customerMessages, sourceText: src });
 
-    // 1200 token：之前 600 在 Gemini thinking 模式下被吃掉 → JSON 截断 →
-    // 整段烂 JSON 串被 fallback 塞进 translation 字段 → 前端原样 paste 到 WhatsApp。
-    // 现在两道保险：
-    //   1) callGeminiResponses 里 thinkingBudget=0 关掉思考（output 减半，速度翻倍）
-    //   2) 这里把上限提到 1200，覆盖长公告/详细报价的极端情况
+    // OUTBOUND 是结构化任务（detect 语言 → 翻译 → 输出 3 字段 JSON），
+    // 实测 Gemini 2.5-flash 关掉 thinking 后会出现：
+    //   • 把 customerMessages 当成对话续写，无视 sourceText
+    //   • 输出 ?????????? 这种空内容
+    // 所以这里**不传 thinkingBudget**（让 Gemini 用模型默认 ~1024 token 思考预算）。
+    // maxOutputTokens 抬到 2048 覆盖 thinking + 长公告翻译 + JSON 包装。
     const {
       text,
       usage,
@@ -1139,7 +1147,8 @@ app.post("/api/translate", requireUser, async (req, res) => {
       input,
       jsonSchema: TRANSLATE_SCHEMA,
       temperature: 0.3,
-      maxOutputTokens: 1200
+      maxOutputTokens: 2048
+      // 不传 thinkingBudget → Gemini 用默认值；OpenAI 路径忽略此参数
     });
 
     logUsage({
@@ -1287,7 +1296,9 @@ ${subLines.join("\n\n---\n\n")}`;
         jsonSchema: BATCH_TRANSLATE_SCHEMA,
         temperature: 0.2,
         timeoutMs: 60000,
-        maxOutputTokens: Math.min(Math.max(subItems.length * perItemOutput, 350), 2000)
+        maxOutputTokens: Math.min(Math.max(subItems.length * perItemOutput, 350), 2000),
+        // BATCH 是扁平任务"挨个翻译成中文"，关掉 thinking 提速降本
+        thinkingBudget: 0
       });
       logUsage({
         route: "/api/batch-translate-incoming",
