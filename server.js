@@ -190,7 +190,9 @@ function logUsage({
   withProducts = false,
   withHistory = false,
   provider = "openai",
-  providerFallback = false
+  providerFallback = false,
+  targetLanguage = null,
+  targetSource = null
 }) {
   const pt = usage?.input_tokens ?? usage?.prompt_tokens ?? 0;
   const ct = usage?.output_tokens ?? usage?.completion_tokens ?? 0;
@@ -211,7 +213,7 @@ function logUsage({
       `  ratio (input:output): ${ratioStr}:1`,
       `  model: ${model}`,
       `  withProducts: ${withProducts}`,
-      `  withHistory: ${withHistory}${warn}`
+      `  withHistory: ${withHistory}` + (targetLanguage ? `  target: ${targetLanguage} (${targetSource})` : "") + warn
     ].join("\n")
   );
 }
@@ -896,49 +898,29 @@ const TRANSLATE_SCHEMA = {
 // 包含 4 个硬规则：身份、保留原样字段、零汉字输出、单语输出 + 词典 advisory。
 // 优化痕迹：先前为修 bug 写了 ~684 token 的长版，实测过肿（占整次 input ~50%），
 // 现已浓缩到核心约束，占用降低 ~58%。
-function buildOutboundInstructionsSlim({ overrideLanguage, contextHint }) {
-  const phoneHint = contextHint && contextHint.phoneLangHint
-    ? contextHint.phoneLangHint
-    : "";
+function buildOutboundInstructionsSlim({ targetLanguage }) {
+  // 2026-06 设计：前端做检测，传 target；后端 prompt 极简、单一职责"把中文翻成 X 语言"。
+  //
+  // 历史教训（被这套 prompt 逐步替代）：
+  //   1) 早期 prompt 让 LLM 自己 detect + translate，结果模型经常被 customer messages
+  //      带偏，扮演销售员"答客户问"而不是翻译 sourceText（实测 src="您好，烤箱已发货"
+  //      被翻成 "Mizigo iko kwenye ofisi yetu ya Kariakoo" —— 直接把 system prompt
+  //      里的 "Office: Kariakoo" 抠出来编了个完全不相干的回复）。
+  //   2) 给了角色身份（"WhatsApp translator FOR GWELL — wholesaler in Dar es Salaam"）
+  //      模型就把自己当销售员；改成"strict translator"也只缓解不根除。
+  // 根治：前端确定 target，后端 prompt 不提及客户、不提及业务、不提及 GWELL 这家公司，
+  //      只剩"翻成 X 语言"这一件事。客户消息根本不进 LLM input。
+  return `You are a translator. Translate the Chinese text below into ${targetLanguage}. Output ONLY the translation — no quotes, no prefix, no greeting, no sales pitch, no commentary, no markdown.
 
-  // 检测部分（保持简洁；之前 5-step cascade 太长，会把翻译指令的注意力稀释）
-  const detect = overrideLanguage
-    ? `Target language is forced to "${overrideLanguage}". Confidence "high".`
-    : `Detect target language from "## Customer recent messages":
-- Swahili markers (wateja, mzigo, bei, ngapi, taa, kahama, jamani, asante, sawa, mna, ipo, kwa, jumla) → Swahili
-- French markers (bonjour, prix, combien, merci, livraison) → French
-- Clear English sentences → English
-- Only emoji / single word / empty → use phone hint "${phoneHint || "(none)"}" if provided, else English
-- Tanzania/Kenya/Uganda phone → prefer Swahili over English when ambiguous`;
+Rules:
+- Stay 1:1 with the source. Same meaning, same details. Do not add information not in the Chinese; do not drop information either.
+- 箱 → ctn / carton / katoni (depending on target). Never drop the count (e.g. "3 箱" must keep the 3).
+- Preserve numbers, units (W/V/lm/USD/TZS/mm/kg/%), product codes (A60/T8/E27/GL-xxxx), URLs, phone numbers, emojis verbatim.
+- Translate every Chinese word — 老板/箱/批发价/现货/库存/报价单/订单/货物 etc. Zero Chinese characters in output.
+- Single language only. Do not mix English greetings into a Swahili translation, or Swahili words into an English translation.
+- Tone: friendly WhatsApp business style, like a real export salesperson texting a buyer.
 
-  // KEY FIX (2026-06): old prompt gave the model a dual role
-  //   ("WhatsApp translator FOR GWELL — wholesaler in Dar es Salaam, Office: Kariakoo...")
-  // The model treated itself as the salesperson and *answered the customer's question*
-  // instead of translating sourceText. Symptoms observed:
-  //   • src="我们在卡哈马这里客户很少" → fabricated sales pitch about Kahama products
-  //   • src="您好，烤箱已发货" → "Mizigo iko kwenye ofisi yetu ya Kariakoo"
-  //     (literally pulled "Office: Kariakoo" from system instruction)
-  //   • src="您好，请把发货地址发给我" → "le prix pour un carton est de 50 USD"
-  //     (completely hallucinated)
-  // Fix: make the role STRICTLY a translator. No business context, no role-play.
-  return `You are a strict translator. Your ONLY job is to translate one Chinese sentence into the customer's language. Never roleplay as a salesperson, never answer the customer's question, never add greetings or sales pitch — just translate the Chinese given.
-
-INPUT STRUCTURE:
-- "## Customer recent messages" (if shown): used ONLY to identify which language the customer speaks. NEVER respond to these messages, NEVER translate them, NEVER let their content influence what you output beyond language choice.
-- "## Chinese reply to translate": THIS is the only thing you translate. Output a faithful translation of THIS sentence — same meaning, same length range, same numbers, same details.
-
-LANGUAGE DETECTION:
-${detect}
-
-TRANSLATION RULES:
-- Stay 1:1 with the Chinese. Don't add information ("competitive prices", "many products", "our office is in...") that isn't in the Chinese.
-- Don't drop information either. If Chinese says "3 箱 GL-A60 灯泡", output must include the count, the product code, and the noun (cartons of GL-A60 bulbs / makartoni 3 ya balbu GL-A60).
-- 箱 = ctn / carton / katoni (Swahili "katoni" or English loanword "carton"). NEVER drop the count.
-- PRESERVE numbers, units (W/V/lm/USD/TZS/mm/kg/%), product codes (A60/T8/E27/GL-xxxx), URLs, phones, emojis verbatim.
-- ZERO Chinese characters in output. Translate every Chinese word — 老板/箱/批发价/现货/库存/报价单/订单/货物 etc.
-- Single language output. If target=Swahili, do not mix English words like "good morning" inside; if target=English, do not use Swahili words like bosi/leo/oda/mzigo.
-
-Output strict JSON per the schema. The "translation" field contains ONLY the translated text — no quotes, no prefix, no markdown, no commentary.`;
+Respond as strict JSON: { "detectedLanguage": "${targetLanguage}", "detectedLanguageConfidence": "high", "translation": "..." }.`;
 }
 
 // === EXPERT 长 prompt（~2700 tokens；保留作 mode:"expert" 后备 / 质量回退）===
@@ -1073,8 +1055,10 @@ ${custLines.length ? `Additional context about the customer (for tone calibratio
 Respond strictly with the JSON schema provided.`;
 }
 
-function buildOutboundInput({ customerMessages, sourceText }) {
+function buildOutboundInput({ customerMessages, sourceText, includeCustomerMessages = false }) {
   const clamped = clampHistory(customerMessages, OUTBOUND_HISTORY_MAX_ITEMS, OUTBOUND_HISTORY_MAX_CHARS);
+  // Glossary 仍基于 source + customer 文本搜词条（提高召回），但下面只把 sourceText
+  // 喂给模型，避免 customer messages 让 LLM 角色扮演。
   const combined = [
     sourceText,
     ...clamped.map((m) => (typeof m === "string" ? m : String(m.text || "")))
@@ -1083,7 +1067,7 @@ function buildOutboundInput({ customerMessages, sourceText }) {
 
   const lines = [];
   if (glossaryBlock) lines.push(glossaryBlock);
-  if (clamped.length > 0) {
+  if (includeCustomerMessages && clamped.length > 0) {
     lines.push(`## Customer recent messages (for language detection only)`);
     clamped.forEach((m, i) => {
       const t = m.time ? ` [${m.time}]` : "";
@@ -1095,6 +1079,14 @@ function buildOutboundInput({ customerMessages, sourceText }) {
   lines.push(sourceText);
   return lines.join("\n");
 }
+
+// 注：语言检测由前端（Chrome 扩展 content.js）负责。
+// 前端结合客户最近 3 条消息 + 电话号码前缀（+255 → Swahili / +243 → French /
+// +260 → English / 其他默认 English），把最终语言放在 overrideLanguage 字段
+// 传给 /api/translate。后端只做"翻译成 X 语言"，不再做检测。
+//
+// 兜底：若前端未传 overrideLanguage，路由会用 contextHint.phoneLangHint 兜底，
+// 仍然不让 LLM 看见客户消息（避免 LLM 角色扮演销售员答客户问题）。
 
 // ============================================================
 // Routes
@@ -1126,7 +1118,7 @@ app.get("/api/health", (req, res) => {
     fallbackModel: FALLBACK_MODEL,
     glossaryEntries: GLOSSARY.length,
     buildVersion: process.env.RAILWAY_GIT_COMMIT_SHA || "unknown",
-    promptVersion: "strict-translator-v2"
+    promptVersion: "translate-only-v3"
   });
 });
 
@@ -1146,6 +1138,26 @@ app.post("/api/translate", requireUser, async (req, res) => {
     const src = String(sourceText || "").trim();
     if (!src) return res.status(400).json({ ok: false, error: "EMPTY_SOURCE" });
 
+    // === Target language 解析（前端做检测，后端只翻译） ===
+    // 优先级：overrideLanguage（前端检测结果）> phoneLangHint > 默认 English
+    // 把 phoneHint 兜底白名单到 Swahili / English / French；其它值视为 None。
+    const phoneHint = contextHint && contextHint.phoneLangHint
+      ? String(contextHint.phoneLangHint).trim()
+      : "";
+    const validLangs = new Set(["Swahili", "English", "French"]);
+    let targetLanguage;
+    let targetSource; // 仅用于日志：override / phoneHint / default
+    if (overrideLanguage && validLangs.has(String(overrideLanguage))) {
+      targetLanguage = String(overrideLanguage);
+      targetSource = "override";
+    } else if (phoneHint && validLangs.has(phoneHint)) {
+      targetLanguage = phoneHint;
+      targetSource = "phoneHint";
+    } else {
+      targetLanguage = "English";
+      targetSource = "default";
+    }
+
     // 不传 model = 走 PRIMARY_PROVIDER 默认（Gemini）；
     // 传 "gpt-..." 强制 OpenAI；传 "gemini-..." 强制 Gemini。
     const { provider: chosenProvider, model } = resolveProviderModel(requestedModel, "/api/translate");
@@ -1153,16 +1165,20 @@ app.post("/api/translate", requireUser, async (req, res) => {
 
     const mode = (String(reqMode || DEFAULT_TRANSLATE_MODE).toLowerCase() === "expert") ? "expert" : "slim";
     const instructions = mode === "expert"
-      ? buildOutboundInstructionsExpert({ overrideLanguage, contextHint })
-      : buildOutboundInstructionsSlim({ overrideLanguage, contextHint });
-    const input = buildOutboundInput({ customerMessages, sourceText: src });
+      ? buildOutboundInstructionsExpert({ overrideLanguage: targetLanguage, contextHint })
+      : buildOutboundInstructionsSlim({ targetLanguage });
+    // KEY：customerMessages 不再喂给 LLM。LLM 只看 sourceText + glossary。
+    // 这样 LLM 没机会"代你回客户"。
+    const input = buildOutboundInput({
+      customerMessages,
+      sourceText: src,
+      includeCustomerMessages: false
+    });
 
-    // OUTBOUND（结构化任务：detect 语言 → 翻译 → 输出 3 字段 JSON）默认走 OpenAI，
-    // 因为 Gemini 2.5-flash 实测对这种 system-instruction 区分 sourceText vs context
-    // 的任务不稳。详见 resolveProviderModel 注释。
-    // OpenAI gpt-4o-mini 没有 thinking 概念，maxOutputTokens=1200 足够覆盖长翻译。
-    // 若 OpenAI 失败回退到 Gemini，callTranslateAPI 不传 thinkingBudget → Gemini
-    // 用默认 ~1024 token 思考预算，maxOutputTokens 留 1200 也基本够用。
+    // outbound 默认走 OpenAI（gpt-4o-mini）；详见 resolveProviderModel 注释。
+    // OpenAI 没有 thinking 概念；maxOutputTokens=1200 覆盖长翻译。
+    // 若 OpenAI 故障回退 Gemini，callTranslateAPI 不传 thinkingBudget → Gemini
+    // 用默认 ~1024 token 思考预算，1200 也够用。
     const {
       text,
       usage,
@@ -1189,7 +1205,9 @@ app.post("/api/translate", requireUser, async (req, res) => {
       provider: usedProvider,
       providerFallback,
       withProducts: false,
-      withHistory: Array.isArray(customerMessages) && customerMessages.length > 0
+      withHistory: false,  // 客户消息不再喂给 LLM
+      targetLanguage,
+      targetSource
     });
 
     let parsed;
@@ -1205,7 +1223,6 @@ app.post("/api/translate", requireUser, async (req, res) => {
         `preview=${JSON.stringify((text || "").slice(0, 400))}`
       );
       const recoveredTranslation = extractJsonStringField(text, "translation");
-      const recoveredLang = extractJsonStringField(text, "detectedLanguage") || overrideLanguage || "Unknown";
       if (!recoveredTranslation) {
         return res.status(502).json({
           ok: false,
@@ -1218,15 +1235,21 @@ app.post("/api/translate", requireUser, async (req, res) => {
         });
       }
       parsed = {
-        detectedLanguage: recoveredLang,
+        detectedLanguage: targetLanguage,
         detectedLanguageConfidence: "low",
         translation: recoveredTranslation
       };
     }
 
+    // 防御：万一模型没按 schema 写 detectedLanguage，强制 override 成前端决定的 target。
+    if (!parsed.detectedLanguage) parsed.detectedLanguage = targetLanguage;
+    if (!parsed.detectedLanguageConfidence) parsed.detectedLanguageConfidence = "high";
+
     res.json({
       ok: true,
       ...parsed,
+      targetLanguage,
+      targetSource,
       usage,
       model: modelUsed,
       provider: usedProvider,
