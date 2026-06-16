@@ -901,34 +901,44 @@ function buildOutboundInstructionsSlim({ overrideLanguage, contextHint }) {
     ? contextHint.phoneLangHint
     : "";
 
-  // 检测规则按"硬度"分级：override > 客户消息明显信号 > 电话国家提示 > English 兜底
-  // 关键修正（2026-06）：之前 "Unclear → English" 太抢；东非客户即使消息很短也极大概率
-  // 是 Swahili，不是 English。现在让电话提示具有权威性，仅在 phone+messages 都没信号时
-  // 才掉到 English。
+  // 检测部分（保持简洁；之前 5-step cascade 太长，会把翻译指令的注意力稀释）
   const detect = overrideLanguage
-    ? `Target FORCED to "${overrideLanguage}", confidence=high.`
-    : `Detect target language by this STRICT priority:
-   a) If customer messages contain ANY Swahili marker (mna, taa, bei, ngapi, bosi, leo, mzigo, oda, kahama, asante, sawa, jumla, wateja, ananunua, ambae, ipo, jamani, niambie, picha, mtaa, wapi, kwa, kuna, hapa, etc.) → Swahili.
-   b) Else if customer messages contain French markers (bonjour, merci, prix, combien, livraison, commande, etc.) → French.
-   c) Else if customer messages are clearly conversational English (full sentences, no Swahili words) → English.
-   d) Else (only emoji / single word / empty / ambiguous) AND phone hint = "${phoneHint || "(none)"}" → use that hint as target.
-   e) Else → English (last resort).
-   Tanzania/Kenya/Uganda phone numbers → strong Swahili prior. Don't pick English just because the sales reply mentions Latin location names like "Kahama".`;
+    ? `Target language is forced to "${overrideLanguage}". Confidence "high".`
+    : `Detect target language from "## Customer recent messages":
+- Swahili markers (wateja, mzigo, bei, ngapi, taa, kahama, jamani, asante, sawa, mna, ipo, kwa, jumla) → Swahili
+- French markers (bonjour, prix, combien, merci, livraison) → French
+- Clear English sentences → English
+- Only emoji / single word / empty → use phone hint "${phoneHint || "(none)"}" if provided, else English
+- Tanzania/Kenya/Uganda phone → prefer Swahili over English when ambiguous`;
 
-  return `You are a WhatsApp translator for GWELL — Chinese-owned lighting wholesaler PHYSICALLY in Dar es Salaam (Office: Kariakoo, Factory: Kigamboni). Never imply "we ship from China".
+  // KEY FIX (2026-06): old prompt gave the model a dual role
+  //   ("WhatsApp translator FOR GWELL — wholesaler in Dar es Salaam, Office: Kariakoo...")
+  // The model treated itself as the salesperson and *answered the customer's question*
+  // instead of translating sourceText. Symptoms observed:
+  //   • src="我们在卡哈马这里客户很少" → fabricated sales pitch about Kahama products
+  //   • src="您好，烤箱已发货" → "Mizigo iko kwenye ofisi yetu ya Kariakoo"
+  //     (literally pulled "Office: Kariakoo" from system instruction)
+  //   • src="您好，请把发货地址发给我" → "le prix pour un carton est de 50 USD"
+  //     (completely hallucinated)
+  // Fix: make the role STRICTLY a translator. No business context, no role-play.
+  return `You are a strict translator. Your ONLY job is to translate one Chinese sentence into the customer's language. Never roleplay as a salesperson, never answer the customer's question, never add greetings or sales pitch — just translate the Chinese given.
 
-TASK: Translate the salesperson's Chinese reply into the customer's language. Customer messages are for language detection ONLY (do not translate them).
+INPUT STRUCTURE:
+- "## Customer recent messages" (if shown): used ONLY to identify which language the customer speaks. NEVER respond to these messages, NEVER translate them, NEVER let their content influence what you output beyond language choice.
+- "## Chinese reply to translate": THIS is the only thing you translate. Output a faithful translation of THIS sentence — same meaning, same length range, same numbers, same details.
 
-1. ${detect}
-2. Translate naturally, WhatsApp-style. Swahili buyers tolerate English business loanwords (price/MOQ/CTN/USD/TZS/sample/warranty).
+LANGUAGE DETECTION:
+${detect}
 
-RULES
-- PRESERVE numbers, units (W/V/lm/mAh/%/USD/TZS/mm/kg), product codes (A60/T8/E27/GL-xxxx), URLs, phones, emojis.
-- ZERO Chinese characters in output. Translate compounds too: 价格表/箱数量/批发价/现货/库存/报价单/老板/订单/货物.
-- SINGLE language output. If target=English, do NOT use Swahili words (bosi/leo/oda/mzigo/kesho). If target=Swahili, write Swahili.
-- Glossary block (if present) is ADVISORY: only use variants matching the target language; ignore mismatched variants and translate fresh.
+TRANSLATION RULES:
+- Stay 1:1 with the Chinese. Don't add information ("competitive prices", "many products", "our office is in...") that isn't in the Chinese.
+- Don't drop information either. If Chinese says "3 箱 GL-A60 灯泡", output must include the count, the product code, and the noun (cartons of GL-A60 bulbs / makartoni 3 ya balbu GL-A60).
+- 箱 = ctn / carton / katoni (Swahili "katoni" or English loanword "carton"). NEVER drop the count.
+- PRESERVE numbers, units (W/V/lm/USD/TZS/mm/kg/%), product codes (A60/T8/E27/GL-xxxx), URLs, phones, emojis verbatim.
+- ZERO Chinese characters in output. Translate every Chinese word — 老板/箱/批发价/现货/库存/报价单/订单/货物 etc.
+- Single language output. If target=Swahili, do not mix English words like "good morning" inside; if target=English, do not use Swahili words like bosi/leo/oda/mzigo.
 
-Output: translation text only — no quotes, no prefix, no markdown. Strict JSON per schema.`;
+Output strict JSON per the schema. The "translation" field contains ONLY the translated text — no quotes, no prefix, no markdown, no commentary.`;
 }
 
 // === EXPERT 长 prompt（~2700 tokens；保留作 mode:"expert" 后备 / 质量回退）===
