@@ -45,7 +45,11 @@ const OPENAI_BASE_URL = (process.env.OPENAI_BASE_URL || "https://api.openai.com/
 // 若想反过来：env GWELL_PRIMARY_PROVIDER=openai
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
 const GEMINI_BASE_URL = (process.env.GEMINI_BASE_URL || "https://generativelanguage.googleapis.com").replace(/\/+$/, "");
-const GEMINI_DEFAULT_MODEL = process.env.GWELL_GEMINI_MODEL || "gemini-2.0-flash";
+// 注：2026-06 起 gemini-2.0-flash 已 EOL，用 2.5 系列。
+//     gemini-2.5-flash       — 平衡款（默认推荐）
+//     gemini-2.5-flash-lite  — 更便宜更快，质量稍弱
+//     gemini-2.5-pro         — 最强但贵 8x，翻译用不上
+const GEMINI_DEFAULT_MODEL = process.env.GWELL_GEMINI_MODEL || "gemini-2.5-flash";
 const PRIMARY_PROVIDER =
   String(process.env.GWELL_PRIMARY_PROVIDER || "gemini").toLowerCase() === "openai" ? "openai" : "gemini";
 

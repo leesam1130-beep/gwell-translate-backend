@@ -2,7 +2,7 @@
 
 为 GWELL WhatsApp CRM Chrome 扩展提供翻译能力的后端服务。
 
-**双 provider 架构（2026-06）**：默认走 Google Gemini（`gemini-2.0-flash`），OpenAI 当容灾备份。任一失败/被安全过滤拦截时自动切到另一家。
+**双 provider 架构（2026-06）**：默认走 Google Gemini（`gemini-2.5-flash`），OpenAI 当容灾备份。任一失败/被安全过滤拦截时自动切到另一家。
 所有 API Key 只存在这里的环境变量里，**永远不会**下发到任何插件 / 浏览器。
 
 ## 文件清单（这些都要放到后端仓库 / Railway）
@@ -41,7 +41,7 @@ npm start
    - `OPENAI_API_KEY` = `sk-...`（推荐填，容灾备份）
    - 任填一个也能跑，但少一个就没自动容灾
    - `GWELL_PRIMARY_PROVIDER` = `gemini` 或 `openai`（可选，默认 `gemini`）
-   - `GWELL_GEMINI_MODEL` = `gemini-2.0-flash`（可选，默认即此）
+   - `GWELL_GEMINI_MODEL` = `gemini-2.5-flash`（可选，默认即此；不要再用 2.0-flash，已 EOL）
 4. Railway 会自动检测 `package.json` → 跑 `npm install` → `npm start`。
 5. 在 Settings → Networking → Generate Domain 拿到公网 URL。
 6. 把 URL 同步到 Chrome 扩展的 `background.js` (`BACKEND_BASE_URL`) 和 `manifest.json` (`host_permissions`)。
