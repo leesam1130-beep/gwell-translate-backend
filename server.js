@@ -1124,7 +1124,9 @@ app.get("/api/health", (req, res) => {
     defaultTranslateMode: DEFAULT_TRANSLATE_MODE,
     allowPremiumModels: ALLOW_PREMIUM_MODELS,
     fallbackModel: FALLBACK_MODEL,
-    glossaryEntries: GLOSSARY.length
+    glossaryEntries: GLOSSARY.length,
+    buildVersion: process.env.RAILWAY_GIT_COMMIT_SHA || "unknown",
+    promptVersion: "strict-translator-v2"
   });
 });
 
