@@ -1245,19 +1245,20 @@ app.post("/api/translate", requireUser, async (req, res) => {
     if (!parsed.detectedLanguage) parsed.detectedLanguage = targetLanguage;
     if (!parsed.detectedLanguageConfidence) parsed.detectedLanguageConfidence = "high";
 
-    // 临时调试（2026-06）：等翻译质量验证完毕后移除。
-    const debugEcho = req.query?.debug === "1" || req.body?.__debug === true ? {
-      _debug: {
-        promptVersion: "translate-only-v3",
-        targetLanguage,
-        targetSource,
-        instructionsLen: instructions.length,
-        inputLen: input.length,
-        instructions,
-        input,
-        rawOutput: text
-      }
-    } : {};
+    // 诊断接口（GWELL_TRANSLATE_DEBUG=1 时才启用 _debug 字段；平时关闭防止 prompt 泄露）
+    const debugEcho = (process.env.GWELL_TRANSLATE_DEBUG === "1") &&
+      (req.query?.debug === "1" || req.body?.__debug === true) ? {
+        _debug: {
+          promptVersion: "translate-only-v3",
+          targetLanguage,
+          targetSource,
+          instructionsLen: instructions.length,
+          inputLen: input.length,
+          instructions,
+          input,
+          rawOutput: text
+        }
+      } : {};
 
     res.json({
       ok: true,
