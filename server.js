@@ -1081,12 +1081,106 @@ function buildOutboundInput({ customerMessages, sourceText, includeCustomerMessa
 }
 
 // 注：语言检测由前端（Chrome 扩展 content.js）负责。
-// 前端结合客户最近 3 条消息 + 电话号码前缀（+255 → Swahili / +243 → French /
-// +260 → English / 其他默认 English），把最终语言放在 overrideLanguage 字段
-// 传给 /api/translate。后端只做"翻译成 X 语言"，不再做检测。
+// 优先级：电话号码前缀（+255 → Swahili / +243 → French / +260 → English）>
+//         客户消息关键词（仅无电话时）> 默认 English。
+// 结果放在 overrideLanguage / contextHint.phoneLangHint 传给 /api/translate。
 //
-// 兜底：若前端未传 overrideLanguage，路由会用 contextHint.phoneLangHint 兜底，
-// 仍然不让 LLM 看见客户消息（避免 LLM 角色扮演销售员答客户问题）。
+// 后端二次兜底：phoneHint 优先；无电话时才用 customerMessages 关键词检测。
+
+const OUTBOUND_LANGS = new Set(["Swahili", "English", "French"]);
+
+const FR_DETECT_MARKERS = new Set([
+  "tu", "vous", "nous", "ne", "pas", "est", "sont", "avec", "pour", "dans", "sur",
+  "bonsoir", "bonjour", "merci", "oui", "non", "attente", "comprends", "comprend",
+  "marchandises", "reçu", "recu", "photos", "problème", "probleme", "attendions",
+  "rencontrer", "envoyer", "réellement", "reellement", "mon", "ami", "as", "peux",
+  "d'accord", "daccord", "reste", "attente"
+]);
+const SW_DETECT_MARKERS = new Set([
+  "habari", "hujambo", "mambo", "jambo", "asante", "ndiyo", "hapana", "sawa", "karibu",
+  "pole", "tafadhali", "ninaweza", "naweza", "kuapata", "kupata", "taarifa", "kuhusu",
+  "nimepokea", "umepokea", "mzigo", "bei", "picha", "tatizo", "subiri", "nimeelewa", "je"
+]);
+const EN_DETECT_MARKERS = new Set([
+  "the", "and", "you", "your", "have", "received", "goods", "problem", "waiting",
+  "understand", "friend", "hello", "thanks", "please", "send", "photos"
+]);
+
+function normalizeDetectText(s) {
+  return String(s || "")
+    .toLowerCase()
+    .replace(/[\u2018\u2019\u201B\u2032]/g, "'")
+    .replace(/[^\p{L}\p{N}\s']/gu, " ");
+}
+
+function countFrenchAccentsInText(s) {
+  const m = String(s || "").match(/[àâäæçéèêëïîôùûüÿœ]/gi);
+  return m ? m.length : 0;
+}
+
+/** 从 customerMessages 做轻量关键词检测（不喂给 LLM，仅纠正 targetLanguage） */
+function detectLangFromCustomerMessages(messages) {
+  const texts = (Array.isArray(messages) ? messages : [])
+    .map((m) => (typeof m === "string" ? m : (m?.text || "")).trim())
+    .filter(Boolean)
+    .slice(-5);
+  if (!texts.length) return null;
+
+  let fr = 0;
+  let sw = 0;
+  let en = 0;
+  let accentCount = 0;
+  for (const raw of texts) {
+    accentCount += countFrenchAccentsInText(raw);
+    const tokens = normalizeDetectText(raw).split(/\s+/).filter((t) => t.length >= 2);
+    for (const t of tokens) {
+      if (FR_DETECT_MARKERS.has(t)) fr++;
+      if (SW_DETECT_MARKERS.has(t)) sw++;
+      if (EN_DETECT_MARKERS.has(t)) en++;
+    }
+  }
+
+  if (sw >= 1 && sw > fr && sw > en) {
+    return { language: "Swahili", source: "customerMessages-sw", confidence: sw >= 2 ? "high" : "medium" };
+  }
+  if (fr >= 1 && fr >= en && (fr >= 2 || accentCount >= 1)) {
+    return { language: "French", source: "customerMessages-fr", confidence: fr >= 2 || accentCount >= 1 ? "high" : "medium" };
+  }
+  if (accentCount >= 1 && en === 0) {
+    return { language: "French", source: "customerMessages-fr-accent", confidence: "high" };
+  }
+  if (en >= 2 && en > fr && en > sw) {
+    return { language: "English", source: "customerMessages-en", confidence: "medium" };
+  }
+  return null;
+}
+
+function resolveOutboundTargetLanguage({ overrideLanguage, phoneHint, customerMessages, languageLock = false }) {
+  const ov = overrideLanguage ? String(overrideLanguage).trim() : "";
+  const ph = phoneHint ? String(phoneHint).trim() : "";
+
+  // 侧栏手动锁定语言 → 最高优先级
+  if (languageLock && ov && OUTBOUND_LANGS.has(ov)) {
+    return { targetLanguage: ov, targetSource: "override-lock" };
+  }
+
+  // 电话优先
+  if (ph && OUTBOUND_LANGS.has(ph)) {
+    return { targetLanguage: ph, targetSource: "phoneHint" };
+  }
+
+  // 无电话 → 消息关键词
+  const msgDetect = detectLangFromCustomerMessages(customerMessages);
+  if (msgDetect && OUTBOUND_LANGS.has(msgDetect.language)) {
+    return { targetLanguage: msgDetect.language, targetSource: msgDetect.source };
+  }
+
+  if (ov && OUTBOUND_LANGS.has(ov)) {
+    return { targetLanguage: ov, targetSource: "override" };
+  }
+
+  return { targetLanguage: "English", targetSource: "default" };
+}
 
 // ============================================================
 // Routes
@@ -1131,6 +1225,7 @@ app.post("/api/translate", requireUser, async (req, res) => {
       customerMessages = [],
       overrideLanguage = null,
       contextHint = null,
+      languageLock = false,
       model: requestedModel = null,
       mode: reqMode
     } = req.body || {};
@@ -1138,25 +1233,16 @@ app.post("/api/translate", requireUser, async (req, res) => {
     const src = String(sourceText || "").trim();
     if (!src) return res.status(400).json({ ok: false, error: "EMPTY_SOURCE" });
 
-    // === Target language 解析（前端做检测，后端只翻译） ===
-    // 优先级：overrideLanguage（前端检测结果）> phoneLangHint > 默认 English
-    // 把 phoneHint 兜底白名单到 Swahili / English / French；其它值视为 None。
+    // === Target language 解析（前端做检测，后端只翻译 + 关键词二次兜底） ===
     const phoneHint = contextHint && contextHint.phoneLangHint
       ? String(contextHint.phoneLangHint).trim()
       : "";
-    const validLangs = new Set(["Swahili", "English", "French"]);
-    let targetLanguage;
-    let targetSource; // 仅用于日志：override / phoneHint / default
-    if (overrideLanguage && validLangs.has(String(overrideLanguage))) {
-      targetLanguage = String(overrideLanguage);
-      targetSource = "override";
-    } else if (phoneHint && validLangs.has(phoneHint)) {
-      targetLanguage = phoneHint;
-      targetSource = "phoneHint";
-    } else {
-      targetLanguage = "English";
-      targetSource = "default";
-    }
+    const { targetLanguage, targetSource } = resolveOutboundTargetLanguage({
+      overrideLanguage,
+      phoneHint,
+      customerMessages,
+      languageLock: languageLock === true
+    });
 
     // 不传 model = 走 PRIMARY_PROVIDER 默认（Gemini）；
     // 传 "gpt-..." 强制 OpenAI；传 "gemini-..." 强制 Gemini。
@@ -1265,6 +1351,7 @@ app.post("/api/translate", requireUser, async (req, res) => {
       ...parsed,
       targetLanguage,
       targetSource,
+      messageCount: Array.isArray(customerMessages) ? customerMessages.length : 0,
       usage,
       model: modelUsed,
       provider: usedProvider,
