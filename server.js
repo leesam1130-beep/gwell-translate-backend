@@ -566,6 +566,22 @@ async function callOpenAIResponses({
 //   - additionalProperties / $schema / strict   (Gemini 拒绝识别)
 //   - 外层 { name, strict, schema } 包装        (只取 .schema)
 // 其余 type/properties/required/items/enum/description/nullable 都兼容。
+// 从一段（可能截断的）JSON 文本里抢救出 "fieldName":"..." 的字符串值。
+// 用 JSON.parse 重新合法化转义；抢救失败返回 ""，调用方决定是否报错。
+// 用途：模型输出被 max_output_tokens 截断时，至少救出 translation 字段，
+// 而不是把整段烂 JSON 串塞回前端。
+function extractJsonStringField(text, fieldName) {
+  if (!text || typeof text !== "string") return "";
+  const re = new RegExp(`"${fieldName}"\\s*:\\s*"((?:[^"\\\\]|\\\\.)*)"`, "i");
+  const m = text.match(re);
+  if (!m) return "";
+  try {
+    return JSON.parse(`"${m[1]}"`);
+  } catch {
+    return m[1] || "";
+  }
+}
+
 function convertSchemaForGemini(jsonSchema) {
   if (!jsonSchema) return null;
   const root = jsonSchema.schema || jsonSchema;
@@ -603,6 +619,11 @@ async function callGeminiResponses({
     generationConfig.responseMimeType = "application/json";
     generationConfig.responseSchema = convertSchemaForGemini(jsonSchema);
   }
+  // Gemini 2.5-flash 默认开启 "thinking"，思考 token 会被算进 output 预算
+  // 翻译这种简单任务不需要 reasoning，关掉以避免 max_output_tokens 被吃光导致 JSON 截断。
+  // 关掉后：响应快 ~50%、输出 token 直接砍半、JSON 不再被腰斩。
+  // （仅 2.5-flash / 2.5-flash-lite 支持；2.5-pro 强制开 thinking 会忽略此设置）
+  generationConfig.thinkingConfig = { thinkingBudget: 0 };
 
   const body = {
     contents: [{ role: "user", parts: [{ text: input }] }],
@@ -1088,8 +1109,11 @@ app.post("/api/translate", requireUser, async (req, res) => {
       : buildOutboundInstructionsSlim({ overrideLanguage, contextHint });
     const input = buildOutboundInput({ customerMessages, sourceText: src });
 
-    // 600 token 足够覆盖 ~250-350 字 Swahili/English 翻译 + 4 字段的 JSON 包裹；
-    // 之前的 300 在长报价/长公告下偶尔会被截断 → JSON 解析失败 fallback。
+    // 1200 token：之前 600 在 Gemini thinking 模式下被吃掉 → JSON 截断 →
+    // 整段烂 JSON 串被 fallback 塞进 translation 字段 → 前端原样 paste 到 WhatsApp。
+    // 现在两道保险：
+    //   1) callGeminiResponses 里 thinkingBudget=0 关掉思考（output 减半，速度翻倍）
+    //   2) 这里把上限提到 1200，覆盖长公告/详细报价的极端情况
     const {
       text,
       usage,
@@ -1104,7 +1128,7 @@ app.post("/api/translate", requireUser, async (req, res) => {
       input,
       jsonSchema: TRANSLATE_SCHEMA,
       temperature: 0.3,
-      maxOutputTokens: 600
+      maxOutputTokens: 1200
     });
 
     logUsage({
@@ -1123,15 +1147,31 @@ app.post("/api/translate", requireUser, async (req, res) => {
     try {
       parsed = JSON.parse(text);
     } catch (err) {
+      // JSON 解析失败（通常是 max_output_tokens 截断）。绝对不能把"截断 JSON 串"
+      // 当 translation 返回——前端会原样塞进 WhatsApp 输入框。
+      // 改为：用正则抢救 translation 字段；抢救不到就返回 ok:false 让前端走错误提示。
       console.warn(
         `[/api/translate] non-JSON output: provider=${usedProvider} model=${modelUsed} ` +
         `outputLen=${(text || "").length} usage=${JSON.stringify(usage || {})} ` +
         `preview=${JSON.stringify((text || "").slice(0, 400))}`
       );
+      const recoveredTranslation = extractJsonStringField(text, "translation");
+      const recoveredLang = extractJsonStringField(text, "detectedLanguage") || overrideLanguage || "Unknown";
+      if (!recoveredTranslation) {
+        return res.status(502).json({
+          ok: false,
+          error: "BAD_JSON_FROM_MODEL: translation truncated or malformed (likely max_output_tokens hit). 请重试一次。",
+          provider: usedProvider,
+          model: modelUsed,
+          usage,
+          providerFallback,
+          primaryError: providerFallback ? primaryError : undefined
+        });
+      }
       parsed = {
-        detectedLanguage: overrideLanguage || "Unknown",
+        detectedLanguage: recoveredLang,
         detectedLanguageConfidence: "low",
-        translation: text
+        translation: recoveredTranslation
       };
     }
 
