@@ -45,11 +45,35 @@ const OPENAI_BASE_URL = (process.env.OPENAI_BASE_URL || "https://api.openai.com/
 // 若想反过来：env GWELL_PRIMARY_PROVIDER=openai
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
 const GEMINI_BASE_URL = (process.env.GEMINI_BASE_URL || "https://generativelanguage.googleapis.com").replace(/\/+$/, "");
-// 注：2026-06 起 gemini-2.0-flash 已 EOL，用 2.5 系列。
+// 注：2026-06 起 gemini-2.0-flash / 1.5 系列全部 EOL，用 2.5 系列。
 //     gemini-2.5-flash       — 平衡款（默认推荐）
 //     gemini-2.5-flash-lite  — 更便宜更快，质量稍弱
 //     gemini-2.5-pro         — 最强但贵 8x，翻译用不上
-const GEMINI_DEFAULT_MODEL = process.env.GWELL_GEMINI_MODEL || "gemini-2.5-flash";
+//
+// 自动 EOL 防错：若 env 仍然填的是已退役模型，强制升级到 2.5-flash 并打 warning。
+// 这样不需要用户去 Railway 改环境变量。
+const DEPRECATED_GEMINI_MODELS = new Set([
+  "gemini-2.0-flash",
+  "gemini-2.0-flash-001",
+  "gemini-2.0-flash-lite",
+  "gemini-2.0-pro",
+  "gemini-1.5-flash",
+  "gemini-1.5-flash-8b",
+  "gemini-1.5-flash-002",
+  "gemini-1.5-pro",
+  "gemini-1.5-pro-002",
+  "gemini-1.0-pro",
+  "gemini-pro"
+]);
+const _RAW_GEMINI_MODEL = (process.env.GWELL_GEMINI_MODEL || "gemini-2.5-flash").toLowerCase().trim();
+const GEMINI_DEFAULT_MODEL = DEPRECATED_GEMINI_MODELS.has(_RAW_GEMINI_MODEL)
+  ? "gemini-2.5-flash"
+  : _RAW_GEMINI_MODEL;
+if (_RAW_GEMINI_MODEL !== GEMINI_DEFAULT_MODEL) {
+  console.warn(
+    `[gwell-backend] WARNING: GWELL_GEMINI_MODEL="${_RAW_GEMINI_MODEL}" is EOL/deprecated → auto-upgraded to "${GEMINI_DEFAULT_MODEL}". Please update Railway env var to silence this warning.`
+  );
+}
 const PRIMARY_PROVIDER =
   String(process.env.GWELL_PRIMARY_PROVIDER || "gemini").toLowerCase() === "openai" ? "openai" : "gemini";
 
