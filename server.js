@@ -1245,6 +1245,20 @@ app.post("/api/translate", requireUser, async (req, res) => {
     if (!parsed.detectedLanguage) parsed.detectedLanguage = targetLanguage;
     if (!parsed.detectedLanguageConfidence) parsed.detectedLanguageConfidence = "high";
 
+    // 临时调试（2026-06）：等翻译质量验证完毕后移除。
+    const debugEcho = req.query?.debug === "1" || req.body?.__debug === true ? {
+      _debug: {
+        promptVersion: "translate-only-v3",
+        targetLanguage,
+        targetSource,
+        instructionsLen: instructions.length,
+        inputLen: input.length,
+        instructions,
+        input,
+        rawOutput: text
+      }
+    } : {};
+
     res.json({
       ok: true,
       ...parsed,
@@ -1257,7 +1271,8 @@ app.post("/api/translate", requireUser, async (req, res) => {
       primaryError: providerFallback ? primaryError : undefined,
       mode,
       requestedModel,
-      modelDowngraded
+      modelDowngraded,
+      ...debugEcho
     });
   } catch (err) {
     console.error("[/api/translate]", err);
