@@ -1,7 +1,9 @@
 # GWELL Translate Backend
 
 为 GWELL WhatsApp CRM Chrome 扩展提供翻译能力的后端服务。
-OpenAI API Key 只存在这里的环境变量里，**永远不会**下发到任何插件 / 浏览器。
+
+**双 provider 架构（2026-06）**：默认走 Google Gemini（`gemini-2.0-flash`），OpenAI 当容灾备份。任一失败/被安全过滤拦截时自动切到另一家。
+所有 API Key 只存在这里的环境变量里，**永远不会**下发到任何插件 / 浏览器。
 
 ## 文件清单（这些都要放到后端仓库 / Railway）
 
@@ -35,8 +37,11 @@ npm start
 1. 把这个目录推到一个 GitHub 仓库。
 2. Railway → New Project → Deploy from GitHub repo → 选这个仓库。
 3. 进 Project → Variables，加：
-   - `OPENAI_API_KEY` = `sk-...`（必填）
-   - `OPENAI_BASE_URL` = `https://api.openai.com/v1`（可选，默认就是这个）
+   - `GEMINI_API_KEY` = `...`（推荐填，主 provider；从 https://aistudio.google.com/app/apikey 创建）
+   - `OPENAI_API_KEY` = `sk-...`（推荐填，容灾备份）
+   - 任填一个也能跑，但少一个就没自动容灾
+   - `GWELL_PRIMARY_PROVIDER` = `gemini` 或 `openai`（可选，默认 `gemini`）
+   - `GWELL_GEMINI_MODEL` = `gemini-2.0-flash`（可选，默认即此）
 4. Railway 会自动检测 `package.json` → 跑 `npm install` → `npm start`。
 5. 在 Settings → Networking → Generate Domain 拿到公网 URL。
 6. 把 URL 同步到 Chrome 扩展的 `background.js` (`BACKEND_BASE_URL`) 和 `manifest.json` (`host_permissions`)。
@@ -46,10 +51,12 @@ npm start
 | 方法 + 路径 | 用途 |
 |---|---|
 | `GET /` | 健康检查（返回纯文本） |
-| `GET /api/health` | 健康检查（返回 `{ok, hasKey}`），插件"测试连接"用 |
-| `POST /api/translate` | 中文 → 客户语言（含语种识别） |
-| `POST /api/batch-translate-incoming` | 批量来信 → 中文（含 12 类意图分类 + 自动模型升级） |
-| `POST /translate` | 旧的简易翻译端点（向后兼容） |
+| `GET /api/health` | 健康检查（返回 `{ok, hasKey, hasGeminiKey, primaryProvider, geminiModel, ...}`），插件"测试连接"用 |
+| `POST /api/translate` | 中文 → 客户语言（含语种识别）。**走 provider 路由**：默认 Gemini，失败自动切 OpenAI。 |
+| `POST /api/batch-translate-incoming` | 批量来信 → 中文。**走 provider 路由**。意图分类已移除（用户自行分析）。 |
+| `POST /intent` | 意图识别（本地关键词优先，AI fallback；OpenAI 直连） |
+| `POST /quote` | 产品报价（OpenAI 直连） |
+| `POST /translate` | 旧的简易翻译端点（向后兼容；OpenAI 直连） |
 
 ### `POST /api/translate`
 
@@ -70,12 +77,20 @@ npm start
   "ok": true,
   "detectedLanguage": "Swahili",
   "detectedLanguageConfidence": "high",
-  "detectionReason": "...",
   "translation": "...",
   "usage": { "input_tokens": 280, "output_tokens": 30, "total_tokens": 310 },
-  "model": "gpt-4o-mini"
+  "model": "gemini-2.0-flash",
+  "provider": "gemini",
+  "providerFallback": false
 }
 ```
+
+> 客户端可在 `model` 字段里强制指定 provider：
+> - `"gemini-2.0-flash"` / `"gemini-1.5-flash"` → 走 Gemini
+> - `"gpt-4o-mini"` → 走 OpenAI
+> - 不传/不识别 → 走 `GWELL_PRIMARY_PROVIDER` 默认（Gemini）
+>
+> 当 `providerFallback=true` 时表示主 provider 失败、已自动切到另一家，响应里还会带 `primaryError` 描述失败原因。
 
 ### `POST /api/batch-translate-incoming`
 
@@ -97,18 +112,23 @@ npm start
     {
       "id": "msg-1",
       "translation_cn": "太阳能灯多少钱？",
-      "intent": "ask_price",
+      "intent": "other",
       "secondary_intents": [],
-      "confidence": "high"
+      "confidence": "medium"
     }
   ],
   "usage": {},
   "upgradeUsage": null,
   "upgradedIds": [],
-  "model": "gpt-4o-mini",
+  "model": "gemini-2.0-flash",
+  "provider": "gemini",
+  "providerFallback": false,
   "upgradeModel": null
 }
 ```
+
+> `intent / secondary_intents / confidence` 现在是后端默认填的占位值（用户已把意图分析改成前端自己处理，详见 commit `0707740`）。
+> 同样支持通过 `model` 字段切换 provider，行为与 `/api/translate` 一致。
 
 ## 安全建议（强烈推荐）
 

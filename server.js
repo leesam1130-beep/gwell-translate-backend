@@ -1,6 +1,8 @@
 // GWELL Translate Backend
-// 给 Chrome 扩展 (gwell-wa-crm-extension) 提供 OpenAI 代理服务，
-// OpenAI Key 仅保存在服务端环境变量，插件端不再持有任何密钥。
+// 给 Chrome 扩展 (gwell-wa-crm-extension) 提供翻译 API 代理服务。
+// 双 provider 架构：默认 Google Gemini（gemini-2.0-flash），OpenAI 当容灾备份。
+// 任一 provider 失败/被安全过滤拦截时自动切到另一家。
+// API Keys 仅保存在服务端环境变量，插件端不再持有任何密钥。
 //
 // Endpoints:
 //   GET  /                              healthcheck (legacy)
@@ -39,9 +41,22 @@ app.use(express.json({ limit: "1mb" }));
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const OPENAI_BASE_URL = (process.env.OPENAI_BASE_URL || "https://api.openai.com/v1").replace(/\/+$/, "");
 
-if (!OPENAI_API_KEY) {
-  console.warn("[gwell-backend] WARNING: OPENAI_API_KEY is not set; all translation routes will fail.");
+// --- Google Gemini（默认主 provider，OpenAI 当容灾备份）---
+// 若想反过来：env GWELL_PRIMARY_PROVIDER=openai
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+const GEMINI_BASE_URL = (process.env.GEMINI_BASE_URL || "https://generativelanguage.googleapis.com").replace(/\/+$/, "");
+const GEMINI_DEFAULT_MODEL = process.env.GWELL_GEMINI_MODEL || "gemini-2.0-flash";
+const PRIMARY_PROVIDER =
+  String(process.env.GWELL_PRIMARY_PROVIDER || "gemini").toLowerCase() === "openai" ? "openai" : "gemini";
+
+if (!OPENAI_API_KEY && !GEMINI_API_KEY) {
+  console.warn("[gwell-backend] WARNING: neither OPENAI_API_KEY nor GEMINI_API_KEY is set; all translation routes will fail.");
+} else if (!OPENAI_API_KEY) {
+  console.warn("[gwell-backend] OPENAI_API_KEY missing — OpenAI fallback disabled (only Gemini will be tried).");
+} else if (!GEMINI_API_KEY) {
+  console.warn("[gwell-backend] GEMINI_API_KEY missing — Gemini fallback disabled (only OpenAI will be tried).");
 }
+console.log(`[gwell-backend] primary provider: ${PRIMARY_PROVIDER} (Gemini default model: ${GEMINI_DEFAULT_MODEL})`);
 
 // ============================================================
 // Token 优化相关：默认翻译模式 / 历史限幅 / 日志
@@ -138,16 +153,28 @@ function clampHistory(messages, maxItems = HISTORY_MAX_ITEMS, maxChars = HISTORY
     .filter((m) => (typeof m === "string" ? m.length > 0 : String(m.text || "").length > 0));
 }
 
-function logUsage({ route, mode, inputChars, usage, model, withProducts = false, withHistory = false }) {
+function logUsage({
+  route,
+  mode,
+  inputChars,
+  usage,
+  model,
+  withProducts = false,
+  withHistory = false,
+  provider = "openai",
+  providerFallback = false
+}) {
   const pt = usage?.input_tokens ?? usage?.prompt_tokens ?? 0;
   const ct = usage?.output_tokens ?? usage?.completion_tokens ?? 0;
   const tt = usage?.total_tokens ?? (pt + ct);
   const ratio = ct > 0 ? pt / ct : Infinity;
   const ratioStr = isFinite(ratio) ? ratio.toFixed(2) : "inf";
   const warn = ct > 0 && ratio > 10 ? "  ⚠ WARNING: input tokens too high, check prompt/products/history." : "";
+  const tag = provider === "gemini" ? "Gemini Usage" : "OpenAI Usage";
+  const fallbackNote = providerFallback ? "  ⚠ provider fallback (primary failed)" : "";
   console.log(
     [
-      `[OpenAI Usage]`,
+      `[${tag}]${fallbackNote}`,
       `  route: ${route}` + (mode ? `  mode: ${mode}` : ""),
       `  inputChars: ${inputChars}`,
       `  promptTokens: ${pt}`,
@@ -504,6 +531,182 @@ async function callOpenAIResponses({
 }
 
 // ============================================================
+// Google Gemini provider —— 与 callOpenAIResponses 同签名同返回结构
+// ============================================================
+//
+// Gemini 不接受 OpenAI 的 JSON Schema 全集，需要剥掉以下字段：
+//   - additionalProperties / $schema / strict   (Gemini 拒绝识别)
+//   - 外层 { name, strict, schema } 包装        (只取 .schema)
+// 其余 type/properties/required/items/enum/description/nullable 都兼容。
+function convertSchemaForGemini(jsonSchema) {
+  if (!jsonSchema) return null;
+  const root = jsonSchema.schema || jsonSchema;
+  const STRIP = new Set(["additionalProperties", "$schema", "strict", "name"]);
+  const walk = (node) => {
+    if (!node || typeof node !== "object") return node;
+    if (Array.isArray(node)) return node.map(walk);
+    const out = {};
+    for (const [k, v] of Object.entries(node)) {
+      if (STRIP.has(k)) continue;
+      out[k] = walk(v);
+    }
+    return out;
+  };
+  return walk(root);
+}
+
+async function callGeminiResponses({
+  model,
+  instructions,
+  input,
+  jsonSchema,
+  temperature = 0.3,
+  timeoutMs = 60000,
+  maxOutputTokens = null
+}) {
+  if (!GEMINI_API_KEY) throw new Error("Server missing GEMINI_API_KEY");
+  if (!model) throw new Error("Missing model");
+
+  const generationConfig = { temperature };
+  if (typeof maxOutputTokens === "number" && maxOutputTokens > 0) {
+    generationConfig.maxOutputTokens = maxOutputTokens;
+  }
+  if (jsonSchema) {
+    generationConfig.responseMimeType = "application/json";
+    generationConfig.responseSchema = convertSchemaForGemini(jsonSchema);
+  }
+
+  const body = {
+    contents: [{ role: "user", parts: [{ text: input }] }],
+    generationConfig
+  };
+  if (instructions) {
+    body.systemInstruction = { parts: [{ text: instructions }] };
+  }
+
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+
+  let res;
+  try {
+    res = await fetch(
+      `${GEMINI_BASE_URL}/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(GEMINI_API_KEY)}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+        signal: ctrl.signal
+      }
+    );
+  } catch (err) {
+    clearTimeout(timer);
+    if (err && err.name === "AbortError") throw new Error(`Gemini timeout (${timeoutMs}ms)`);
+    throw new Error("Gemini network error: " + (err?.message || String(err)));
+  }
+  clearTimeout(timer);
+
+  if (!res.ok) {
+    let raw = "";
+    try { raw = await res.text(); } catch {}
+    let parsed = null;
+    try { parsed = JSON.parse(raw); } catch {}
+    const msg = parsed?.error?.message || raw.slice(0, 300) || res.statusText;
+    const e = new Error(`Gemini ${res.status}: ${msg}`);
+    e.status = res.status;
+    throw e;
+  }
+
+  const data = await res.json();
+  const candidate = data?.candidates?.[0];
+
+  // Gemini 安全过滤命中或 finishReason 异常时（SAFETY / RECITATION / OTHER），
+  // candidate.content.parts 可能为空 → 抛错触发 OpenAI 容灾。
+  const finishReason = candidate?.finishReason || "";
+  if (!candidate || (finishReason && finishReason !== "STOP" && finishReason !== "MAX_TOKENS")) {
+    const e = new Error(`Gemini blocked or empty response (finishReason=${finishReason || "none"})`);
+    e.status = 422;
+    throw e;
+  }
+
+  let text = "";
+  if (candidate?.content?.parts) {
+    for (const p of candidate.content.parts) {
+      if (typeof p.text === "string") text += p.text;
+    }
+  }
+
+  // 把 Gemini 的 usageMetadata 映射成 OpenAI 风格，让 logUsage 直接复用
+  const um = data.usageMetadata || {};
+  const usage = {
+    input_tokens: um.promptTokenCount || 0,
+    output_tokens: um.candidatesTokenCount || 0,
+    total_tokens: um.totalTokenCount || ((um.promptTokenCount || 0) + (um.candidatesTokenCount || 0)),
+    prompt_tokens: um.promptTokenCount || 0,
+    completion_tokens: um.candidatesTokenCount || 0
+  };
+
+  return { text: String(text || "").trim(), usage, raw: data };
+}
+
+// ============================================================
+// Provider 路由器 —— 主选 Gemini，失败容灾到 OpenAI（或反之）
+// ============================================================
+function isGeminiModel(m) {
+  return /^gemini[-_]/i.test(String(m || ""));
+}
+
+function isOpenAIModel(m) {
+  const s = String(m || "").toLowerCase();
+  return s.startsWith("gpt") || s.startsWith("o1") || s.startsWith("o3") || s.startsWith("chatgpt");
+}
+
+// 客户端可能传：
+//   - "gemini-2.0-flash"     → 强制 Gemini
+//   - "gpt-4o-mini"          → 强制 OpenAI（再走 enforceModelPolicy 防止误传 premium）
+//   - 空 / 不识别            → 用 PRIMARY_PROVIDER 默认
+function resolveProviderModel(requestedModel, route) {
+  if (isGeminiModel(requestedModel)) {
+    return { provider: "gemini", model: String(requestedModel) };
+  }
+  if (isOpenAIModel(requestedModel)) {
+    return { provider: "openai", model: enforceModelPolicy(requestedModel, route) };
+  }
+  if (PRIMARY_PROVIDER === "gemini") {
+    return { provider: "gemini", model: GEMINI_DEFAULT_MODEL };
+  }
+  return { provider: "openai", model: enforceModelPolicy(requestedModel, route) };
+}
+
+async function callTranslateAPI({ provider, model, ...rest }) {
+  const fallbackProvider = provider === "gemini" ? "openai" : "gemini";
+  const fallbackHasKey = fallbackProvider === "gemini" ? !!GEMINI_API_KEY : !!OPENAI_API_KEY;
+  const fallbackModel = fallbackProvider === "gemini" ? GEMINI_DEFAULT_MODEL : FALLBACK_MODEL;
+
+  const callOnce = (p, m) =>
+    p === "gemini"
+      ? callGeminiResponses({ ...rest, model: m })
+      : callOpenAIResponses({ ...rest, model: m });
+
+  try {
+    const r = await callOnce(provider, model);
+    return { ...r, provider, modelUsed: model, providerFallback: false };
+  } catch (err) {
+    if (!fallbackHasKey) throw err;
+    console.warn(
+      `[provider-fallback] ${provider}/${model} failed: ${err?.message || err} → retry ${fallbackProvider}/${fallbackModel}`
+    );
+    const r = await callOnce(fallbackProvider, fallbackModel);
+    return {
+      ...r,
+      provider: fallbackProvider,
+      modelUsed: fallbackModel,
+      providerFallback: true,
+      primaryError: String(err?.message || err)
+    };
+  }
+}
+
+// ============================================================
 // 翻译 prompt / schema —— 全部从插件 background.js 搬过来
 // ============================================================
 
@@ -816,6 +1019,9 @@ app.get("/api/health", (req, res) => {
   res.json({
     ok: true,
     hasKey: !!OPENAI_API_KEY,
+    hasGeminiKey: !!GEMINI_API_KEY,
+    primaryProvider: PRIMARY_PROVIDER,
+    geminiModel: GEMINI_DEFAULT_MODEL,
     authEnabled: AUTH_ENABLED,
     allowedCount: AUTH_ENABLED ? ALLOWED_USERS.size : 0,
     yourUser: user || null,
@@ -836,15 +1042,17 @@ app.post("/api/translate", requireUser, async (req, res) => {
       customerMessages = [],
       overrideLanguage = null,
       contextHint = null,
-      model: requestedModel = FALLBACK_MODEL,
+      model: requestedModel = null,
       mode: reqMode
     } = req.body || {};
 
     const src = String(sourceText || "").trim();
     if (!src) return res.status(400).json({ ok: false, error: "EMPTY_SOURCE" });
 
-    const model = enforceModelPolicy(requestedModel, "/api/translate");
-    const modelDowngraded = model !== requestedModel;
+    // 不传 model = 走 PRIMARY_PROVIDER 默认（Gemini）；
+    // 传 "gpt-..." 强制 OpenAI；传 "gemini-..." 强制 Gemini。
+    const { provider: chosenProvider, model } = resolveProviderModel(requestedModel, "/api/translate");
+    const modelDowngraded = isOpenAIModel(requestedModel) && model !== requestedModel;
 
     const mode = (String(reqMode || DEFAULT_TRANSLATE_MODE).toLowerCase() === "expert") ? "expert" : "slim";
     const instructions = mode === "expert"
@@ -854,7 +1062,15 @@ app.post("/api/translate", requireUser, async (req, res) => {
 
     // 600 token 足够覆盖 ~250-350 字 Swahili/English 翻译 + 4 字段的 JSON 包裹；
     // 之前的 300 在长报价/长公告下偶尔会被截断 → JSON 解析失败 fallback。
-    const { text, usage } = await callOpenAIResponses({
+    const {
+      text,
+      usage,
+      provider: usedProvider,
+      modelUsed,
+      providerFallback,
+      primaryError
+    } = await callTranslateAPI({
+      provider: chosenProvider,
       model,
       instructions,
       input,
@@ -868,7 +1084,9 @@ app.post("/api/translate", requireUser, async (req, res) => {
       mode,
       inputChars: instructions.length + input.length,
       usage,
-      model,
+      model: modelUsed,
+      provider: usedProvider,
+      providerFallback,
       withProducts: false,
       withHistory: Array.isArray(customerMessages) && customerMessages.length > 0
     });
@@ -878,8 +1096,9 @@ app.post("/api/translate", requireUser, async (req, res) => {
       parsed = JSON.parse(text);
     } catch (err) {
       console.warn(
-        `[/api/translate] non-JSON output: model=${model} outputLen=${(text || "").length} ` +
-        `usage=${JSON.stringify(usage || {})} preview=${JSON.stringify((text || "").slice(0, 400))}`
+        `[/api/translate] non-JSON output: provider=${usedProvider} model=${modelUsed} ` +
+        `outputLen=${(text || "").length} usage=${JSON.stringify(usage || {})} ` +
+        `preview=${JSON.stringify((text || "").slice(0, 400))}`
       );
       parsed = {
         detectedLanguage: overrideLanguage || "Unknown",
@@ -892,7 +1111,10 @@ app.post("/api/translate", requireUser, async (req, res) => {
       ok: true,
       ...parsed,
       usage,
-      model,
+      model: modelUsed,
+      provider: usedProvider,
+      providerFallback,
+      primaryError: providerFallback ? primaryError : undefined,
       mode,
       requestedModel,
       modelDowngraded
@@ -914,7 +1136,7 @@ app.post("/api/batch-translate-incoming", requireUser, async (req, res) => {
     const {
       items: rawItems,
       recentContext: rawCtx = [],
-      model: requestedModel = FALLBACK_MODEL,
+      model: requestedModel = null,
       upgradeModel: requestedUpgradeModel = null,
       mode: reqMode
     } = req.body || {};
@@ -922,8 +1144,10 @@ app.post("/api/batch-translate-incoming", requireUser, async (req, res) => {
     const items = Array.isArray(rawItems) ? rawItems.filter(Boolean) : [];
     if (items.length === 0) return res.json({ ok: true, translations: [] });
 
-    const model = enforceModelPolicy(requestedModel, "/api/batch-translate-incoming");
-    const modelDowngraded = model !== requestedModel;
+    // 不传 model = 走 PRIMARY_PROVIDER 默认（Gemini）；
+    // 传 "gpt-..." 强制 OpenAI；传 "gemini-..." 强制 Gemini。
+    const { provider: chosenProvider, model } = resolveProviderModel(requestedModel, "/api/batch-translate-incoming");
+    const modelDowngraded = isOpenAIModel(requestedModel) && model !== requestedModel;
 
     const mode = (String(reqMode || DEFAULT_TRANSLATE_MODE).toLowerCase() === "expert") ? "expert" : "slim";
     const batchInstructions = mode === "expert"
@@ -955,7 +1179,7 @@ ${ctxLines}
     const perItemOutput = 220;
     const maxOutputTokens = Math.min(Math.max(items.length * perItemOutput, 350), 2000);
 
-    async function callBatchOnce({ model: m, items: subItems }) {
+    async function callBatchOnce({ provider: pv, model: m, items: subItems }) {
       const subLines = subItems.map((it, idx) => {
         const safeText = String(it.text || "").replace(/\r?\n/g, "\n");
         return `[item ${idx + 1}] id=${it.id}\n${safeText}`;
@@ -969,7 +1193,15 @@ ${ctxLines}
 `${glossaryBlock}${contextBlock}Translate the following ${subItems.length} foreign-language customer message(s) into Simplified Chinese.
 
 ${subLines.join("\n\n---\n\n")}`;
-      const { text, usage } = await callOpenAIResponses({
+      const {
+        text,
+        usage,
+        provider: usedProvider,
+        modelUsed,
+        providerFallback,
+        primaryError
+      } = await callTranslateAPI({
+        provider: pv,
         model: m,
         instructions: batchInstructions,
         input: subInput,
@@ -983,7 +1215,9 @@ ${subLines.join("\n\n---\n\n")}`;
         mode,
         inputChars: batchInstructions.length + subInput.length,
         usage,
-        model: m,
+        model: modelUsed,
+        provider: usedProvider,
+        providerFallback,
         withProducts: false,
         withHistory: recentContext.length > 0
       });
@@ -995,17 +1229,32 @@ ${subLines.join("\n\n---\n\n")}`;
         // （限 800 char 防止日志爆炸；通常截断只在末尾几十字节）
         const preview = (text || "").slice(0, 800);
         console.error(
-          `[batch] BAD_JSON_FROM_MODEL: model=${m} outputLen=${(text || "").length} ` +
+          `[batch] BAD_JSON_FROM_MODEL: provider=${usedProvider} model=${modelUsed} ` +
+          `outputLen=${(text || "").length} ` +
           `maxOutputTokens=${Math.min(Math.max(subItems.length * perItemOutput, 350), 2000)} ` +
           `usage=${JSON.stringify(usage || {})}`
         );
         console.error(`[batch] BAD_JSON_FROM_MODEL preview: ${JSON.stringify(preview)}`);
         throw new Error("BAD_JSON_FROM_MODEL: " + (err?.message || String(err)));
       }
-      return { items: Array.isArray(parsed?.items) ? parsed.items : [], usage };
+      return {
+        items: Array.isArray(parsed?.items) ? parsed.items : [],
+        usage,
+        provider: usedProvider,
+        modelUsed,
+        providerFallback,
+        primaryError
+      };
     }
 
-    const { items: rawTranslations, usage } = await callBatchOnce({ model, items });
+    const {
+      items: rawTranslations,
+      usage,
+      provider: usedProvider,
+      modelUsed,
+      providerFallback,
+      primaryError
+    } = await callBatchOnce({ provider: chosenProvider, model, items });
 
     // 移除 confidence-based 自动升级（用户决定意图自己分析，模型不再产出 confidence 信号）。
     // 为兼容现有 Chrome 插件可能读取这些字段，路由层默认补齐 intent/secondary_intents/confidence。
@@ -1023,8 +1272,11 @@ ${subLines.join("\n\n---\n\n")}`;
       usage,
       upgradeUsage: null,
       upgradedIds: [],
-      model,
+      model: modelUsed,
       upgradeModel: null,
+      provider: usedProvider,
+      providerFallback,
+      primaryError: providerFallback ? primaryError : undefined,
       mode,
       requestedModel,
       requestedUpgradeModel,
