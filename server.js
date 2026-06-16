@@ -873,11 +873,22 @@ const TRANSLATE_SCHEMA = {
 // 现已浓缩到核心约束，占用降低 ~58%。
 function buildOutboundInstructionsSlim({ overrideLanguage, contextHint }) {
   const phoneHint = contextHint && contextHint.phoneLangHint
-    ? ` Phone hint: ${contextHint.phoneLangHint}.`
+    ? contextHint.phoneLangHint
     : "";
+
+  // 检测规则按"硬度"分级：override > 客户消息明显信号 > 电话国家提示 > English 兜底
+  // 关键修正（2026-06）：之前 "Unclear → English" 太抢；东非客户即使消息很短也极大概率
+  // 是 Swahili，不是 English。现在让电话提示具有权威性，仅在 phone+messages 都没信号时
+  // 才掉到 English。
   const detect = overrideLanguage
     ? `Target FORCED to "${overrideLanguage}", confidence=high.`
-    : `Detect target from customer messages (Swahili/English/French). Unclear/emoji → English.${phoneHint}`;
+    : `Detect target language by this STRICT priority:
+   a) If customer messages contain ANY Swahili marker (mna, taa, bei, ngapi, bosi, leo, mzigo, oda, kahama, asante, sawa, jumla, wateja, ananunua, ambae, ipo, jamani, niambie, picha, mtaa, wapi, kwa, kuna, hapa, etc.) → Swahili.
+   b) Else if customer messages contain French markers (bonjour, merci, prix, combien, livraison, commande, etc.) → French.
+   c) Else if customer messages are clearly conversational English (full sentences, no Swahili words) → English.
+   d) Else (only emoji / single word / empty / ambiguous) AND phone hint = "${phoneHint || "(none)"}" → use that hint as target.
+   e) Else → English (last resort).
+   Tanzania/Kenya/Uganda phone numbers → strong Swahili prior. Don't pick English just because the sales reply mentions Latin location names like "Kahama".`;
 
   return `You are a WhatsApp translator for GWELL — Chinese-owned lighting wholesaler PHYSICALLY in Dar es Salaam (Office: Kariakoo, Factory: Kigamboni). Never imply "we ship from China".
 
