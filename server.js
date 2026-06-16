@@ -727,7 +727,25 @@ function resolveProviderModel(requestedModel, route) {
   if (isOpenAIModel(requestedModel)) {
     return { provider: "openai", model: enforceModelPolicy(requestedModel, route) };
   }
-  if (PRIMARY_PROVIDER === "gemini") {
+
+  // 路由级 provider 策略（2026-06 实测）：
+  //   • /api/translate (outbound) — 结构化任务（detect 语言 + 翻译 + JSON 三字段）。
+  //     Gemini 2.5-flash 在这种任务下不稳：
+  //        - thinkingBudget=0 → 把 customerMessages 当对话续写，无视 sourceText
+  //        - thinkingBudget=default → 偶尔输出空字符串或 "Sijaelewa?"
+  //     OpenAI gpt-4o-mini 在这种任务上一直稳定。所以 outbound 默认强制 OpenAI。
+  //   • /api/batch-translate-incoming — 扁平任务（每条客户消息翻成中文）。
+  //     Gemini 2.5-flash 实测好用、便宜（每千次调用比 OpenAI 省 70%）。继续用。
+  //   用户可通过 GWELL_OUTBOUND_PROVIDER=gemini 强制切回 Gemini（实验性）。
+  const outboundOverride = String(process.env.GWELL_OUTBOUND_PROVIDER || "").toLowerCase();
+  let routePrimary;
+  if (route === "/api/translate") {
+    routePrimary = outboundOverride === "gemini" ? "gemini" : "openai";
+  } else {
+    routePrimary = PRIMARY_PROVIDER;
+  }
+
+  if (routePrimary === "gemini") {
     return { provider: "gemini", model: GEMINI_DEFAULT_MODEL };
   }
   return { provider: "openai", model: enforceModelPolicy(requestedModel, route) };
@@ -1127,12 +1145,12 @@ app.post("/api/translate", requireUser, async (req, res) => {
       : buildOutboundInstructionsSlim({ overrideLanguage, contextHint });
     const input = buildOutboundInput({ customerMessages, sourceText: src });
 
-    // OUTBOUND 是结构化任务（detect 语言 → 翻译 → 输出 3 字段 JSON），
-    // 实测 Gemini 2.5-flash 关掉 thinking 后会出现：
-    //   • 把 customerMessages 当成对话续写，无视 sourceText
-    //   • 输出 ?????????? 这种空内容
-    // 所以这里**不传 thinkingBudget**（让 Gemini 用模型默认 ~1024 token 思考预算）。
-    // maxOutputTokens 抬到 2048 覆盖 thinking + 长公告翻译 + JSON 包装。
+    // OUTBOUND（结构化任务：detect 语言 → 翻译 → 输出 3 字段 JSON）默认走 OpenAI，
+    // 因为 Gemini 2.5-flash 实测对这种 system-instruction 区分 sourceText vs context
+    // 的任务不稳。详见 resolveProviderModel 注释。
+    // OpenAI gpt-4o-mini 没有 thinking 概念，maxOutputTokens=1200 足够覆盖长翻译。
+    // 若 OpenAI 失败回退到 Gemini，callTranslateAPI 不传 thinkingBudget → Gemini
+    // 用默认 ~1024 token 思考预算，maxOutputTokens 留 1200 也基本够用。
     const {
       text,
       usage,
@@ -1147,8 +1165,7 @@ app.post("/api/translate", requireUser, async (req, res) => {
       input,
       jsonSchema: TRANSLATE_SCHEMA,
       temperature: 0.3,
-      maxOutputTokens: 2048
-      // 不传 thinkingBudget → Gemini 用默认值；OpenAI 路径忽略此参数
+      maxOutputTokens: 1200
     });
 
     logUsage({
