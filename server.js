@@ -556,10 +556,14 @@ Input may start with "== CONVERSATION CONTEXT ==" — REFERENCE ONLY (do NOT tra
 
 For each item, output translation_cn in Simplified Chinese:
 - Already Chinese / pure URL / pure emoji → ""
-- Cryptic short ("Vp", "Bei", "30W") → use context to produce a COMPLETE Chinese sentence (never 2-char literals like "价"/"怎样")
-- Empty-context poke ("Vp") → "怎么样？/在吗？"
+- Acknowledgment ("Ok","OK","Okay","Sawa","Ndio","Yes") → "好的"  (NEVER "怎么样")
+- Greeting ("Hi","Hello","Mambo","Habari") → "你好"
+- Thanks ("Asante","Asante sana") → "谢谢" / "非常感谢"
+- Cryptic short ("Vp","Bei","30W") → use context to produce a COMPLETE Chinese sentence (never 2-char literals like "价"/"怎样")
+- Empty-context poke ("Vp" only, NOT "Ok") → "怎么样？/在吗？"
 
-Hints: ngp=ngapi, vp=vipi, nahii=this one. Example: ctx=["Mna A60 LED?"] item="Ngp" → "A60 LED 球泡多少钱？"
+Hints: ngp=ngapi, vp=vipi, nahii=this one, caton=carton=箱, nusu carton=半箱.
+Example: ctx=["Mna A60 LED?"] item="Ngp" → "A60 LED 球泡多少钱？"
 
 Strict JSON per schema.`;
 
@@ -573,17 +577,23 @@ Input MAY start with "== CONVERSATION CONTEXT ==": customer's recent prior messa
 == TASK PER ITEM ==
 Output translation_cn — Simplified Chinese translation.
 - Already Chinese / pure URL / pure emoji → "" (empty).
+- Acknowledgment ("Ok","OK","Okay","Sawa","Ndio","Yes","Sawa sawa") → "好的". NEVER "怎么样".
+- Greeting ("Hi","Hello","Mambo","Habari","Vipi mzee") → "你好".
+- Thanks ("Asante","Asante sana") → "谢谢" / "非常感谢".
 - Short cryptic ("Vp","Hii","Ngp","30W","Bei") → MUST resolve via CONTEXT and produce a COMPLETE Chinese sentence including the topic. NEVER output 2-char literals like "价"/"怎样"/"多少".
-- If context is empty AND item is a genuine poke ("Vp"), translate to "怎么样？/在吗？".
+- If context is empty AND item is a genuine poke ("Vp" but NOT "Ok"), translate to "怎么样？/在吗？".
 
 == CONTEXT-RESOLVED EXAMPLES ==
 ctx=["Mna A60 LED bulb?"]  item="Ngp"  → "A60 LED 球泡多少钱？"
 ctx=["Mna taa za solar?"]  item="Bei"  → "太阳能灯多少钱？"
 ctx=["nahii","30W"]        item="Vp"   → "30W 这款怎么样？有货吗？"
 ctx=[]                     item="Vp"   → "怎么样？/在吗？"
+ctx=anything               item="Ok"   → "好的"
+item="Nusu caton (20pcs) mnauza?" → "半箱（20个）卖吗？"
 
 == GWELL CONTEXT (model may not know) ==
 Kariakoo=达市批发区, Kigamboni=GWELL 工厂区, ngp=ngapi, vp=vipi, nahii=na hii=这个呢
+caton/cartoon=carton 拼写错误, carton/box/ctn/katoni=箱, nusu carton=半箱（不是"一半的纸箱"）
 
 Respond strictly with the provided JSON schema.`;
 

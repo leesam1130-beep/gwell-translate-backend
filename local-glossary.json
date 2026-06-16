@@ -898,11 +898,14 @@
     "patterns": [
       "box",
       "carton",
+      "cartoon",
+      "caton",
       "ctn",
       "katoni"
     ],
     "zh": "箱",
-    "en": "box / carton / ctn / katoni"
+    "en": "box / carton / cartoon / caton / ctn",
+    "note": "carton 常见拼写错误"
   },
   {
     "patterns": [
@@ -2275,6 +2278,20 @@
     ],
     "zh": "不退货",
     "en": "hakuna return"
+  },
+  {
+    "patterns": [
+      "half box",
+      "half carton",
+      "half ctn",
+      "nusu box",
+      "nusu carton",
+      "nusu caton",
+      "nusu ctn",
+      "半箱"
+    ],
+    "zh": "半箱",
+    "en": "half box / half carton / half ctn / nusu box / nusu carton"
   },
   {
     "patterns": [
@@ -5312,6 +5329,14 @@
   },
   {
     "patterns": [
+      "nimekuelewa",
+      "好的，明白了"
+    ],
+    "zh": "好的，明白了",
+    "en": "nimekuelewa"
+  },
+  {
+    "patterns": [
       "nimekutumia",
       "我已经发给你"
     ],
@@ -5325,6 +5350,14 @@
     ],
     "zh": "我已经付款",
     "en": "nimelipa"
+  },
+  {
+    "patterns": [
+      "nimepata",
+      "收到"
+    ],
+    "zh": "收到",
+    "en": "nimepata"
   },
   {
     "patterns": [
@@ -5788,6 +5821,17 @@
   },
   {
     "patterns": [
+      "ok",
+      "okay",
+      "okey",
+      "oki",
+      "好的"
+    ],
+    "zh": "好的",
+    "en": "ok / okay / okey / oki"
+  },
+  {
+    "patterns": [
       "ongea",
       "说话"
     ],
@@ -6197,6 +6241,13 @@
       "poa"
     ],
     "zh": "好的/酷",
+    "en": "poa"
+  },
+  {
+    "patterns": [
+      "poa"
+    ],
+    "zh": "好/酷",
     "en": "poa"
   },
   {
